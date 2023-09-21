@@ -1,13 +1,21 @@
+//쿼리dsl 사용 명시
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
     id 'java'
     id 'war'
-    id 'org.springframework.boot' version '2.7.16-SNAPSHOT'
+    id 'org.springframework.boot' version '2.7.16-SNAPSHOT'//스프링 부트 버전 명시
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.forcat'
 version = '0.0.1-SNAPSHOT'
 
+//자바 버전 명시
 java {
     sourceCompatibility = '17'
 }
@@ -25,19 +33,30 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'//데이터, DB 연결용
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'//소셜 간편 로그인용
+    implementation 'org.springframework.boot:spring-boot-starter-security'//스프링 스큐리티 사용 명시
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'//타임리프 사용 명시
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'//maraiaDB 사용 명시
     annotationProcessor 'org.projectlombok:lombok'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'//톰캣 9 사용 명시
+
+//쿼리dsl 사용 명시
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor(
+            "javax.persistence:javax.persistence-api",
+            "javax.annotation:javax.annotation-api",
+            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    implementation 'org.modelmapper:modelmapper:3.1.0'//자동 오브젝트 매핑
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'//페이지 레이아웃  기능 사용
+//테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
