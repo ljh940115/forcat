@@ -1,26 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+<!--헤더, 푸터 가져오기, -->
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>Layout page</title>
+    <meta charset="UTF-8" />
+    <title>thymeleaf layout</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+    <th:block th:replace="fragments/config :: configFragment"></th:block>
 </head>
 <body>
-
-<div>
-    <h3>Sample Layout Header</h3>
-</div>
-
-<div layout:fragment="content">
-    <p>Page content goes here</p>
-</div>
-
-<div>
-    <h3>Sample Layout Footer</h3>
-</div>
-
-<th:block layout:fragment="script" >
-
-</th:block>
-
+<!-- header fragment 사용 -->
+<th:block th:replace="fragments/headerFragment :: headerFragment"></th:block>
+<!-- content fragment 사용 -->
+<th:block layout:fragment="content"></th:block>
+<!-- footer fragment 사용 -->
+<th:block th:replace="fragments/footerFragment :: footerFragment"></th:block>
 </body>
 </html>

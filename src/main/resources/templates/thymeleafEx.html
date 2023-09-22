@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div th:replace="fragments/header :: header"></div>
-<p th:text="${data}">Hello </p>
-<div th:replace="fragments/footer :: footer"></div>
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<!-- Content -->
+<div layout:fragment="content">
+    <h1>Content 테스트</h1>
+</div>
 </html>
