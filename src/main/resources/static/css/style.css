@@ -8821,8 +8821,8 @@ textarea.form-control {
       padding-bottom: 5em; } }
 
 .ftco-animate {
-  opacity: 0;
-  visibility: hidden; }
+  /*opacity: 0;
+  visibility: hidden;*/ }
 
 .about-author .desc h3 {
   font-size: 24px; }

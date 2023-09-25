@@ -51,6 +51,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'//스프링 스큐리티 사용 명시
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     //쿼리dsl 사용 명시
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'//소셜 로그인 사용 명시
 
 //테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
 <head>
     <title>Member Join Page</title>
 </head>
-
-<div layout:fragment="content">
+<body layout:fragment="content">
+<div class="content">
     <div class="row mt-3">
         <div class="col">
             <div class="card">
@@ -18,24 +18,24 @@
                 <div class="card-body">
                     <form id="registerForm" action="/member/join" method="post">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">MID</span>
-                            <input type="text" name="mid" class="form-control">
+                            <span class="input-group-text">아이디</span>
+                            <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요.">
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text">MPW</span>
-                            <input type="password" name="mpw" class="form-control">
+                            <span class="input-group-text">비밀번호</span>
+                            <input type="password" name="mpw" class="form-control" placeholder="비밀번호를 입력하세요.">
                         </div>
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">EMAIL</span>
-                            <input type="email" name="email" class="form-control">
+                            <input type="email" name="email" class="form-control" placeholder="이메일을 입력하세요.">
                         </div>
 
                         <div class="my-4">
                             <div class="float-end">
-                                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                <button type="submit" class="btn btn-primary submitBtn">가입</button>
+                                <button type="reset" class="btn btn-secondary">초기화</button>
                             </div>
                         </div>
                     </form>
@@ -49,9 +49,10 @@
 </div>
 
 <!--error로 전달된 데이터가 있는 경우 출력-->
-<!--<script layout:fragment="script" th:inline="javascript">
+<script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]
     if(error && error === 'mid'){
         alert("동일한 MID를 가진 계정이 존재합니다.")
-    }-->
+    }
 </script>
+</body>

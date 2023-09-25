@@ -1,6 +1,8 @@
 package com.forcat.forcat.config;
 
 import com.forcat.forcat.security.CustomUserDetailsService;
+import com.forcat.forcat.security.handler.CustomSocialLoginSuccessHandler;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -19,7 +22,7 @@ import javax.sql.DataSource;
 
 @Log4j2//로그 사용 명시
 @Configuration//환경설정 클래스 명시
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)//어노테이션으로 권한 설정 @PreAuthorize() 사용
 public class CustomSecurityConfig {
 
@@ -51,6 +54,9 @@ public class CustomSecurityConfig {
                 .userDetailsService(userDetailsService)
                 .tokenValiditySeconds(60*60*24*30);
 
+        //OAuth2 로그인 사용 명시
+        http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
+
         return http.build();
     }
 
@@ -67,6 +73,12 @@ public class CustomSecurityConfig {
         JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
         repo.setDataSource(dataSource);
         return repo;
+    }
+
+    //커스텀 소셜 로그인 성공 시 처리, 암호 인코딩
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler(passwordEncoder());
     }
 
 }

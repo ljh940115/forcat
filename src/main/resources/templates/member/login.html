@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 
 <head>
     <meta charset="utf-8" />
@@ -12,7 +15,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
-<body class="align-middle" >
+<body class="align-middle" layout:fragment="content">
 <div class="container-fluid d-flex justify-content-center" style="height: 100vh">
 
     <div class="card align-self-center">
@@ -47,7 +50,7 @@
                 </div>
             </form>
             <div>
-                <a href="/oauth2/authorization/kakao">KAKAO</a>
+                <a href="/oauth2/authorization/kakao">KAKAO</a><!--카카오 로그인 처리-->
             </div>
         </div><!--end card body-->
     </div><!--end card-->
