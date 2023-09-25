@@ -16,12 +16,13 @@ public class MainController {
         return "index";
     }
 
-    @PreAuthorize("hasRole('MEMBER')")//메인 페이지는 MEMBER 권한 접속 가능
+    @PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
     @GetMapping("/blog")
     public String blog(){
         return "blog";
     }
 
+    @PreAuthorize("hasRole('MEMBER')")//test 페이지는 MEMBER 권한 접속 가능
     @GetMapping("/test")
     public String test(Model model){
         model.addAttribute("data", "타임리프 테스트");

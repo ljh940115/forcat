@@ -34,33 +34,33 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'//데이터, DB 연결용
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'//소셜 간편 로그인용
-    implementation 'org.springframework.boot:spring-boot-starter-security'//스프링 스큐리티 사용 명시
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'//타임리프 사용 명시
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'//maraiaDB 사용 명시
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'//톰캣 9 사용 명시
     compileOnly 'org.projectlombok:lombok'// 롬북 의존성 추가
     annotationProcessor 'org.projectlombok:lombok'// 롬북 의존성 추가
-    //쿼리dsl 사용 명시
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'//maraiaDB 사용 명시
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'//페이지 레이아웃  기능 사용
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'//톰캣 9 사용 명시
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor(
             "javax.persistence:javax.persistence-api",
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
     implementation 'org.modelmapper:modelmapper:3.1.0'//자동 오브젝트 매핑
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'//페이지 레이아웃  기능 사용
+    implementation 'org.springframework.boot:spring-boot-starter-security'//스프링 스큐리티 사용 명시
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    //쿼리dsl 사용 명시
 
 //테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testCompileOnly 'org.projectlombok:lombok:1.18.12' //테스트 롬북 의존성 추가
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12' //테스트 롬북 의존성 추가
+    testCompileOnly 'org.projectlombok:lombok' //테스트 롬북 의존성 추가
+    testAnnotationProcessor 'org.projectlombok:lombok' //테스트 롬북 의존성 추가
 
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
