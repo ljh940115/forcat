@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}"><!--레이아웃 템플릿 적용 선언, 해당 경로 레이아웃 적용-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Board Modify</title>
+</head>
+<body class="align-middle" layout:fragment="content">
+<div>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Board Modify
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/board/modify}" method="post" id="f1">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Bno</span>
+                            <input type="text" class="form-control" name="bno" th:value="${dto.bno}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Title</span>
+                            <input type="text" class="form-control" name="title" th:value="${dto.title}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Content</span>
+                            <textarea class="form-control col-sm-5" rows="5" name="content">[[${dto.content}]]</textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Writer</span>
+                            <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">RegDate</span>
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">ModDate</span>
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                        </div>
+
+                        <div class="my-4">
+                            <div class="float-end">
+                                <a th:href="|@{/board/list}?${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-primary listBtn">List</button>
+                                </a>
+                                <button type="button" class="btn btn-secondary modBtn">Modify</button>
+                                <button type="button" class="btn btn-danger removeBtn">Remove</button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!--end card body-->
+
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+</div><!-- layout fragment end -->
+<script layout:fragment="script" th:inline="javascript">
+    /*에러 처리*/
+    const errors = [[${errors}]]//타임리프를 통해 서버측의 errors 변수를 가져옴
+    console.log(errors)
+
+    let errorMsg = ''//빈 문자열 초기화한 errorMSg 변수 선언
+
+    if(errors){//errors가 존재하면, 서버에서 에러 정보가 전달되면 실행
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        history.replaceState({}, null, null)//현재 페이지 이력 변경안함, 뒤로가기 버튼 비활성화
+        alert(errorMsg)//에러 메세지 출력
+    }
+    /*수정 처리*/
+    const link = [[${pageRequestDTO.getLink()}]]//타임리프를 통해 서버측의 pageRequestDTO.getLink()값을 가져옴
+    const formObj = document.querySelector("#f1")//f1값을 formObj로 가져옴
+
+    document.querySelector(".modBtn").addEventListener("click", function(e){//수정 버튼을 클릭하면 이벤트 실행
+        e.preventDefault()//기본 동작 취소
+        e.stopPropagation()//이벤트 비활성화
+        formObj.action = `/board/modify?${link}`//폼의 action 속성 설정
+        formObj.method ='post'
+        formObj.submit()
+        }, false)
+
+    /*삭제 처리*/
+    document.querySelector(".removeBtn").addEventListener("click", function(e){//삭제 버튼을 클릭하면 이벤트 실행
+        e.preventDefault()//기본 동작 취소
+        e.stopPropagation()//이벤트 비활성화
+        formObj.action = `/board/remove`
+        formObj.method ='post'
+        formObj.submit()
+    }, false)
+
+    /*목록 페이지 처리*/
+    document.querySelector(".listBtn").addEventListener("click", function(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.reset()//폼 필드 초기화
+        self.location =`/board/list?${link}`
+    }, false)
+    /*formObj.action과 self.location 차이
+    action은 데이터를 서버에 제출할 때 사용, location은 클라이언트 측에서 페이지 이동할 때 사용*/
+
+</script>
+</body>
+</html>
