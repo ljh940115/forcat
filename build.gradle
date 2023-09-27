@@ -10,6 +10,7 @@ plugins {
     id 'war'
     id 'org.springframework.boot' version '2.7.16-SNAPSHOT'//스프링 부트 버전 명시
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' //쿼리dsl 관련 설정 추가
 }
 
 group = 'com.forcat'
@@ -47,11 +48,14 @@ dependencies {
             "javax.persistence:javax.persistence-api",
             "javax.annotation:javax.annotation-api",
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-    implementation 'org.modelmapper:modelmapper:3.1.0'//자동 오브젝트 매핑
+    implementation 'org.modelmapper:modelmapper:3.1.0'//DTO - Entity 자동 오브젝트 매핑
     implementation 'org.springframework.boot:spring-boot-starter-security'//스프링 스큐리티 사용 명시
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     //쿼리dsl 사용 명시
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'//소셜 로그인 사용 명시
+    // 타임리프에서 날짜시간 포멧팅 담당 https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
+    implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'//유효성 검사
 
 //테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -65,3 +69,23 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+//쿼리dsl 관련 설정 추가
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+//쿼리dsl 관련 설정 추가 끝
