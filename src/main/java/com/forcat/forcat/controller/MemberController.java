@@ -36,9 +36,7 @@ public class MemberController {
     //회원가입 페이지
     @GetMapping("/join")
     public void joinGET(){
-
         log.info("join get...");
-
     }
 
     @PostMapping("/join")

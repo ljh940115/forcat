@@ -60,6 +60,8 @@ dependencies {
     //스웩 사용 명시 : API 목록을 웹에서 확인 및 테스트할 수 있게 도와주는 라이브러리
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    //썸네일
+    implementation 'net.coobird:thumbnailator:0.4.16'
 
 //테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

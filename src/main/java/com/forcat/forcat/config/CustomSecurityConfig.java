@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 import javax.sql.DataSource;
 
@@ -24,7 +29,7 @@ import javax.sql.DataSource;
 @Configuration//환경설정 클래스 명시
 @AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)//어노테이션으로 권한 설정 @PreAuthorize() 사용
-public class CustomSecurityConfig {
+public class CustomSecurityConfig{
 
     //자동 로그인을 위한 주입
     private final DataSource dataSource;
@@ -80,5 +85,4 @@ public class CustomSecurityConfig {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new CustomSocialLoginSuccessHandler(passwordEncoder());
     }
-
 }

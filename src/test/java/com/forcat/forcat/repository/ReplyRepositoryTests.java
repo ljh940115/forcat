@@ -20,22 +20,21 @@ public class ReplyRepositoryTests {
 
     @Autowired//객체 생성
     private ReplyRepository replyRepository;
+    private BoardRepository boardRepository;
 
     @Test
     public void testInsert() {
+            Long bno = 810L;
 
-        //실제 DB에 있는 bno
-        Long bno  = 200L;
+            Board board = Board.builder().bno(bno).build();
 
-        Board board = Board.builder().bno(bno).build();
+            Reply reply = Reply.builder()
+                    .board(board)
+                    .replyText("댓글.....")
+                    .replyer("replyer1")
+                    .build();
 
-        Reply reply = Reply.builder()
-                .board(board)
-                .replyText("댓글.....")
-                .replyer("replyer1")
-                .build();
-
-        replyRepository.save(reply);
+            replyRepository.save(reply);
     }
 
     @Transactional//동시 처리
