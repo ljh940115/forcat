@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="align-middle" layout:fragment="content">
+<div>
+  <h1>Board List</h1>
+</div>
+
+<!--검색창-->
+<div class="row mt-3">
+    <form action="/board/list" method="get">
+        <div class="col">
+            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <select class="form-select" name="type">
+                        <option value="">---</option>
+                        <option value="t" th:selected="${pageRequestDTO.type =='t'}">제목</option>
+                        <option value="c" th:selected="${pageRequestDTO.type =='c'}">내용</option>
+                        <option value="w" th:selected="${pageRequestDTO.type =='w'}">작성자</option>
+                        <option value="tc" th:selected="${pageRequestDTO.type =='tc'}">제목 내용</option>
+                        <option value="tcw" th:selected="${pageRequestDTO.type =='tcw'}">제목 내용 작성자</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary searchBtn" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary clearBtn" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--게시글 목록-->
+<div class="row mt-3">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                Board List
+            </div>
+            <div class="card-body" >
+                <h5 class="card-title">Board List </h5>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Bno</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Writer</th>
+                        <th scope="col">RegDate</th>
+                    </tr>
+                    </thead>
+
+                    <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                    <tr th:each="dto:${responseDTO.dtoList}">
+                        <th scope="row">[[${dto.bno}]]</th>
+                        <td>
+                            <a th:href="|@{/board/read(bno =${dto.bno})}&${link}|" class="text-decoration-none"> [[${dto.title}]] </a>
+                            <span class="badge progress-bar-success" style="background-color: #fae100">[[${dto.replyCount}]]</span>
+                        </td>
+                        <td>
+                            [[${dto.writer}]]
+                        </td>
+                        <td>
+                            <!--[[${dto.regDate}]]-->[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]<!--날짜 포맷팅-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--페이지 목록-->
+                <div class="float-end">
+                    <ul class="pagination flex-wrap">
+                        <!-- 처음 페이지로 가는 버튼 -->
+                        <li class="page-item">
+                            <a class="page-link" th:if="${responseDTO.start}" th:data-num="1">First</a>
+                        </li>
+                        <!-- 이전 페이지로 가는 버튼 -->
+                        <li class="page-item" th:if="${responseDTO.prev}">
+                            <a class="page-link" th:data-num="${responseDTO.start - 1}">Previous</a>
+                        </li>
+                        <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                            <li th:class="${responseDTO.page == i}?'page-item active':'page-item'" >
+                                <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                            </li>
+                        </th:block>
+                        <!-- 다음 페이지로 가는 버튼 -->
+                        <li class="page-item" th:if="${responseDTO.next}">
+                            <a class="page-link"  th:data-num="${responseDTO.end + 1}">Next</a>
+                        </li>
+                        <!-- 마지막 페이지로 가는 버튼 -->
+                        <li class="page-item">
+                            <a class="page-link" th:if="${responseDTO.end}" th:data-num="${responseDTO.end}">Last</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!--end card body-->
+        </div><!--end card-->
+    </div><!-- end col-->
+</div><!-- end row-->
+
+<script layout:fragment="script" th:inline="javascript">
+  console.log("script......")
+  /*이벤트 처리*/
+  // 페이지네이션 관련 이벤트 핸들러
+  document.querySelector(".pagination").addEventListener("click", function (e) {
+      e.preventDefault()// 기본 동작 방지 (a 태그의 클릭 동작을 취소)
+      e.stopPropagation()// 이벤트 전파 중단
+
+      const target = e.target
+
+      if(target.tagName !== 'A') {// 클릭한 요소가 'A' 태그가 아니면 아무 작업도 하지 않습니다.
+          return
+      }
+
+      const num = target.getAttribute("data-num")// 클릭한 페이지 번호를 가져옵니다.
+      const formObj = document.querySelector("form")// 폼 요소를 가져옵니다.
+      // 숨겨진 input 태그를 폼에 추가하여 페이지 번호를 서버로 전송합니다.
+      formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+      formObj.submit();// 폼을 서버로 제출하여 페이지를 변경합니다.
+  },false)
+
+  // 검색 조건 초기화 버튼 이벤트 핸들러
+  document.querySelector(".clearBtn").addEventListener("click", function (e){
+      e.preventDefault()// 기본 동작 방지 (a 태그의 클릭 동작을 취소)
+      e.stopPropagation()// 이벤트 전파 중단
+
+      // 현재 페이지를 '/board/list'로 리다이렉트하여 검색 조건을 초기화합니다.
+      self.location ='/board/list'
+  },false)
+  /*이벤트 처리 종료*/
+
+  /*정상 처리 모달 창*/
+  //shhow modal
+  const result = [[${result}]]
+
+  if(result){
+      alert(result + "처리")
+  }
+  /*정상 처리 모달 창 종료*/
+
+  /*삭제 처리 모달 창*/
+  //shhow modal
+  const removeresult = [[${removeresult}]]
+
+  if(removeresult){
+      alert("게시글이 삭제되었습니다.")
+  }
+  /*정상 처리 모달 창 종료*/
+</script>
+</body>
+</html>
