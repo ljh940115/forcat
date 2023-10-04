@@ -2,7 +2,7 @@ package com.forcat.forcat.repository.Search;
 
 import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.Board;
-import com.forcat.forcat.entity.BoardListAllDTO;
+import com.forcat.forcat.dto.BoardListAllDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

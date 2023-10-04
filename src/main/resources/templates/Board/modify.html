@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>Board Modify</title>
 </head>
-<body class="align-middle" layout:fragment="content">
+<body class="align-member_iddle" layout:fragment="content">
 <div>
     <div class="row mt-3">
         <div class="col">
@@ -35,12 +35,12 @@
                             <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">RegDate</span>
-                            <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                            <span class="input-group-text">reg_time</span>
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.reg_time, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">ModDate</span>
-                            <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                            <span class="input-group-text">update_time</span>
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.update_time, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                         </div>
 
                         <!--첨부파일 추가 버튼-->

@@ -145,7 +145,7 @@ figure {
   margin: 0 0 1rem; }
 
 img {
-  vertical-align: middle;
+  vertical-align: member_iddle;
   border-style: none; }
 
 svg:not(:root) {

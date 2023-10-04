@@ -19,12 +19,12 @@
                     <form id="registerForm" action="/member/join" method="post">
                         <div class="input-group mb-3">
                             <span class="input-group-text">아이디</span>
-                            <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요.">
+                            <input type="text" name="member_id" class="form-control" placeholder="아이디를 입력하세요.">
                         </div>
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">비밀번호</span>
-                            <input type="password" name="mpw" class="form-control" placeholder="비밀번호를 입력하세요.">
+                            <input type="password" name="member_pw" class="form-control" placeholder="비밀번호를 입력하세요.">
                         </div>
 
                         <div class="input-group mb-3">
@@ -51,8 +51,8 @@
 <!--error로 전달된 데이터가 있는 경우 출력-->
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]
-    if(error && error === 'mid'){
-        alert("동일한 MID를 가진 계정이 존재합니다.")
+    if(error && error === 'member_id'){
+        alert("동일한 member_id를 가진 계정이 존재합니다.")
     }
 </script>
 </body>

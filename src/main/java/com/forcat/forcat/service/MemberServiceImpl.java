@@ -25,20 +25,20 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void join(MemberJoinDTO memberJoinDTO) throws MidExistException{
+    public void join(MemberJoinDTO memberJoinDTO) throws member_idExistException{
 
-        String mid = memberJoinDTO.getMid();
+        String member_id = memberJoinDTO.getMember_id();
 
-        boolean exist = memberRepository.existsById(mid);
+        boolean exist = memberRepository.existsById(member_id);
 
         if(exist){
-            throw new MidExistException();
+            throw new member_idExistException();
         }
 
         //회원 정보를 담는다.
         Member member = modelMapper.map(memberJoinDTO, Member.class);
         //정상인 경우 비밀번호 인코딩
-        member.changePassword(passwordEncoder.encode(memberJoinDTO.getMpw()));
+        member.changePassword(passwordEncoder.encode(memberJoinDTO.getMember_pw()));
         //유저 권한 추가
         member.addRole(MemberRole.USER);
 

@@ -1,4 +1,4 @@
-package com.forcat.forcat.entity;
+package com.forcat.forcat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class BoardListAllDTO {
 
     private String writer;
 
-    private LocalDateTime regDate;
+    private LocalDateTime reg_time;
 
     private Long replyCount;
 

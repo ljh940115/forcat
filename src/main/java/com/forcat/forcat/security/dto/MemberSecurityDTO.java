@@ -16,8 +16,8 @@ import java.util.Map;
 @ToString
 public class MemberSecurityDTO extends User implements OAuth2User {
 
-    private String mid;
-    private String mpw;
+    private String member_id;
+    private String member_pw;
     private String email;
     private boolean del;
     private boolean social;
@@ -28,8 +28,8 @@ public class MemberSecurityDTO extends User implements OAuth2User {
                              Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
 
-        this.mid = username;
-        this.mpw = password;
+        this.member_id = username;
+        this.member_pw = password;
         this.email = email;
         this.del = del;
         this.social = social;
@@ -42,7 +42,7 @@ public class MemberSecurityDTO extends User implements OAuth2User {
 
     @Override
     public String getName() {
-        return this.mid;
+        return this.member_id;
     }
 
 }

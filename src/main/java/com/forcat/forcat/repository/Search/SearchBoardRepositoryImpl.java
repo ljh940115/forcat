@@ -1,5 +1,7 @@
 package com.forcat.forcat.repository.Search;
 
+import com.forcat.forcat.dto.BoardImageDTO;
+import com.forcat.forcat.dto.BoardListAllDTO;
 import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.*;
 import com.querydsl.core.BooleanBuilder;
@@ -104,7 +106,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 board.bno,
                 board.title,
                 board.writer,
-                board.regDate,
+                board.regTime,
                 reply.count().as("replyCount")
         ));
 
@@ -161,7 +163,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                     .bno(board1.getBno())
                     .title(board1.getTitle())
                     .writer(board1.getWriter())
-                    .regDate(board1.getRegDate())
+                    .reg_time(board1.getRegTime())
                     .replyCount(replyCount)
                     .build();
 

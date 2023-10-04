@@ -437,7 +437,7 @@
   font-size: 10px;
   width: 12px;
   padding: 0 2px 0 5px;
-  vertical-align: middle;
+  vertical-align: member_iddle;
 }
 .datepicker thead tr:first-child th.cw {
   cursor: default;
@@ -472,7 +472,7 @@
   line-height: 20px;
   text-align: center;
   text-shadow: 0 1px 0 #ffffff;
-  vertical-align: middle;
+  vertical-align: member_iddle;
   background-color: #eeeeee;
   border: 1px solid #ccc;
   margin-left: -5px;

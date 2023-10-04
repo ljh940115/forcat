@@ -49,4 +49,10 @@ public class MainController {
     public String tools(){
         return "tools";
     }
+
+    /*기타 기능*/
+    @GetMapping("/blog")
+    public String blog(){
+        return "blog";
+    }
 }
