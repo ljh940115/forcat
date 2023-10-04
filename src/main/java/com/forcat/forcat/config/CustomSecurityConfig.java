@@ -10,13 +10,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 import javax.sql.DataSource;
 
@@ -24,7 +31,7 @@ import javax.sql.DataSource;
 @Configuration//환경설정 클래스 명시
 @AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)//어노테이션으로 권한 설정 @PreAuthorize() 사용
-public class CustomSecurityConfig {
+public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //자동 로그인을 위한 주입
     private final DataSource dataSource;
@@ -57,7 +64,22 @@ public class CustomSecurityConfig {
         //OAuth2 로그인 사용 명시
         http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
 
+        // 로그아웃 구성
+        http.logout()
+                .logoutUrl("/member/login?logout") // 로그아웃 URL을 필요한대로 사용자 정의합니다.
+                .logoutSuccessHandler(logoutSuccessHandler())
+                .invalidateHttpSession(true) // HTTP 세션을 무효화합니다.
+                .deleteCookies("JSESSIONID") // 필요한 경우 쿠키를 삭제합니다.
+                .permitAll(); // 로그아웃 URL에 누구나 접근할 수 있도록 합니다.
+
         return http.build();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
+        handler.setDefaultTargetUrl("/index"); // 로그아웃 후 홈 페이지로 리다이렉트합니다.
+        return handler;
     }
 
     /*정적 자원 필터 처리 제외*/
@@ -80,5 +102,4 @@ public class CustomSecurityConfig {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new CustomSocialLoginSuccessHandler(passwordEncoder());
     }
-
 }

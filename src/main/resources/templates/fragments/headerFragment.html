@@ -38,6 +38,9 @@
                 <li class="nav-item"><a href="/shop" class="nav-link">쇼핑</a></li>
                 <li class="nav-item"><a href="/board/list " class="nav-link">커뮤니티</a></li>
                 <li class="nav-item"><a href="/tools" class="nav-link">툴즈</a></li>
+                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
+                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
+                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
                 <li class="nav-item">
                     <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/logout" class="nav-link">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
                     <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/member/login" class="nav-link">로그인</a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->

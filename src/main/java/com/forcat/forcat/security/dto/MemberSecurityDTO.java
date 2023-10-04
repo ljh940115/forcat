@@ -15,11 +15,13 @@ import java.util.Map;
 @Setter
 @ToString
 public class MemberSecurityDTO extends User implements OAuth2User {
+
     private String mid;
     private String mpw;
     private String email;
     private boolean del;
     private boolean social;
+
     private Map<String, Object> props; //소셜 로그인 정보
 
     public MemberSecurityDTO(String username, String password, String email, boolean del, boolean social,
@@ -34,7 +36,6 @@ public class MemberSecurityDTO extends User implements OAuth2User {
 
     }
 
-    @Override
     public Map<String, Object> getAttributes() {
         return this.getProps();
     }

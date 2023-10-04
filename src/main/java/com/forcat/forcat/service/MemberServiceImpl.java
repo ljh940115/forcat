@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(MemberJoinDTO memberJoinDTO) throws MidExistException{
-        //mid가 존재하는 경우에 예외 발생
+
         String mid = memberJoinDTO.getMid();
 
         boolean exist = memberRepository.existsById(mid);

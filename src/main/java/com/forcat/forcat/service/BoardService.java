@@ -4,6 +4,12 @@ import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
+import com.forcat.forcat.entity.Board;
+import com.forcat.forcat.entity.BoardListAllDTO;
+import com.forcat.forcat.entity.Member;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public interface BoardService {
 
@@ -30,37 +36,48 @@ public interface BoardService {
     //댓글의 숫자까지 처리
     PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO);
 
-/*    default Board dtoToEntity(BoardDTO dto){
-        Member member = Member.builder()
-                .email(dto.getWriterEmail())
-                .build();
+    //게시글의 이미지와 댓글의 숫자까지 처리
+    PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO);
+
+    default Board dtoToEntity(BoardDTO boardDTO){//DTO 객체를 Entity로 변환
 
         Board board = Board.builder()
-                .bno(dto.getBno())
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .writer(member)
+                .bno(boardDTO.getBno())
+                .title(boardDTO.getTitle())
+                .content(boardDTO.getContent())
+                .writer(boardDTO.getWriter())
                 .build();
 
+        if(boardDTO.getFileNames() != null){//파일 이름 목록이 비어있는지 확인
+            boardDTO.getFileNames().forEach(fileName -> {//비어있지 않으면 파일 이름 분리, 엔티티에 이미지 정보 추가
+                String[] arr = fileName.split("_");
+                board.addImage(arr[0], arr[1]);
+            });
+        }
         return board;
-    }*/
+    }
 
-   /* default  BoardDTO entityToDTO(Board board, Member member, Long replyCount) {
+ default  BoardDTO entityToDTO(Board board) {//Entity 객체를 DTO로 변환
 
         BoardDTO boardDTO = BoardDTO.builder()
                 .bno(board.getBno())
                 .title(board.getTitle())
                 .content(board.getContent())
+                .writer(board.getWriter())
                 .regDate(board.getRegDate())
                 .modDate(board.getModDate())
-                .writerEmail(member.getEmail())
-                .writerName(member.getName())
-                .replyCount(replyCount.intValue())
                 .build();
 
-        return boardDTO;
-    }*//*
+     //getImageSet를 통해 게시물에 연결된 이미지 목록을 가져와 파일 이름 목록으로 변환
+     List<String> fileNames =
+             board.getImageSet().stream().sorted().map(boardImage ->
+                     boardImage.getUuid()+"_"+boardImage.getFileName()).collect(Collectors.toList());
 
+     boardDTO.setFileNames(fileNames);//fileNames 목록을 boardDTO에 설정
+
+        return boardDTO;
+    }
+/*
     PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO); //목록 처리
 
     default  Board dtoToEntity(BoardDTO dto){

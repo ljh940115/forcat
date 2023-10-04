@@ -4,9 +4,13 @@ import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
+import com.forcat.forcat.entity.BoardListAllDTO;
 import com.forcat.forcat.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
 
 @Controller//컨트롤러 명시
 @RequestMapping("/board")
@@ -23,14 +30,17 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class BoardController {
 
+    @Value("${com.forcat.upload.path}")// import 시에 springframework으로 시작하는 Value
+    private String uploadPath;
+
     private final BoardService boardService;
 
     /*게시글 목록, pageRequestDTO를 이용해 페이징 처리 및 검색*/
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
-
-        //PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO); 페이지 목록만 표시
-        PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);//페이지 목록 및 댓글 표시
+        //PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardListAllDTO> responseDTO =
+                boardService.listWithAll(pageRequestDTO);
         log.info(responseDTO);
         model.addAttribute("responseDTO", responseDTO);
     }
@@ -96,15 +106,42 @@ public class BoardController {
 
     /*게시글 삭제*/
     @PostMapping("/remove")
-    public String remove(Long bno, RedirectAttributes redirectAttributes) {
-
+    public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
+        Long bno  = boardDTO.getBno();
         log.info("remove post.. " + bno);
-
         boardService.remove(bno);
+        //게시물이 삭제되었다면 첨부 파일 삭제
+        log.info(boardDTO.getFileNames());
+        List<String> fileNames = boardDTO.getFileNames();
+        if(fileNames != null && fileNames.size() > 0){
+            removeFiles(fileNames);
+        }
+        redirectAttributes.addFlashAttribute("result", "removed");
 
-        redirectAttributes.addFlashAttribute("removeresult", "removed");//게시글 삭제 성공하면 result 반환
+        return "redirect:/board/list";
 
-    return "redirect:/board/list";
+    }
 
+    public void removeFiles(List<String> files){
+
+        for (String fileName:files) {
+
+            Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
+            String resourceName = resource.getFilename();
+
+            try {
+                String contentType = Files.probeContentType(resource.getFile().toPath());
+                resource.getFile().delete();
+
+                //섬네일이 존재한다면
+                if (contentType.startsWith("image")) {
+                    File thumbnailFile = new File(uploadPath + File.separator + "s_" + fileName);
+                    thumbnailFile.delete();
+                }
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }//end for
     }
 }

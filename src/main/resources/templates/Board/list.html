@@ -59,18 +59,17 @@
                     </thead>
 
                     <tbody th:with="link = ${pageRequestDTO.getLink()}">
-                    <tr th:each="dto:${responseDTO.dtoList}">
-                        <th scope="row">[[${dto.bno}]]</th>
+                    <tr th:each="dto:${responseDTO.dtoList}"  >
+                        <td>[[${dto.bno}]]</td>
                         <td>
                             <a th:href="|@{/board/read(bno =${dto.bno})}&${link}|" class="text-decoration-none"> [[${dto.title}]] </a>
-                            <span class="badge progress-bar-success" style="background-color: #fae100">[[${dto.replyCount}]]</span>
+                            <span class="badge progress-bar-success" style="background-color: #0a53be">[[${dto.replyCount}]]</span>
+                            <div th:if="${dto.boardImages != null && dto.boardImages.size() > 0}">
+                                <img style="width:100px" th:each="boarImage: ${dto.boardImages}" th:src="|/view/s_${boarImage.uuid}_${boarImage.fileName}|">
+                            </div>
                         </td>
-                        <td>
-                            [[${dto.writer}]]
-                        </td>
-                        <td>
-                            <!--[[${dto.regDate}]]-->[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]<!--날짜 포맷팅-->
-                        </td>
+                        <td>[[${dto.writer}]]</td>
+                        <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                     </tr>
                     </tbody>
                 </table>

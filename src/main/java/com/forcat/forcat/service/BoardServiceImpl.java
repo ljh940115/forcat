@@ -2,6 +2,7 @@ package com.forcat.forcat.service;
 
 import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.Board;
+import com.forcat.forcat.entity.BoardListAllDTO;
 import com.forcat.forcat.repository.BoardRepository;
 import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
@@ -29,16 +30,19 @@ public class BoardServiceImpl implements BoardService{
 
     @Override//게시글 등록 구현
     public Long register(BoardDTO boardDTO) {//클라이언트로부터 전달된 게시글 정보 포함
-        Board board = modelMapper.map(boardDTO, Board.class);//boardDTO를 Board Entity 변환
+        //Board board = modelMapper.map(boardDTO, Board.class);//boardDTO를 Board Entity 변환
+        Board board = dtoToEntity(boardDTO);
         Long bno = boardRepository.save(board).getBno();//게시글을 DB에 저장하고 게시글 Bno를 가져와 Long 타입 저장
         return bno;
     }
 
     @Override//게시글 조회 구현
     public BoardDTO readOne(Long bno) {//게시글 번호를 받아 게시글을 조회하고 BoardDTO에 반환
-        Optional<Board> result = boardRepository.findById(bno);//DB에서 bno로 해당하는 게시글을 찾아 result 반환
+        //board_image까지 조인 처리되는 findByIdWithImages()를 이용
+        Optional<Board> result = boardRepository.findByIdWithImages(bno);//DB에서 bno로 해당하는 게시글을 찾아 result 반환
         Board board = result.orElseThrow();//해당 게시글이 없으면 예외 발생
-        BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);//엔티티 객체를 DTO로 변환
+        //BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);//엔티티 객체를 DTO로 변환
+        BoardDTO boardDTO = entityToDTO(board);
         return boardDTO;//DTP 반환
     }
 
@@ -47,6 +51,17 @@ public class BoardServiceImpl implements BoardService{
         Optional<Board> result = boardRepository.findById(boardDTO.getBno());//boardDTO의 bno에 해당하는 게시글을 DB에서 가져옴
         Board board = result.orElseThrow();//해당 게시글이 없으면 예외 발생
         board.change(boardDTO.getTitle(), boardDTO.getContent());//엔티티 내 제목, 내용 수정
+
+        //첨부파일의 처리
+        board.clearImages();
+
+        if(boardDTO.getFileNames() != null){
+            for (String fileName : boardDTO.getFileNames()) {
+                String[] arr = fileName.split("_");
+                board.addImage(arr[0], arr[1]);
+            }
+        }
+
         boardRepository.save(board);//수정된 내용 DB 저장
     }
 
@@ -95,68 +110,20 @@ public class BoardServiceImpl implements BoardService{
                 .total((int)result.getTotalElements())//전체 결과 수 설정
                 .build();
     }
-/*
-
-    private final BoardRepository repository; //자동 주입 final
-    private final ReplyRepository replyRepository; //자동 주입 final
 
     @Override
-    public Long register(BoardDTO dto) {
+    public PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO) {
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("bno");
 
-        log.info(dto);
+        Page<BoardListAllDTO> result = boardRepository.searchWithAll(types, keyword, pageable);
 
-        Board board = dtoToEntity(dto);
-        repository.save(board);
-        return board.getBno();
+        return PageResponseDTO.<BoardListAllDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())
+                .build();
     }
-
-    @Transactional
-    @Override
-    public void removeWithReplies(Long bno) { //삭제 기능 구현, 트랜젝션 추가
-
-        //댓글부터 삭제
-        replyRepository.deleteByBno(bno);
-        repository.deleteById(bno);
-    }
-
-    @Override
-    public PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
-        log.info(pageRequestDTO);
-
-        Function<Object[], BoardDTO> fn = (en -> entityToDTO((Board) en[0],(Member) en[1],(Long) en[2]));
-
-        */
-/*Page<Object[]> result = repository.getBoardWithReplyCount(
-                pageRequestDTO.getPageable(Sort.by("bno").descending()));*//*
-
-
-//      목록화면 검색처리
-        Page<Object[]> result = repository.searchPage(
-                pageRequestDTO.getType(),
-                pageRequestDTO.getKeyword(),
-                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
-
-        return new PageResultDTO<>(result, fn);
-    }
-
-    @Override
-    public BoardDTO get(Long bno) {
-        Object result = repository.getBoardByBno(bno);
-        Object[] arr = (Object[]) result;
-        return entityToDTO((Board)arr[0], (Member)arr[1], (Long)arr[2]);
-    }
-
-    @Transactional
-    @Override
-    public void modify(BoardDTO boardDTO) {
-        Board board = repository.getOne(boardDTO.getBno());
-
-        board.changeTitle(boardDTO.getTitle());
-        board.changeContent(boardDTO.getContent());
-
-        repository.save(board);
-    }
-
-*/
 
 }

@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Log4j2
 @RequiredArgsConstructor
-public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHandler {//소셜 로그인 사용자의 패스워드가 1111로 처리된 경우 구분
+public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -34,16 +34,17 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         //소셜로그인이고 회원의 패스워드가 1111이라면
         if (memberSecurityDTO.isSocial()
                 && (memberSecurityDTO.getMpw().equals("1111")
-                    ||  passwordEncoder.matches("1111", memberSecurityDTO.getMpw())
+                ||  passwordEncoder.matches("1111", memberSecurityDTO.getMpw())
         )) {
-            log.info("비밀번호를 변경해야 함");
-            log.info("회원수정 페이지로 이동");
-            response.sendRedirect("/index");//("/member/modify");
+            log.info("Should Change Password");
+
+            log.info("Redirect to Member Modify ");
+            response.sendRedirect("/member/modify");
 
             return;
         } else {
 
-            response.sendRedirect("/index");
+            response.sendRedirect("/board/list");
         }
     }
 }

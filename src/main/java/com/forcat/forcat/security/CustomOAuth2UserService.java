@@ -31,34 +31,32 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
         log.info("userRequest....");
         log.info(userRequest);
+
         log.info("oauth2 user.....................................");
+
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
         String clientName = clientRegistration.getClientName();
+
         log.info("NAME: "+clientName);
         OAuth2User oAuth2User = super.loadUser(userRequest);
         Map<String, Object> paramMap = oAuth2User.getAttributes();
+
         String email = null;
+
         switch (clientName){
             case "kakao":
                 email = getKakaoEmail(paramMap);
                 break;
         }
+
         log.info("===============================");
         log.info(email);
         log.info("===============================");
-        return generateDTO(email, paramMap);
-    }
 
-    private String getKakaoEmail(Map<String, Object> paramMap){
-        log.info("KAKAO-----------------------------------------");
-        Object value = paramMap.get("kakao_account");
-        log.info(value);
-        LinkedHashMap accountMap = (LinkedHashMap) value;
-        String email = (String)accountMap.get("email");
-        log.info("email..." + email);
-        return email;
+        return generateDTO(email, paramMap);
     }
 
     private MemberSecurityDTO generateDTO(String email, Map<String, Object> params){
@@ -99,5 +97,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             return memberSecurityDTO;
         }
+    }
+
+    private String getKakaoEmail(Map<String, Object> paramMap){
+
+        log.info("KAKAO-----------------------------------------");
+
+        Object value = paramMap.get("kakao_account");
+
+        log.info(value);
+
+        LinkedHashMap accountMap = (LinkedHashMap) value;
+
+        String email = (String)accountMap.get("email");
+
+        log.info("email..." + email);
+
+        return email;
     }
 }

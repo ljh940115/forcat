@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @ToString
@@ -24,4 +25,6 @@ public class BoardDTO {//엔티티와 비슷한 역할을 하나 일회성, View
    private String writer;
    private LocalDateTime regDate;
    private LocalDateTime modDate;
+   //첨부파일의 이름들
+   private List<String> fileNames;
 }

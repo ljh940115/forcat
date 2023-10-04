@@ -56,6 +56,15 @@
                     </div>
                 </div><!--end card body-->
 
+                <!--첨부파일 이미지 출력-->
+                <div class="col">
+                    <div class="card" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
+                        <img class="card-img-top"
+                             th:each="fileName: ${dto.fileNames}"
+                             th:src="|/view/${fileName}|">
+                    </div>
+                    <!--첨부파일 이미지 출력 종료-->
+
             </div><!--end card-->
         </div><!-- end col-->
     </div><!-- end row-->
