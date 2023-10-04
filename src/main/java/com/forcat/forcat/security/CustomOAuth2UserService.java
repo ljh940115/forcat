@@ -65,10 +65,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         //데이터베이스에 해당 이메일을 사용자가 없다면
         if(result.isEmpty()){
-            //회원 추가 -- mid는 이메일 주소/ 패스워드는 1111
+            //회원 추가 -- member_id는 이메일 주소/ 패스워드는 1111
             Member member = Member.builder()
-                    .mid(email)
-                    .mpw(passwordEncoder.encode("1111"))
+                    .member_id(email)
+                    .member_pw(passwordEncoder.encode("1111"))
                     .email(email)
                     .social(true)
                     .build();
@@ -85,8 +85,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Member member = result.get();
             MemberSecurityDTO memberSecurityDTO =
                     new MemberSecurityDTO(
-                            member.getMid(),
-                            member.getMpw(),
+                            member.getMember_id(),
+                            member.getMember_pw(),
                             member.getEmail(),
                             member.isDel(),
                             member.isSocial(),

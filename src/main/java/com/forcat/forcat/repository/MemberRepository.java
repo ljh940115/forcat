@@ -15,8 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     //소셜 로그인 회원이 아닌 일반 로그인 회원 값만 가져오도록 처리
     @EntityGraph(attributePaths = "roleSet")
-    @Query("select m from Member m where m.mid = :mid and m.social = false")
-    Optional<Member> getWithRoles(@Param("mid") String mid);
+    @Query("select m from Member m where m.member_id = :member_id and m.social = false")
+    Optional<Member> getWithRoles(@Param("member_id") String member_id);
 
     //소셜 로그인 후처리, 이메일을 이용해 회원 정보 찾기
     @EntityGraph(attributePaths = "roleSet")
@@ -25,6 +25,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     //소셜 로그인 패스워드 업데이트
     @Modifying
     @Transactional
-    @Query("update Member m set m.mpw =:mpw where m.mid = :mid ")
-    void updatePassword(@Param("mpw") String password, @Param("mid") String mid);
+    @Query("update Member m set m.member_pw =:member_pw where m.member_id = :member_id ")
+    void updatePassword(@Param("member_pw") String password, @Param("member_id") String member_id);
 }

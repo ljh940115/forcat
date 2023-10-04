@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="align-middle" layout:fragment="content">
+<body class="align-member_iddle" layout:fragment="content">
 <div>
   <h1>Board List</h1>
 </div>
@@ -54,7 +54,7 @@
                         <th scope="col">Bno</th>
                         <th scope="col">Title</th>
                         <th scope="col">Writer</th>
-                        <th scope="col">RegDate</th>
+                        <th scope="col">reg_time</th>
                     </tr>
                     </thead>
 
@@ -69,7 +69,7 @@
                             </div>
                         </td>
                         <td>[[${dto.writer}]]</td>
-                        <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                        <td>[[${#temporals.format(dto.reg_time, 'yyyy-MM-dd')}]]</td>
                     </tr>
                     </tbody>
                 </table>

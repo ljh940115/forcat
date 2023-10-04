@@ -104,7 +104,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 board.bno,
                 board.title,
                 board.writer,
-                board.regDate,
+                board.reg_time,
                 reply.count().as("replyCount")
         ));
 
@@ -161,7 +161,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                     .bno(board1.getBno())
                     .title(board1.getTitle())
                     .writer(board1.getWriter())
-                    .regDate(board1.getRegDate())
+                    .reg_time(board1.getReg_time())
                     .replyCount(replyCount)
                     .build();
 

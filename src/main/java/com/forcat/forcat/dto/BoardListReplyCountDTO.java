@@ -10,7 +10,7 @@ public class BoardListReplyCountDTO {
     private Long bno;
     private String title;
     private String writer;
-    private LocalDateTime regDate;
+    private LocalDateTime reg_time;
     private Long replyCount;
 
 }

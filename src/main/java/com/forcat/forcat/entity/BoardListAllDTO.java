@@ -21,7 +21,7 @@ public class BoardListAllDTO {
 
     private String writer;
 
-    private LocalDateTime regDate;
+    private LocalDateTime reg_time;
 
     private Long replyCount;
 
