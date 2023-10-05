@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/layout1}">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Simple Sidebar - Login</title>
+	<!-- Favicon-->
+	<link rel="ic
+    <!-- Core theme CSS (includes Bootstrap)-->on" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body class="align-memberIddle" layout:fragment="content">
+<div class="container-fluid d-flex justify-content-center" style="height: 100vh">
+
+	<div class="card align-self-center">
+		<div class="card-header">
+			MyPage
+		</div>
+		<div class="card-body">
+			<div class="inner-cont">
+				<div class="social-login">
+					<form id="updateForm" action="/member/mypage" method="post">
+					<div class="input-group mb-3">
+						<span class="input-group-text">아이디</span>
+						<input type="text" name="mid" class="form-control" th:value="${#authentication.principal.username}" readonly>
+					</div>
+
+					<div class="input-group mb-3">
+						<span class="input-group-text">비밀번호</span>
+						<input type="password" name="mpw" class="form-control" placeholder="비밀번호를 입력하세요." th:value="${#authentication.principal.password}">
+					</div>
+
+					<div class="input-group mb-3">
+						<span class="input-group-text">EMAIL</span>
+						<input type="email" name="email" class="form-control" th:value="${#authentication.principal.email}">
+					</div>
+						<div class="my-4">
+							<div class="float-end">
+								<button type="submit" class="btn btn-primary submitBtn">수정</button>
+								<button type="button" class="btn btn-secondary" id="memberDelete">탈퇴</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+
+		</div><!--end card body-->
+	</div><!--end card-->
+</div>
+<script>
+	$(document).ready(function() {
+
+		// 탈퇴 버튼 클릭 시
+		$("#memberDelete").click(function() {
+			// 확인 다이얼로그 표시
+			if (confirm("정말로 탈퇴하시겠습니까?")) {
+				// 현재 사용자의 mid 값을 가져오기
+				var mid = $("input[name='mid']").val();
+
+				// AJAX 요청 보내기
+				$.ajax({
+					type: "POST",
+					url: "/member/delete",
+					data: { "mid": mid },
+					success: function(response) {
+						// 탈퇴 성공 시 처리
+						alert("탈퇴되었습니다.");
+						// 페이지를 리로드하거나 다른 작업을 수행하세요.
+					},
+					error: function() {
+						// 탈퇴 실패 시 처리
+						alert("탈퇴에 실패하였습니다.");
+					}
+				});
+			}
+		});
+	});
+</script>
+</body>
+</html>
+
+<!--
+<script type="text/javascript">
+	// 탈퇴 버튼 클릭 이벤트 핸들러
+	document.getElementById("memberDelete").addEventListener("click", function() {
+		// 폼 엘리먼트 찾기
+		var form = document.getElementById("updateForm");
+		if (form) {
+			// mid값을 가져와서 <form>의 action 속성에 추가
+			var emailValue = document.querySelector("input[name='mid']").value;
+			form.action = "/member/delete?mid=" + midValue;
+			// 폼을 POST 메서드로 제출
+			form.method = "POST";
+			form.submit();
+		}
+	});
+</script>-->

@@ -165,12 +165,12 @@ figure {
   margin: 0 0 1rem; }
 
 img {
-  vertical-align: member_iddle;
+  vertical-align: middle;
   border-style: none; }
 
 svg {
   overflow: hidden;
-  vertical-align: member_iddle; }
+  vertical-align: middle; }
 
 table {
   border-collapse: collapse; }
@@ -1597,7 +1597,7 @@ pre {
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  /*border: 1px solid #ced4da;*/
   border-radius: 0.25rem;
   -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
@@ -1993,7 +1993,7 @@ textarea.form-control {
     .form-inline .form-control {
       display: inline-block;
       width: auto;
-      vertical-align: member_iddle; }
+      vertical-align: middle; }
     .form-inline .form-control-plaintext {
       display: inline-block; }
     .form-inline .input-group,
@@ -2031,7 +2031,7 @@ textarea.form-control {
   font-weight: 400;
   color: #212529;
   text-align: center;
-  vertical-align: member_iddle;
+  vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2738,7 +2738,7 @@ input[type="button"].btn-block {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  vertical-align: member_iddle; }
+  vertical-align: middle; }
   .btn-group > .btn,
   .btn-group-vertical > .btn {
     position: relative;
@@ -3129,7 +3129,7 @@ input[type="button"].btn-block {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  vertical-align: member_iddle;
+  vertical-align: middle;
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
   background-color: #fff;
   border: 1px solid #ced4da;
@@ -3524,7 +3524,7 @@ input[type="button"].btn-block {
   display: inline-block;
   width: 1.5em;
   height: 1.5em;
-  vertical-align: member_iddle;
+  vertical-align: middle;
   content: "";
   background: no-repeat center center;
   background-size: 100% 100%; }
@@ -5219,8 +5219,8 @@ a.close.disabled {
 .align-top {
   vertical-align: top !important; }
 
-.align-member_iddle {
-  vertical-align: member_iddle !important; }
+.align-middle {
+  vertical-align: middle !important; }
 
 .align-bottom {
   vertical-align: bottom !important; }
@@ -9708,40 +9708,6 @@ textarea.form-control {
     .categories li.active a span, .sidelink li.active a span {
       color: #00bd56; }
 
-.inner-cont {
-  margin: auto;
-  overflow: hidden;
-  width: 400px;
-  background-color: #FFF;
-  text-align: center;
-  /*border: 1px solid #C2C7D0;*/
-}
-
-.inner-cont .social-login a {
-  float: left;
-  padding: 10px 0 10px 0;
-  width: 150px;
-  margin-bottom: 15px;
-  display: block;
-  border: 1px solid #C2C7D0;
-  border-radius: 5px;
-  position: relative;
-  color: #FFF;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .3s
-}
-
-.inner-cont .social-login a.google {
-  margin-left: 50px;
-}
-.inner-cont .social-login a.google {
-  background-color: #dd4b39;
-}
-.inner-cont .social-login a.kakao {
-  background-color: #FEE500;
-}
-
 #ftco-loader {
   position: fixed;
   width: 96px;
@@ -9832,3 +9798,7 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+.boardListHead, .boardListBody {
+  text-align: center;
+}

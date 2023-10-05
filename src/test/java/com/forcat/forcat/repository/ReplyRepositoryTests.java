@@ -1,6 +1,5 @@
 package com.forcat.forcat.repository;
 
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.Board;
 import com.forcat.forcat.entity.Reply;
 import lombok.extern.log4j.Log4j2;

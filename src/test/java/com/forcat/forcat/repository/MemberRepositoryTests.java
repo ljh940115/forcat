@@ -27,8 +27,8 @@ public class MemberRepositoryTests {
         IntStream.rangeClosed(1,100).forEach(i -> {
 
             Member member = Member.builder()
-                    .member_id("member"+i)
-                    .member_pw(passwordEncoder.encode("1111"))
+                    .mid("member"+i)
+                    .mpw(passwordEncoder.encode("1111"))
                     .email("email"+i+"@example.com")
                     .build();
 
@@ -58,12 +58,12 @@ public class MemberRepositoryTests {
     @Commit
     @Test
     public void testUpdate(){
-        String member_id = "ljh940115@kakao.com";//소셜 로그인으로 추가된 사용자로 현재 DB에 존재하는 이메일
-        String member_pw = passwordEncoder.encode("54321");
+        String mid = "ljh940115@kakao.com";//소셜 로그인으로 추가된 사용자로 현재 DB에 존재하는 이메일
+        String mpw = passwordEncoder.encode("54321");
 
-        log.info("member_id : " + member_id);
-        log.info("member_pw : " + member_pw);
-        memberRepository.updatePassword(member_pw, member_id);
+        log.info("mid : " + mid);
+        log.info("mpw : " + mpw);
+        memberRepository.updatePassword(mpw, mid);
     }
 
 }

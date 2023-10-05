@@ -1,58 +1,37 @@
 package com.forcat.forcat.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Optional;
+
 @Controller
+@Log4j2//로그 출력
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class MainController {
+    //@PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
+    @GetMapping("/")//"/"로 요청이 들어오면 메인 페이지로 이동
+    public String redirectToIndex() { log.info("==========MainCon.../"); return "redirect:/index";}
 
-    /*"/"로 요청이 들어오면 index로 이동한다.*/
-    @GetMapping("/")
-    public String redirectToIndex() {
-        return "redirect:/index";
-    }
+    @GetMapping("/index")//메인 페이지
+    public String index(){ log.info("==========MainCon...idnex"); return "index";}
 
-    /*메인 페이지*/
-    @GetMapping("/index")
-    public String index(){
-        return "index";
-    }
+    @GetMapping("/content")//관리자, 파트너사 콘텐츠 게시판
+    public String content(){ log.info("==========MainCon...content");return "content";}
 
-    /*관리자, 파트너사 콘텐츠 게시판*/
-    @PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
-    @GetMapping("/content")
-    public String content(){
-        return "content";
-    }
+    @GetMapping("/shop")//쇼핑몰
+    public String shop(){log.info("==========MainCon...shop");return "shop";}
 
-    /*쇼핑몰*/
-    @PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
-    @GetMapping("/shop")
-    public String shop(){
-        return "shop";
-    }
+    @GetMapping("/comm")//커뮤니티, 게시판
+    public String comm(){log.info("==========MainCon...comm");return "comm";}
 
-    /*커뮤니티, 게시판*/
-    @PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
-    @GetMapping("/comm")
-    public String comm(){
-        return "comm";
-    }
+    @GetMapping("/tools")//기타 기능
+    public String tools(){log.info("==========MainCon...tools");return "tools";}
 
-    /*기타 기능*/
-    @PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
-    @GetMapping("/tools")
-    public String tools(){
-        return "tools";
-    }
-
-    /*기타 기능*/
-    @GetMapping("/blog")
-    public String blog(){
-        return "blog";
-    }
+    @GetMapping("/blog")//기타 기능
+    public String blog(){log.info("==========MainCon...blog");return "blog";}
 }

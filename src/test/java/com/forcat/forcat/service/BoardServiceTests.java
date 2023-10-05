@@ -1,10 +1,10 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.BoardDTO;
+import com.forcat.forcat.dto.board.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
-import com.forcat.forcat.dto.BoardImageDTO;
-import com.forcat.forcat.dto.BoardListAllDTO;
+import com.forcat.forcat.dto.board.BoardImageDTO;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

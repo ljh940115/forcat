@@ -9,14 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-//JpaRepository를 상속받아 DB 작업
 public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
     @EntityGraph(attributePaths = {"imageSet"})
     @Query("select b from Board b where b.bno =:bno")
     Optional<Board> findByIdWithImages(@Param("bno")Long bno);
-
-    /*
-    @Query(value = "select now()", nativeQuery = true)
-    String getTime();
-    */
 }

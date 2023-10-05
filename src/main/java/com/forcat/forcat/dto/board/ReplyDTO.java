@@ -1,4 +1,4 @@
-package com.forcat.forcat.dto;
+package com.forcat.forcat.dto.board;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,9 +24,8 @@ public class ReplyDTO {
     private String replyText;
     @NotEmpty
     private String replyer;
-
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reg_time;
+    private LocalDateTime regDate;
     @JsonIgnore
-    private LocalDateTime update_time;
+    private LocalDateTime modDate;
 }

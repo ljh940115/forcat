@@ -14,11 +14,12 @@
     <link rel="ic
     <!-- Core theme CSS (includes Bootstrap)-->on" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
 </head>
-<body class="align-member_iddle" layout:fragment="content">
+<body class="align-middle" layout:fragment="content">
 <div class="container-fluid d-flex justify-content-center" style="height: 100vh">
 
-    <div class="card align-self-center">
+<!--    <div class="card align-self-center">
         <div class="card-header">
             LOGIN Page
         </div>
@@ -50,14 +51,81 @@
             </form>
             <hr>
             <div class="inner-cont">
-            <div class="social-login">
-                <a class="kakao" href="/oauth2/authorization/kakao">KAKAO</a><!--카카오 로그인 처리-->
-                <a class="google" href="/oauth2/authorization/google">GOOGLE</a><!--카카오 로그인 처리-->
+                <div class="social-login">
+                <a class="kakao" href="/oauth2/authorization/kakao">KAKAO</a>
+                <a class="google" href="/oauth2/authorization/google">GOOGLE</a>
+                </div>
             </div>
+        </div>&lt;!&ndash;end card body&ndash;&gt;
+    </div>&lt;!&ndash;end card&ndash;&gt;-->
+
+
+    <div class="cont">
+        <form id="registerForm" action="/member/login" method="post" th:if="${param.logout ==null}">
+        <div class="form sign-in">
+            <h2>Welcome back,</h2>
+            <label>
+                <span>아이디</span>
+                <input type="text" name="username" class="form-control" placeholder="아이디를 입력해주세요">
+            </label>
+            <label>
+                <span>비밀번호</span>
+                <input type="text" name="password" class="form-control" placeholder="비밀번호를 입력해주세요">
+            </label>
+            <div class="input-group mb-3 ">
+                <input class="form-check-input" type="checkbox" name="remember-me">
+                <label class="form-check-label">
+                    자동 로그인
+                </label>
             </div>
-            <a href="/member/join">회원가입</a><!--회원가입-->
-        </div><!--end card body-->
-    </div><!--end card-->
+            <p class="forgot-pass">Forgot password?</p>
+            <button type="submit" class="btn btn-primary submitBtn">LOGIN</button>
+            <button type="button" class="fb-btn" href="/oauth2/authorization/kakao">Join with <span>KAKAO</span></button>
+            <button type="button" class="fb-btn" href="/oauth2/authorization/google">Join with <span>GOOGLE</span></button>
+        </div>
+        </form>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h2>포켓이 처음이신가요?</h2>
+                    <p>지금 가입하고 더 많은 활동을 해보세요!</p>
+                </div>
+                <div class="img__text m--in">
+                    <h2>이미 가입하셨나요?</h2>
+                    <p>로그인하고 포켓에서 더 많은 활동을 해보세요!</p>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">회원가입</span>
+                    <span class="m--in">로그인</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>Time to feel like home,</h2>
+                <label>
+                    <span>아이디</span>
+                    <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요.">
+                </label>
+                <label>
+                    <span>비밀번호</span>
+                    <input type="password" name="mpw" class="form-control" placeholder="비밀번호를 입력하세요.">
+                </label>
+                <label>
+                    <span>이메일</span>
+                    <input type="email" name="email" class="form-control" placeholder="이메일을 입력하세요.">
+                </label>
+                <button type="button" class="submit">Sign Up</button>
+                <button type="button" class="fb-btn" href="/oauth2/authorization/kakao">Join with <span>KAKAO</span></button>
+                <button type="button" class="fb-btn" href="/oauth2/authorization/google">Join with <span>GOOGLE</span></button>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script>
+    document.querySelector('.img__btn').addEventListener('click', function() {
+        document.querySelector('.cont').classList.toggle('s--signup');
+    });
+</script>
 </body>
 </html>

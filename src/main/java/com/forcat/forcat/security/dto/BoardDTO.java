@@ -15,7 +15,6 @@ import java.util.List;
 public class BoardDTO {//엔티티와 비슷한 역할을 하나 일회성, View와 통신
 
    private Long bno;
-
    @NotEmpty
    @Size(min=3, max = 100)
    private String title;
@@ -23,8 +22,8 @@ public class BoardDTO {//엔티티와 비슷한 역할을 하나 일회성, View
    private String content;
    @NotEmpty
    private String writer;
-   private LocalDateTime reg_time;
-   private LocalDateTime update_time;
+   private LocalDateTime regDate;
+   private LocalDateTime modDate;
    //첨부파일의 이름들
    private List<String> fileNames;
 }

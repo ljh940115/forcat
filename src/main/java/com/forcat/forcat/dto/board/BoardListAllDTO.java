@@ -1,4 +1,4 @@
-package com.forcat.forcat.entity;
+package com.forcat.forcat.dto.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,15 +15,9 @@ import java.util.List;
 public class BoardListAllDTO {
 
     private Long bno;
-
     private String title;
-
     private String writer;
-
-    private LocalDateTime reg_time;
-
+    private LocalDateTime regDate;
     private Long replyCount;
-
     private List<BoardImageDTO> boardImages;
-
 }

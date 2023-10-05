@@ -34,7 +34,7 @@
   content: '';
   display: inline-block;
   height: 100%;
-  vertical-align: member_iddle; }
+  vertical-align: middle; }
 
 .mfp-align-top .mfp-container:before {
   display: none; }
@@ -42,7 +42,7 @@
 .mfp-content {
   position: relative;
   display: inline-block;
-  vertical-align: member_iddle;
+  vertical-align: middle;
   margin: 0 auto;
   text-align: left;
   z-index: 1045; }

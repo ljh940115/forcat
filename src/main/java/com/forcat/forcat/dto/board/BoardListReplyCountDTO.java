@@ -1,4 +1,4 @@
-package com.forcat.forcat.dto;
+package com.forcat.forcat.dto.board;
 
 import lombok.Data;
 
@@ -10,7 +10,6 @@ public class BoardListReplyCountDTO {
     private Long bno;
     private String title;
     private String writer;
-    private LocalDateTime reg_time;
+    private LocalDateTime regDate;
     private Long replyCount;
-
 }
