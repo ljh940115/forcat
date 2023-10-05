@@ -1,6 +1,8 @@
 package com.forcat.forcat.entity;
 
+import com.forcat.forcat.dto.MemberFormDto;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +12,7 @@ import java.util.Set;
 //실제 DB와 매칭할 클래스
 @Entity//엔티티 클래스
 @Getter
+@Setter
 @Builder//빌더 클래스
 @AllArgsConstructor//모든 필드값을 파라미터로 받는 생성자로 만듦
 @NoArgsConstructor//값 없는 기본 생성자 생성
@@ -18,7 +21,7 @@ public class Member extends BaseEntity{
 
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name="member_id")
+    @Column(name="member_id")
     private String member_id;//회원 아이디
     private String member_pw;//회원 비밀번호
     private String name;
@@ -54,4 +57,14 @@ public class Member extends BaseEntity{
     }
 
     public void changeSocial(boolean social){this.social = social;}
+
+    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+        Member member = new Member();
+        member.setName(memberFormDto.getName());
+        member.setEmail(memberFormDto.getEmail());
+        member.setAddress(memberFormDto.getAddress());
+        String password = passwordEncoder.encode(memberFormDto.getPassword());
+        member.setPassword(password);
+        return member;
+    }
 }

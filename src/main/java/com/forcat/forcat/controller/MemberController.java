@@ -1,15 +1,24 @@
 package com.forcat.forcat.controller;
 
+import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.MemberJoinDTO;
+import com.forcat.forcat.dto.PageRequestDTO;
+import com.forcat.forcat.entity.Member;
 import com.forcat.forcat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
+
+import static com.forcat.forcat.entity.QMember.member;
 
 @Controller
 @RequestMapping("/member")
@@ -57,6 +66,11 @@ public class MemberController {
 
         return "redirect:/member/login"; //회원 가입 후 로그인
     }
+
+    @GetMapping("/mypage")
+    public void myPage(Model model, HttpSession session) {
+    }
+
 }
 
 

@@ -1,8 +1,11 @@
 package com.forcat.forcat.repository;
 
+import com.forcat.forcat.dto.MemberJoinDTO;
 import com.forcat.forcat.entity.Member;
 import com.forcat.forcat.entity.MemberRole;
+import com.forcat.forcat.service.MemberService;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +15,17 @@ import org.springframework.test.annotation.Commit;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
 @Log4j2
 public class MemberRepositoryTests {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -64,6 +72,23 @@ public class MemberRepositoryTests {
         log.info("member_id : " + member_id);
         log.info("member_pw : " + member_pw);
         memberRepository.updatePassword(member_pw, member_id);
+    }
+
+    @Test
+    @DisplayName("회원 추가 테스트2")
+    public Member insertMembers2() {
+        Member member = Member.builder()
+                .member_id("memberid")
+                .member_pw(passwordEncoder.encode("1111"))
+                .email("email@example.com")
+                .name("이재혁")
+                .address("경기도 수원시")
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        memberRepository.save(member);
+        return member;
     }
 
 }

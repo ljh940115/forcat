@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/layout1}">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Simple Sidebar - Login</title>
+	<!-- Favicon-->
+	<link rel="ic
+    <!-- Core theme CSS (includes Bootstrap)-->on" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body class="align-member_iddle" layout:fragment="content">
+<div class="container-fluid d-flex justify-content-center" style="height: 100vh">
+
+	<div class="card align-self-center">
+		<div class="card-header">
+			MyPage
+		</div>
+		<div class="card-body">
+			<div class="inner-cont">
+				<div class="social-login">
+					<a class="kakao" href="#">수정</a><!--카카오 로그인 처리-->
+					<a class="google" href="#">탈퇴</a><!--카카오 로그인 처리-->
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+
+		</div><!--end card body-->
+	</div><!--end card-->
+</div>
+</body>
+</html>

@@ -14,10 +14,10 @@ import java.util.List;
 // 정렬 키워드 order가 존재하므로 orders로 테이블 지정
 @Getter
 @Setter
-public class Order extends BaseEntity {
+public class Order{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "order_id")
     private Long id;
 
@@ -31,17 +31,21 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; //주문상태
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) // 일대다 매핑)
+    private List<OrderItem> orderItems = new ArrayList<>();
+    /*@OneToMany(mappedBy = "order", cascade = CascadeType.ALL,
                 orphanRemoval = true, fetch = FetchType.LAZY) // 일대다 매핑
-    /* 연관관계 주인은 OrderItem
-    Order가 주인이 아니므로 mappedBy 속성으로 주인 설정(OrderItem의 Order) */
-    /* CascadeType.All : 부모 엔티티 영속성 상태 변화를 자식 엔티티에 모두 전이 */
-    /* orphanRemoval = true -> 연관 관계가 끊어진 자식 엔티티(고아 객체)를 자동으로 제거 */
+    *//* 연관관계 주인은 OrderItem
+    Order가 주인이 아니므로 mappedBy 속성으로 주인 설정(OrderItem의 Order) *//*
+    *//* CascadeType.All : 부모 엔티티 영속성 상태 변화를 자식 엔티티에 모두 전이 *//*
+    *//* orphanRemoval = true -> 연관 관계가 끊어진 자식 엔티티(고아 객체)를 자동으로 제거 *//*
     private List<OrderItem> orderItems = new ArrayList<>();
     // 하나의 주문이 여러개의 주문 상품을 갖게 되니까 List 자료형 사용
 
-    // private LocalDateTime regTime;
-    // private LocalDateTime updateTime;
+
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem); // 주문 상품 정보 담기 -> Order 객체의 orderItems에 OrderItem 객체를 추가
@@ -74,6 +78,6 @@ public class Order extends BaseEntity {
         for(OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
-    }
+    }*/
 
 }

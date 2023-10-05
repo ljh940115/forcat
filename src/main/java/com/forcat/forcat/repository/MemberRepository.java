@@ -22,6 +22,9 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @EntityGraph(attributePaths = "roleSet")
     Optional<Member> findByEmail(@Param("email") String email);
 
+    /*@EntityGraph(attributePaths = "roleSet")
+    Member findByMember_id(@Param("member_id") String member_id);*/
+
     //소셜 로그인 패스워드 업데이트
     @Modifying
     @Transactional

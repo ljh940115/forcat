@@ -4,14 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-public class OrderItem extends BaseEntity {
+public class OrderItem{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "order_item_id")
     private Long id;
 
@@ -27,10 +28,10 @@ public class OrderItem extends BaseEntity {
 
     private int count; //수량
 
-    // private LocalDateTime regTime;
-    // private LocalDateTime updateTime;
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
 
-    public static OrderItem createOrderItem(Item item, int count) {
+    /*public static OrderItem createOrderItem(Item item, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item); // 주문할 상품
         orderItem.setCount(count); // 주문할 수량
@@ -46,6 +47,6 @@ public class OrderItem extends BaseEntity {
 
     public void cancel() {
         this.getItem().addStock(count);
-    } // 주문 취소 시 주문 수량만큼 상품 재고 플러스
+    } // 주문 취소 시 주문 수량만큼 상품 재고 플러스*/
 
 }
