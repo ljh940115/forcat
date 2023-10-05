@@ -1,12 +1,14 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.MemberJoinDTO;
+import com.forcat.forcat.dto.member.MemberJoinDTO;
+import com.forcat.forcat.dto.member.MemberUpdateDTO;
 
 public interface MemberService {
-    static class member_idExistException extends Exception {
+    static class MidExistException extends Exception { }
 
-    }
+    void join(MemberJoinDTO memberJoinDTO)throws MidExistException ;
 
-    void join(MemberJoinDTO memberJoinDTO)throws member_idExistException ;
+    void update(MemberUpdateDTO memberUpdateDTO)throws MidExistException ;
 
+    void delete(String mid);
 }

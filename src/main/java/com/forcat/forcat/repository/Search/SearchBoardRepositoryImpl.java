@@ -1,8 +1,8 @@
 package com.forcat.forcat.repository.Search;
 
-import com.forcat.forcat.dto.BoardImageDTO;
-import com.forcat.forcat.dto.BoardListAllDTO;
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
+import com.forcat.forcat.dto.board.BoardImageDTO;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
+import com.forcat.forcat.dto.board.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
@@ -29,10 +29,8 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         QBoard board = QBoard.board;//Q도메인 객체
         JPQLQuery<Board> query = from(board);//select...from board
         query.where(board.title.contains("1"));//where title like...
-
         //Querydsl로 Pageable 처리, paging
         this.getQuerydsl().applyPagination(pageable, query);
-
         List<Board> list = query.fetch();//fetch() JPQL 실행
         long count = query.fetchCount();//fetchCount() count 쿼리 실행
         return null;
@@ -42,7 +40,6 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
     public Page<Board> searchAll(String[] types, String keyword, Pageable pageable) {
         QBoard board = QBoard.board;
         JPQLQuery<Board> query = from(board);//QBoard를 이용하여 JPQLQuery 생성
-
         if ((types != null && types.length > 0) && keyword != null) {//타입과 키워드 존재 확인
             BooleanBuilder booleanBuilder = new BooleanBuilder();//여러 검색 조건 결합용 객체 생성
             for (String type : types) {//types 배열을 순회하며 각 타입에 따라 검색 조건 추가
@@ -69,22 +66,16 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         return new PageImpl<>(list, pageable, count);//게시글 목록, 페이지네이션 정보, 검색 결과 전체 개수를 담아 보낸다.
     }
 
-    //
     @Override
     public Page<BoardListReplyCountDTO> searchWithReplyCount(String[] types, String keyword, Pageable pageable) {
-
         QBoard board = QBoard.board;//QBoard 객체 생성
         QReply reply = QReply.reply;//QReply 객체 생성
-
         JPQLQuery<Board> query = from(board);//from(board)을 사용하여 게시판(Board) 테이블을 대상으로 하는 JPQLQuery를 생성
         query.leftJoin(reply).on(reply.board.eq(board));//게시글, 댓글 테이블 조인
-
         query.groupBy(board);//결과를 게시글로 그룹화
-
         if ((types != null && types.length > 0) && keyword != null) {//검색 조건 설정
             BooleanBuilder booleanBuilder = new BooleanBuilder();//or 연산자를 사용하여 검색 조건 추가
             for (String type : types) {//types 배열에 따라 어떤 항목으로 검색할지 결정
-
                 switch (type) {
                     case "t":
                         booleanBuilder.or(board.title.contains(keyword));
@@ -106,7 +97,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 board.bno,
                 board.title,
                 board.writer,
-                board.regTime,
+                board.regDate,
                 reply.count().as("replyCount")
         ));
 
@@ -163,7 +154,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                     .bno(board1.getBno())
                     .title(board1.getTitle())
                     .writer(board1.getWriter())
-                    .reg_time(board1.getRegTime())
+                    .regDate(board1.getRegDate())
                     .replyCount(replyCount)
                     .build();
 

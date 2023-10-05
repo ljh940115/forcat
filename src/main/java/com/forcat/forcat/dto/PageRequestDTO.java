@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageRequestDTO {//페이징 관련, 검색 종류, 키워드 추가
+
     @Builder.Default
     private int page = 1;
     @Builder.Default
@@ -25,9 +26,7 @@ public class PageRequestDTO {//페이징 관련, 검색 종류, 키워드 추가
 
     //검색 조건 문자열을 배열로 반환
     public String[] getTypes(){//검색 조건 종류가 비어있으면 null 반환, 있으면 한글자씩 분리하여 배열 처리 반환
-        if(type == null || type.isEmpty()){
-            return null;
-        }
+        if(type == null || type.isEmpty()){return null;}
         return type.split("");
     }
 
@@ -48,19 +47,14 @@ public class PageRequestDTO {//페이징 관련, 검색 종류, 키워드 추가
             StringBuilder builder = new StringBuilder();//StringBuilder 객체 생성.page와 size 값을 URL 문자열에 추가
             builder.append("page=" + this.page);
             builder.append("&size=" + this.size);
-
             if(type != null && type.length() > 0){//type 값이 있으면 URL 문자열에 추가
                 builder.append("&type=" + type);
             }
 
             if(keyword != null){//keyword 값이 있으면 URL 문자열에 추가
-                try {
-                    builder.append("&keyword=" + URLEncoder.encode(keyword,"UTF-8"));//특수문자 인코딩
-                } catch (UnsupportedEncodingException e) {//인코딩 에러 처리
-                }
-            }
-            link = builder.toString();//완성된 URL 문자열 저장
-        }
-        return link;//URL 문자열을 반환
+                try {builder.append("&keyword=" + URLEncoder.encode(keyword,"UTF-8"));//특수문자 인코딩
+                } catch (UnsupportedEncodingException e) { }//인코딩 에러 처리
+            }link = builder.toString();//완성된 URL 문자열 저장
+        }return link;//URL 문자열을 반환
     }
 }

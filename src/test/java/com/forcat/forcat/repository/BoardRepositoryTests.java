@@ -1,12 +1,12 @@
 package com.forcat.forcat.repository;
 
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
+import com.forcat.forcat.dto.board.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.Board;
-import com.forcat.forcat.dto.BoardDTO;
+import com.forcat.forcat.dto.board.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
 import com.forcat.forcat.entity.BoardImage;
-import com.forcat.forcat.dto.BoardListAllDTO;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
 import com.forcat.forcat.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;

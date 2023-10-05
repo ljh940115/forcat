@@ -16,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor//값 없는 기본 생성자 생성
 @ToString(exclude = "imageSet")//객체 값을 문자열로 리턴
 public class Board extends BaseEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//키 생성 전략, 자동 키 생성.DB에 위임
     private Long bno;//게시글 일련번호
@@ -25,9 +26,11 @@ public class Board extends BaseEntity{
     private String content;//게시글 내용
     @Column(length = 50, nullable = false)//데이터 길이, null 허용 X
     private String writer;//게시글 작성자
+    @ManyToOne(fetch = FetchType.LAZY) // 다대일(Many-to-One) 관계 설정
+    @JoinColumn(name = "mid") // 멤버 엔티티의 기본 키(mid)를 외래 키로 사용
+    private Member member; // 보드가 어떤 멤버에게 속하는지를 나타내는 필드
 
-    //update는 등록 시간이 필요하므로 change() 메서드 생성
-    public void change(String title, String content){
+    public void change(String title, String content){//update는 등록 시간이 필요하므로 change() 메서드 생성
         this.title = title;
         this.content = content;
     }
@@ -42,7 +45,6 @@ public class Board extends BaseEntity{
     private Set<BoardImage> imageSet = new HashSet<>();
 
     public void addImage(String uuid, String fileName){//Board 엔티티에 이미지를 추가
-
         //BoardImage 엔티티를 생성하고, UUID와 파일 이름을 설정한 다음
         //현재 Board 엔티티와 연결, 다음 이미지 세트(imageSet)에 새 이미지를 추가
         BoardImage boardImage = BoardImage.builder()
@@ -57,7 +59,6 @@ public class Board extends BaseEntity{
     public void clearImages() {//Board 엔티티와 연결된 모든 이미지를 제거하는 데 사용
         //imageSet의 각 BoardImage 엔티티에 대해 changeBoard(null)을 호출, 해당 이미지의 board 속성을 제거
         imageSet.forEach(boardImage -> boardImage.changeBoard(null));
-
         this.imageSet.clear();//imageSet을 비움
     }
 }

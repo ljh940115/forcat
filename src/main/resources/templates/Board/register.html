@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="align-member_iddle" layout:fragment="content">
+<body class="align-middle" layout:fragment="content">
 <div class="row mt-3">
     <div class="col">
         <div class="card">
@@ -17,33 +17,37 @@
             <div class="card-body">
                 <form action="/board/register" method="post">
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Title</span>
+                        <span class="input-group-text">제목</span>
                         <input type="text" name="title" class="form-control" placeholder="Title">
                     </div>
 
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Content</span>
+                        <span class="input-group-text">내용</span>
                         <textarea class="form-control col-sm-5" rows="5" name="content"></textarea>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Writer</span>
-                        <input type="text" name="writer" class="form-control" placeholder="Writer">
+                    <div class="input-group mb-3" hidden="hidden" th:unless="${#authorization.expression('isAuthenticated()')}">
+                        <span class="input-group-text">작성자</span>
+                        <input type="text" name="writer" class="form-control" value="손님">
+                    </div>
+                    <div class="input-group mb-3" hidden="hidden" th:if="${#authorization.expression('isAuthenticated()')}">
+                        <span class="input-group-text">작성자</span>
+                        <input type="text" name="writer" class="form-control" th:value="${#authentication.principal.username}" readonly>
                     </div>
 
                     <!--이미지 첨부파일 등록-->
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Images</span>
+                        <span class="input-group-text">이미지</span>
                         <div class="float-end uploadHidden">
-                            <button type="button" class="btn btn-primary uploadFileBtn">ADD Files</button>
+                            <button type="button" class="btn btn-primary uploadFileBtn">이미지 추가</button>
                         </div>
                     </div>
                     <!--/이미지 첨부파일 등록-->
 
                     <div class="my-4">
                         <div class="float-end">
-                            <button type="submit" class="btn btn-primary submitBtn">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
+                            <button type="submit" class="btn btn-primary submitBtn">작성완료</button>
+                            <button type="reset" class="btn btn-secondary">다시쓰기</button>
                         </div>
                     </div>
 
@@ -75,8 +79,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary uploadBtn">Upload</button>
-                <button type="button" class="btn btn-outline-dark closeUploadBtn" >Close</button>
+                <button type="button" class="btn btn-primary uploadBtn">업로드</button>
+                <button type="button" class="btn btn-outline-dark closeUploadBtn" >취소</button>
             </div>
         </div>
     </div>
@@ -124,6 +128,16 @@
         for (let i = 0; i < files.length; i++) {
             formObj.append("files", files[i]);
         }
+
+        /*모달창 취소 버튼*/
+        const cancelUploadBtn = document.getElementById("cancelUploadBtn");
+
+        // Add an event listener to hide the modal when the cancel button is clicked
+        cancelUploadBtn.addEventListener("click", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            uploadModal.hide(); // Hide the modal
+        }, false);
 
         /*업로드 서버 성공 처리*/
         uploadToServer(formObj).then(result => {
@@ -196,6 +210,13 @@
         formObj.reset();
 
     }, false)
+
+    //업로드 모달창 취소 버튼 이벤트
+    const closeUploadBtn = document.querySelector('.closeUploadBtn');
+    //닫기 버튼에 클릭 이벤트 리스너 추가
+    closeUploadBtn.addEventListener('click', function (e) {
+        uploadModal.hide(); //업로드 모달 숨기기
+    }, false);
 </script>
 </body>
 </html>

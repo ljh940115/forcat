@@ -1,26 +1,27 @@
 package com.forcat.forcat.entity;
 
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 
-@EntityListeners(value = {AuditingEntityListener.class})
-// 엔티티의 이벤트를 감지하고 처리할 리스너 클래스 지정
-// 엔티티에 변화가 생기면 특정 동작이 실행되도록 설정 가능
-@MappedSuperclass
-// 테이블과 직접 매핑되지 않고 하위 엔티티 클래스에 상속되어 사용 됨
-// 공통 매핑 정보가 필요할 때 사용
+//모든 테이블에 사용할 데이터 설정, 상속하여 사용한다.
+@MappedSuperclass//공통 상속 클래스 명시
+@EntityListeners(value = { AuditingEntityListener.class })//해당 클래스에 Auditing 기능 포함, 엔티티가 DB에 추가될 때 자동으로 시간 값 저장
 @Getter
-public abstract class BaseEntity extends BaseTimeEntity {
-    @CreatedBy
-    @Column(updatable = false) // 필드의 값 변경되어도 update 되지 않음
-    private String createdBy;
+abstract class BaseEntity {
 
-    @LastModifiedBy
-    private String modifiedBy;
+    @CreatedDate//등록일
+    @Column(name = "regdate", updatable = false)//수정 불가
+    private LocalDateTime regDate;
+
+    @LastModifiedDate//수정일
+    @Column(name ="moddate" )
+    private LocalDateTime modDate;
+
 }
