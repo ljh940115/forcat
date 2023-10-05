@@ -56,14 +56,13 @@ public class CustomSecurityConfig{
         //OAuth2 로그인 사용 명시
         http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
 
- /*       // 로그아웃 구성
-        http.logout()
-                .logoutUrl("/member/login?logout") // 로그아웃 URL을 필요한대로 사용자 정의합니다.
-                .logoutSuccessHandler(logoutSuccessHandler())
-                .invalidateHttpSession(true) // HTTP 세션을 무효화합니다.
-                .deleteCookies("JSESSIONID") // 필요한 경우 쿠키를 삭제합니다.
-                .permitAll(); // 로그아웃 URL에 누구나 접근할 수 있도록 합니다.*/
-
+        // 로그아웃 구성
+        http.logout() // 로그아웃 기능 작동함
+                .logoutUrl("/member/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
+                .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 이동페이지
+                .deleteCookies("JSESSIONID", "remember-me"); // 로그아웃 후 쿠키 삭제
+                /*.addLogoutHandler( ...생략... ) // 로그아웃 핸들러
+                .logoutSuccessHandler( ...생략... ) // 로그아웃 성공 후 핸들러*/
         return http.build();
     }
 

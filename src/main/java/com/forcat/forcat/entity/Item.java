@@ -1,20 +1,21 @@
 package com.forcat.forcat.entity;
 
-import com.forcat.shop.constant.ItemSellStatus;
-import com.forcat.shop.dto.ItemFormDto;
-import com.forcat.shop.exception.OutOfStockException;
+import com.forcat.forcat.constant.ItemSellStatus;
+import com.forcat.forcat.dto.ItemFormDto;
+import com.forcat.forcat.exception.OutOfStockException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="item")
 @Getter
 @Setter
 @ToString
-public class Item extends BaseEntity {
+public class Item  {//extends BaseEntity
     @Id
     @Column(name="item_id")
     // @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,8 +39,8 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING) // Enum 타입 매핑(EnumType.STRING : Enum이름을 column에 저장
     private ItemSellStatus itemSellStatus; // 상품 판매 상태
 
-    // private LocalDateTime regTime; // 등록 시간
-    // private LocalDateTime updateTime; // 수정 시간
+    private LocalDateTime regTime; // 등록 시간
+    private LocalDateTime updateTime; // 수정 시간
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();
@@ -49,7 +50,7 @@ public class Item extends BaseEntity {
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
-    public void removeStock(int stockNumber) {
+    /*public void removeStock(int stockNumber) {
         int restStock = this.stockNumber - stockNumber; // 상품의 재고 수량 - 주문 후 남은 재고 수량
         if(restStock < 0) { // restStock이 0보다 작을 경우 -> 주문 수량이 상품 재고 수량보다 작을 경우
             throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 수량 : " + this.stockNumber + ")");
@@ -59,5 +60,5 @@ public class Item extends BaseEntity {
 
     public void addStock(int stockNumber) {
         this.stockNumber += stockNumber;
-    }
+    }*/
 }

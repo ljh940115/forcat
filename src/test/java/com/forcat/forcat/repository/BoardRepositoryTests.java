@@ -6,7 +6,7 @@ import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
 import com.forcat.forcat.entity.BoardImage;
-import com.forcat.forcat.entity.BoardListAllDTO;
+import com.forcat.forcat.dto.BoardListAllDTO;
 import com.forcat.forcat.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;

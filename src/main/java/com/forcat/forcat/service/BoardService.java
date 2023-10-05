@@ -5,8 +5,7 @@ import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
 import com.forcat.forcat.entity.Board;
-import com.forcat.forcat.entity.BoardListAllDTO;
-import com.forcat.forcat.entity.Member;
+import com.forcat.forcat.dto.BoardListAllDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,8 +63,8 @@ public interface BoardService {
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(board.getWriter())
-                .reg_time(board.getReg_time())
-                .update_time(board.getUpdate_time())
+                .reg_time(board.getRegTime())
+                .update_time(board.getUpdateTime())
                 .build();
 
      //getImageSet를 통해 게시물에 연결된 이미지 목록을 가져와 파일 이름 목록으로 변환

@@ -2,7 +2,7 @@ package com.forcat.forcat.service;
 
 import com.forcat.forcat.dto.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.Board;
-import com.forcat.forcat.entity.BoardListAllDTO;
+import com.forcat.forcat.dto.BoardListAllDTO;
 import com.forcat.forcat.repository.BoardRepository;
 import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
