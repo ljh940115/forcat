@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="align-member_iddle" layout:fragment="content">
+<body class="align-middle" layout:fragment="content">
 <div class="row mt-3">
     <div class="col">
         <div class="card">
@@ -17,33 +17,33 @@
             <div class="card-body">
                 <form action="/board/register" method="post">
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Title</span>
+                        <span class="input-group-text">제목</span>
                         <input type="text" name="title" class="form-control" placeholder="Title">
                     </div>
 
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Content</span>
+                        <span class="input-group-text">내용</span>
                         <textarea class="form-control col-sm-5" rows="5" name="content"></textarea>
                     </div>
 
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Writer</span>
+                        <span class="input-group-text">작성자</span>
                         <input type="text" name="writer" class="form-control" placeholder="Writer">
                     </div>
 
                     <!--이미지 첨부파일 등록-->
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Images</span>
+                        <span class="input-group-text">이미지</span>
                         <div class="float-end uploadHidden">
-                            <button type="button" class="btn btn-primary uploadFileBtn">ADD Files</button>
+                            <button type="button" class="btn btn-primary uploadFileBtn">이미지 추가</button>
                         </div>
                     </div>
                     <!--/이미지 첨부파일 등록-->
 
                     <div class="my-4">
                         <div class="float-end">
-                            <button type="submit" class="btn btn-primary submitBtn">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
+                            <button type="submit" class="btn btn-primary submitBtn">작성완료</button>
+                            <button type="reset" class="btn btn-secondary">다시쓰기</button>
                         </div>
                     </div>
 
@@ -75,8 +75,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary uploadBtn">Upload</button>
-                <button type="button" class="btn btn-outline-dark closeUploadBtn" >Close</button>
+                <button type="button" class="btn btn-primary uploadBtn">업로드</button>
+                <button type="button" class="btn btn-outline-dark closeUploadBtn" >취소</button>
             </div>
         </div>
     </div>

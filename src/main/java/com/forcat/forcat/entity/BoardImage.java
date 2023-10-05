@@ -16,19 +16,14 @@ public class BoardImage implements Comparable<BoardImage> {//Comparable는 OneTo
 
     @Id
     private String uuid;
-
     private String fileName;
-
     private int ord;
-
     @ManyToOne
     private Board board;
-
     @Override
     public int compareTo(BoardImage other) {
         return this.ord - other.ord;
     }
-
     public void changeBoard(Board board){
         this.board = board;
     }

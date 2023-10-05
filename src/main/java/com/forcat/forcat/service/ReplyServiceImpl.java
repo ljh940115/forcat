@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class ReplyServiceImpl implements ReplyService{
 
     private final ReplyRepository replyRepository;//댓글 db 저장 검색
-
     private final ModelMapper modelMapper;//객체 간 매핑 작업, DTO와 ENTITY 사이 반환
 
     @Override

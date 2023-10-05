@@ -1,76 +1,76 @@
 package com.forcat.forcat.controller;
 
-import com.forcat.forcat.dto.BoardDTO;
 import com.forcat.forcat.dto.MemberJoinDTO;
-import com.forcat.forcat.dto.PageRequestDTO;
-import com.forcat.forcat.entity.Member;
+import com.forcat.forcat.dto.MemberUpdateDTO;
 import com.forcat.forcat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
-
-import static com.forcat.forcat.entity.QMember.member;
-
-@Controller
+@Controller//컨트롤러
 @RequestMapping("/member")
-@Log4j2
-@RequiredArgsConstructor
+@Log4j2//로그 사용
+@RequiredArgsConstructor//final, notnull 필드 생성자 자동 생성
 public class MemberController {
 
-    //의존성 주입
-    @Autowired
+    @Autowired    //의존성 주입
     private final MemberService memberService;
 
-    //로그인 페이지, CustomSecurityConfig로부터 리다이렉트 받음
-    @GetMapping("/login")
+    @GetMapping("/login")//로그인 페이지, CustomSecurityConfig로부터 리다이렉트 받음
     public void loginGET(String errorCode, String logout) {
-        log.info("loginGET...");
-        log.info("logout: " + logout);
+        log.info("==========로그인 페이지");
+        log.info("==========로그아웃: " + logout);
 
-        //로그아웃 값이 있을 때 유저 로그아웃
-        if (logout != null) {
-            log.info("유저 로그아웃");
+        if (logout != null) {        //로그아웃 값이 있을 때 유저 로그아웃
+            log.info("==========유저 로그아웃");
         }
     }
 
-    //회원가입 페이지
-    @GetMapping("/join")
+    @GetMapping("/join")    //회원가입 페이지
     public void joinGET(){
-        log.info("join get...");
+        log.info("==========회원가입 페이지");
     }
 
     @PostMapping("/join")
     public String joinPOST(MemberJoinDTO memberJoinDTO, RedirectAttributes redirectAttributes){
+        log.info("==========회원가입 실행");
+        log.info("가입 정보 : " + memberJoinDTO);
 
-        log.info("join post...");
-        log.info(memberJoinDTO);
-
-        try {
-            memberService.join(memberJoinDTO);
-        } catch (MemberService.member_idExistException e) {
-
-            redirectAttributes.addFlashAttribute("error", "member_id");
+        try {memberService.join(memberJoinDTO);} catch (MemberService.MidExistException e) {
+            redirectAttributes.addFlashAttribute("error", "mid");
             return "redirect:/member/join";
         }
-
         redirectAttributes.addFlashAttribute("result", "success");
-
         return "redirect:/member/login"; //회원 가입 후 로그인
     }
 
-    @GetMapping("/mypage")
-    public void myPage(Model model, HttpSession session) {
+    @GetMapping("/mypage")//마이페이지
+    public void myPageGET() {log.info("==========회원수정 페이지");}
+
+    @PostMapping("/mypage")
+    public String myPagePOST(MemberUpdateDTO memberUpdateDTO, RedirectAttributes redirectAttributes){
+        log.info("==========회원수정 실행");
+        log.info("가입 정보 : " + memberUpdateDTO);
+
+        try {memberService.update(memberUpdateDTO);} catch (MemberService.MidExistException e) {
+            redirectAttributes.addFlashAttribute("error", "mid");
+            return "redirect:/member/mypage";
+        }
+        redirectAttributes.addFlashAttribute("result", "success");
+        return "redirect:/member/mypage"; //회원수정 후 페이지
     }
 
+    @PostMapping("/delete")
+    public String deletePOST(@RequestParam String mid, RedirectAttributes redirectAttributes){
+        log.info("==========회원삭제 실행");
+        log.info("탈퇴할 ID : " + mid);
+        memberService.delete(mid);
+        redirectAttributes.addFlashAttribute("result", "removed");
+        return "redirect:/index";
+    }
 }
 
 

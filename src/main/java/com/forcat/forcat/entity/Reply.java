@@ -23,6 +23,7 @@ public class Reply extends BaseEntity{
     private Board board;
     private String replyText;
     private String replyer;
+
     public void changeText(String text){//댓글 수정하는 경우 replyText만 수정할 수 있으므로 추가
         this.replyText = text;
     }

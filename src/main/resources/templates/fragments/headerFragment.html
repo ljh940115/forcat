@@ -3,13 +3,14 @@
 <!--헤더 파일 명시-->
 <div th:fragment="headerFragment">
 <body>
+<!--상단 링크-->
 <div class="wrap">
     <div class="container">
         <div class="row">
             <div class="col-md-6 d-flex align-items-center">
                 <p class="mb-0 phone pl-md-2">
-                    <a href="#" class="mr-2"><span class="fa fa-phone mr-1"></span> +00 1234 567</a>
-                    <a href="#"><span class="fa fa-paper-plane mr-1"></span> youremail@email.com</a>
+                    <a href="#" class="mr-2" id="phoneLink"><span class="fa fa-phone mr-1"></span> 031 0000 0000</a>
+                    <a href="#" id="emailLink"><span class="fa fa-paper-plane mr-1"></span> gg.ww.ljh940115@gmail.com</a>
                 </p>
             </div>
             <div class="col-md-6 d-flex justify-content-md-end">
@@ -25,6 +26,8 @@
         </div>
     </div>
 </div>
+
+<!--네비게이션 메뉴-->
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="/index"><span class="flaticon-pawprint-1 mr-2"></span>Cat comm</a>
@@ -42,6 +45,7 @@
                 <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
                 <li class="nav-item">
                     <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/mypage" class="nav-link">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
+                    <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/tools" class="nav-link"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
                 </li>
                 <li class="nav-item">
                     <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/logout" class="nav-link">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
@@ -51,6 +55,32 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {//페이지의 DOM 구조가 완전히 로드되면 해당 함수를 실행
+        // 전화번호 복사 버튼 클릭 이벤트 처리
+        document.getElementById("phoneLink").addEventListener("click", function (event) {
+            event.preventDefault(); // 링크의 기본 동작 방지
+            copyToClipboard("031-0000-0000"); // 전화번호 복사
+        });
+
+        // 이메일 주소 복사 버튼 클릭 이벤트 처리
+        document.getElementById("emailLink").addEventListener("click", function (event) {
+            event.preventDefault(); // 링크의 기본 동작 방지
+            copyToClipboard("gg.ww.ljh940115@gmail.com"); // 이메일 주소 복사
+        });
+
+        // 텍스트를 클립보드에 복사하는 함수
+        function copyToClipboard(text) {//텍스트를 클립보드에 복사
+            var dummyTextArea = document.createElement("textarea");//dummyTextArea라는 새로운 <textarea> 요소를 생성
+            document.body.appendChild(dummyTextArea);//body에 추가
+            dummyTextArea.value = text;//dummyTextArea에 복사하려는 값, 텍스트
+            dummyTextArea.select();//텍스트를 클립보드에 복사
+            document.execCommand("copy");
+            document.body.removeChild(dummyTextArea);//dummyTextArea를 페이지에서 제거
+            alert(text + "가 클립보드에 복사되었습니다.");
+        }
+    });
+</script>
 </body>
-</div>
 </html>

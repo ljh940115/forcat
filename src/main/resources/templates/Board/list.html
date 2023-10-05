@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="align-member_iddle" layout:fragment="content">
+<body class="align-middle" layout:fragment="content">
 <div>
   <h1>Board List</h1>
 </div>
@@ -51,10 +51,10 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Bno</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Writer</th>
-                        <th scope="col">reg_time</th>
+                        <th scope="col">번호</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">등록일</th>
                     </tr>
                     </thead>
 
@@ -69,7 +69,7 @@
                             </div>
                         </td>
                         <td>[[${dto.writer}]]</td>
-                        <td>[[${#temporals.format(dto.reg_time, 'yyyy-MM-dd')}]]</td>
+                        <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                     </tr>
                     </tbody>
                 </table>
@@ -98,6 +98,9 @@
                         <li class="page-item">
                             <a class="page-link" th:if="${responseDTO.end}" th:data-num="${responseDTO.end}">Last</a>
                         </li>
+                        <li>
+                            <a href="/board/register" class="btn btn-primary" id="boardRegisterButton">글쓰기</a>
+                        </li>
                     </ul>
                 </div>
             </div><!--end card body-->
@@ -125,6 +128,13 @@
       formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
       formObj.submit();// 폼을 서버로 제출하여 페이지를 변경합니다.
   },false)
+
+  // 글쓰기 버튼 클릭 이벤트 처리
+  document.getElementById("boardRegisterButton").addEventListener("click", function (e) {
+      e.preventDefault(); // 링크의 기본 동작 방지
+      window.location.href = "/board/register"; // 원하는 링크로 이동
+      e.stopPropagation()// 이벤트 전파 중단
+  });
 
   // 검색 조건 초기화 버튼 이벤트 핸들러
   document.querySelector(".clearBtn").addEventListener("click", function (e){

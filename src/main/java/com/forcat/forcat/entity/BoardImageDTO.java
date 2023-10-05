@@ -1,5 +1,4 @@
-package com.forcat.forcat.dto;
-
+package com.forcat.forcat.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +12,6 @@ import lombok.NoArgsConstructor;
 public class BoardImageDTO {
 
     private String uuid;
-
     private String fileName;
-
     private int ord;
 }

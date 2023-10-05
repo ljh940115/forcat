@@ -5,9 +5,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration//환경 설정 파일 명시
+@Configuration//환경 설정 파일
 @EnableWebMvc//Spring Web MVC를 활성화
-public class CustomServletConfig implements WebMvcConfigurer {//Spring Web MVC 구성 커마 명시
+public class CustomServletConfig implements WebMvcConfigurer {//Spring Web MVC 구성 커스터마이징
 
     @Override//스프링 웹 정적 리소스 위치 설정
     public void addResourceHandlers(ResourceHandlerRegistry registry) {//정적 리소스 핸들러 등록
