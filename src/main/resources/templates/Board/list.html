@@ -49,24 +49,31 @@
                 <h5 class="card-title">Board List </h5>
 
                 <table class="table">
-                    <thead>
+                    <thead class="boardListHead">
                     <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">작성자</th>
-                        <th scope="col">등록일</th>
+                        <th scope="col" style="width:8%">번호</th>
+                        <th scope="col" style="width:10%">썸네일</th>
+                        <th scope="col" style="width:auto">제목</th>
+                        <th scope="col" style="width:20%">작성자</th>
+                        <th scope="col" style="width:10%">등록일</th>
                     </tr>
                     </thead>
 
-                    <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                    <tbody  class="boardListBody" th:with="link = ${pageRequestDTO.getLink()}">
                     <tr th:each="dto:${responseDTO.dtoList}"  >
                         <td>[[${dto.bno}]]</td>
                         <td>
+                           <!-- <div th:if="${dto.boardImages != null && dto.boardImages.size() > 0}">&lt;!&ndash;조건부 표현식 이미지 필드가 0보다 크면 출력&ndash;&gt;
+                                <img style="width:100px" th:each="boarImage: ${dto.boardImages}" th:src="|/view/s_${boarImage.uuid}_${boarImage.fileName}|">&lt;!&ndash;이미지 컬렉션 반복&ndash;&gt;
+                            </div>-->
+                            <div th:if="${dto.boardImages != null && dto.boardImages.size() > 0}">
+                                <img style="width:100px" th:src="|/view/s_${dto.boardImages[0].uuid}_${dto.boardImages[0].fileName}|">
+                            </div>
+                        </td>
+                        <td>
                             <a th:href="|@{/board/read(bno =${dto.bno})}&${link}|" class="text-decoration-none"> [[${dto.title}]] </a>
                             <span class="badge progress-bar-success" style="background-color: #0a53be">[[${dto.replyCount}]]</span>
-                            <div th:if="${dto.boardImages != null && dto.boardImages.size() > 0}">
-                                <img style="width:100px" th:each="boarImage: ${dto.boardImages}" th:src="|/view/s_${boarImage.uuid}_${boarImage.fileName}|">
-                            </div>
+
                         </td>
                         <td>[[${dto.writer}]]</td>
                         <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>

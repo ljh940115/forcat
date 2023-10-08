@@ -287,6 +287,12 @@
         target.innerHTML += str;
     }
 
+    //업로드 모달창 취소 버튼 이벤트
+    const closeUploadBtn = document.querySelector('.closeUploadBtn');
+    //닫기 버튼에 클릭 이벤트 리스너 추가
+    closeUploadBtn.addEventListener('click', function (e) {
+        uploadModal.hide(); //업로드 모달 숨기기
+    }, false);
 </script>
 </body>
 </html>

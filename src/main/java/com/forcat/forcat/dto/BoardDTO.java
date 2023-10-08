@@ -15,7 +15,7 @@ import java.util.List;
 public class BoardDTO {//엔티티와 비슷한 역할을 하나 일회성, View와 통신
 
    private Long bno;
-
+   private String mid;
    @NotEmpty
    @Size(min=3, max = 100)
    private String title;

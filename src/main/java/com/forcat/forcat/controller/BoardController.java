@@ -6,11 +6,14 @@ import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
 import com.forcat.forcat.entity.BoardListAllDTO;
 import com.forcat.forcat.service.BoardService;
+import com.forcat.forcat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +35,6 @@ public class BoardController {
 
     @Value("${com.forcat.upload.path}")// import 시에 springframework으로 시작하는 Value
     private String uploadPath;
-
     private final BoardService boardService;
 
     @GetMapping("/list") //게시글 목록
@@ -46,7 +48,8 @@ public class BoardController {
     }
 
     @GetMapping("/register") public void registerGET(){log.info("==========게시판 등록 페이지");}//게시글 등록
-    @PostMapping("/register")//게시글 등록
+
+/*    @PostMapping("/register")//게시글 등록
     public String registerPost(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         log.info("==========게시판 등록 실행");
         if(bindingResult.hasErrors()) {
@@ -56,7 +59,28 @@ public class BoardController {
         }
         log.info(boardDTO);
         Long bno  = boardService.register(boardDTO);
+        *//*String min = memberService*//*
         redirectAttributes.addFlashAttribute("result", bno);
+     *//*   redirectAttributes.addFlashAttribute("mid", mid);*//*
+        return "redirect:/board/list";
+    }*/
+
+        @PostMapping("/register")//게시글 등록
+    public String registerPost(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        log.info("==========게시판 등록 실행");
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();//현재 로그인 정보를 가져온다.
+            String currentMemberId = authentication.getName();//로그인 정보 중 아이디를 가져온다.
+            boardDTO.setMid(currentMemberId);//로그인 아이디를 DTO에 입력한다.
+        if(bindingResult.hasErrors()) {
+            log.info("has errors.......");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors() );
+            return "redirect:/board/register";
+        }
+        log.info(boardDTO);
+        Long bno  = boardService.register(boardDTO);
+        //*String min = memberService*//*
+        redirectAttributes.addFlashAttribute("result", bno);
+     //*   redirectAttributes.addFlashAttribute("mid", mid);*//*
         return "redirect:/board/list";
     }
 

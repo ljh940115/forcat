@@ -2,10 +2,7 @@ package com.forcat.forcat.entity;
 
 import lombok.*;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,4 +46,7 @@ public class Member extends BaseEntity{
     }
 
     public void changeSocial(boolean social){this.social = social;}
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Board> boards = new HashSet<>();
 }

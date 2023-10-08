@@ -26,6 +26,9 @@ public class Board extends BaseEntity{
     private String content;//게시글 내용
     @Column(length = 50, nullable = false)//데이터 길이, null 허용 X
     private String writer;//게시글 작성자
+    @ManyToOne(fetch = FetchType.LAZY) // 다대일(Many-to-One) 관계 설정
+    @JoinColumn(name = "mid") // 멤버 엔티티의 기본 키(mid)를 외래 키로 사용
+    private Member member; // 보드가 어떤 멤버에게 속하는지를 나타내는 필드
 
     public void change(String title, String content){//update는 등록 시간이 필요하므로 change() 메서드 생성
         this.title = title;

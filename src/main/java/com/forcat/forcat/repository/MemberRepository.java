@@ -1,5 +1,6 @@
 package com.forcat.forcat.repository;
 
+import com.forcat.forcat.entity.Board;
 import com.forcat.forcat.entity.Member;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,4 +32,12 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Transactional// 멤버 1명을 삭제하는 쿼리
     void deleteByMid(String mid);
+
+    @EntityGraph(attributePaths = {"imageSet"})
+    @Query("select b from Board b where b.bno =:bno")
+    Optional<Board> findByIdWithImages(@Param("bno")Long bno);
+
+/*    @EntityGraph(attributePaths = "roleSet")
+    @Query("select m from Member m where m.mid = :mid")
+    Optional<Member> findByIdWithBoard(@Param("mid") String mid);*/
 }
