@@ -1,0 +1,17 @@
+Index: src/main/resources/templates/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/index.html b/src/main/resources/templates/index.html
+--- a/src/main/resources/templates/index.html	
++++ b/src/main/resources/templates/index.html	(date 1696839623214)
+@@ -17,7 +17,7 @@
+       <div class="container">
+         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
+           <div class="col-md-11 ftco-animate text-center">
+-          	<h1 class="mb-4">고양이 최대 커뮤니티 캣 컴에 오신 것을 환영합니다.</h1>
++          	<h1 class="mb-4">고양이 최대 커뮤니티 포캣에 오신 것을 환영합니다.</h1>
+             <p><a href="#" class="btn btn-primary mr-md-4 py-3 px-4">Learn more <span class="ion-ios-arrow-forward"></span></a></p>
+           </div>
+         </div>
