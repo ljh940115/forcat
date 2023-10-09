@@ -1,6 +1,8 @@
 package com.forcat.forcat.repository.Search;
 
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
+import com.forcat.forcat.dto.board.BoardImageDTO;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
+import com.forcat.forcat.dto.board.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;

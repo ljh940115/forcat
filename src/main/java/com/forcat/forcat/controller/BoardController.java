@@ -1,12 +1,10 @@
 package com.forcat.forcat.controller;
 
-import com.forcat.forcat.dto.BoardDTO;
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
+import com.forcat.forcat.dto.board.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
-import com.forcat.forcat.entity.BoardListAllDTO;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
 import com.forcat.forcat.service.BoardService;
-import com.forcat.forcat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;

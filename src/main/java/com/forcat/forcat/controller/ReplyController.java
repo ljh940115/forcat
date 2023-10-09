@@ -2,13 +2,12 @@ package com.forcat.forcat.controller;
 
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
-import com.forcat.forcat.dto.ReplyDTO;
+import com.forcat.forcat.dto.board.ReplyDTO;
 import com.forcat.forcat.service.ReplyService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

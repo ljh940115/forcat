@@ -1,20 +1,19 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
+import com.forcat.forcat.dto.board.BoardListReplyCountDTO;
 import com.forcat.forcat.entity.Board;
-import com.forcat.forcat.entity.BoardListAllDTO;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
 import com.forcat.forcat.repository.BoardRepository;
-import com.forcat.forcat.dto.BoardDTO;
+import com.forcat.forcat.dto.board.BoardDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
-import com.forcat.forcat.security.dto.MemberSecurityDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,10 +32,17 @@ public class BoardServiceImpl implements BoardService{
 
     @Override//게시글 등록 구현
     public Long register(BoardDTO boardDTO) {//클라이언트로부터 전달된 게시글 정보 포함
-        //Board board = modelMapper.map(boardDTO, Board.class);//boardDTO를 Board Entity 변환
-        Board board = dtoToEntity(boardDTO);
-        Long bno = boardRepository.save(board).getBno();//게시글을 DB에 저장하고 게시글 Bno를 가져와 Long 타입 저장
-        return bno;
+        if (isUserLoggedIn()) {
+            // 로그인 상태인 경우
+            Board board = modelMapper.map(boardDTO, Board.class);
+            Long bno = boardRepository.save(board).getBno();
+            return bno;
+        } else {
+            // 로그인하지 않은 경우
+            Board board = dtoToEntity(boardDTO);
+            Long bno = boardRepository.save(board).getBno();
+            return bno;
+        }
     }
 
     @Override//게시글 조회 구현
@@ -116,6 +122,13 @@ public class BoardServiceImpl implements BoardService{
                 .dtoList(result.getContent())
                 .total((int)result.getTotalElements())
                 .build();
+    }
+
+    private boolean isUserLoggedIn() {
+        // 현재 사용자의 인증 정보를 가져옴
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // UserDetails 타입으로 캐스팅하여 로그인 여부 확인
+        return principal instanceof UserDetails;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.MemberJoinDTO;
-import com.forcat.forcat.dto.MemberUpdateDTO;
+import com.forcat.forcat.dto.member.MemberJoinDTO;
+import com.forcat.forcat.dto.member.MemberUpdateDTO;
 
 public interface MemberService {
     static class MidExistException extends Exception { }

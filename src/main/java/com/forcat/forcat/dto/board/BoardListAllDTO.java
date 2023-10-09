@@ -1,4 +1,4 @@
-package com.forcat.forcat.entity;
+package com.forcat.forcat.dto.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

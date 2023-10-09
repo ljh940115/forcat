@@ -1,9 +1,8 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.MemberJoinDTO;
-import com.forcat.forcat.dto.MemberUpdateDTO;
+import com.forcat.forcat.dto.member.MemberJoinDTO;
+import com.forcat.forcat.dto.member.MemberUpdateDTO;
 import com.forcat.forcat.repository.MemberRepository;
-import com.forcat.forcat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -11,10 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.forcat.forcat.entity.Member;
 import com.forcat.forcat.entity.MemberRole;
-import com.forcat.forcat.dto.MemberJoinDTO;
-import com.forcat.forcat.repository.MemberRepository;
-
-import java.util.Optional;
 
 @Log4j2
 @Service

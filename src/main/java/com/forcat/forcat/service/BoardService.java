@@ -1,12 +1,11 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.BoardDTO;
-import com.forcat.forcat.dto.BoardListReplyCountDTO;
+import com.forcat.forcat.dto.board.BoardDTO;
+import com.forcat.forcat.dto.board.BoardListReplyCountDTO;
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
 import com.forcat.forcat.entity.Board;
-import com.forcat.forcat.entity.BoardListAllDTO;
-import com.forcat.forcat.entity.Member;
+import com.forcat.forcat.dto.board.BoardListAllDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

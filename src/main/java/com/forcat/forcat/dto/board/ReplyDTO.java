@@ -1,4 +1,4 @@
-package com.forcat.forcat.dto;
+package com.forcat.forcat.dto.board;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

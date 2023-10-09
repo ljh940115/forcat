@@ -2,7 +2,7 @@ package com.forcat.forcat.service;
 
 import com.forcat.forcat.dto.PageRequestDTO;
 import com.forcat.forcat.dto.PageResponseDTO;
-import com.forcat.forcat.dto.ReplyDTO;
+import com.forcat.forcat.dto.board.ReplyDTO;
 import com.forcat.forcat.entity.Reply;
 import com.forcat.forcat.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;

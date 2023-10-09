@@ -1,4 +1,4 @@
-package com.forcat.forcat.dto;
+package com.forcat.forcat.dto.member;
 
 import lombok.Data;
 

@@ -23,9 +23,9 @@ public class BoardImage implements Comparable<BoardImage> {//Comparable는 OneTo
     @Override
     public int compareTo(BoardImage other) {
         return this.ord - other.ord;
-    }
+    }//BoardImage의 board 필드를 변경하는 메서드
     public void changeBoard(Board board){
         this.board = board;
-    }
+    }//이미지들을 정렬하는 메서드
 
 }

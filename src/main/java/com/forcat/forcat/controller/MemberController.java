@@ -1,7 +1,7 @@
 package com.forcat.forcat.controller;
 
-import com.forcat.forcat.dto.MemberJoinDTO;
-import com.forcat.forcat.dto.MemberUpdateDTO;
+import com.forcat.forcat.dto.member.MemberJoinDTO;
+import com.forcat.forcat.dto.member.MemberUpdateDTO;
 import com.forcat.forcat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
