@@ -1,15 +1,17 @@
 package com.forcat.forcat.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Optional;
 
 @Controller
 @Log4j2//로그 출력
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class MainController {
     //@PreAuthorize("hasRole('USER')")//blog 페이지는 USER 권한 접속 가능
     @GetMapping("/")//"/"로 요청이 들어오면 메인 페이지로 이동

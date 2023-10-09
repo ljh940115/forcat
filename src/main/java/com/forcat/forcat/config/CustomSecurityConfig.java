@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -64,6 +65,9 @@ public class CustomSecurityConfig{
                 .logoutUrl("/member/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
                 .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 이동페이지
                 .deleteCookies("JSESSIONID", "remember-me"); // 로그아웃 후 쿠키 삭제
+
+        /*http.authorizeHttpRequests()
+                .mvcMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated();//admin 권한만 접속 가능*/
         return http.build();
     }
 

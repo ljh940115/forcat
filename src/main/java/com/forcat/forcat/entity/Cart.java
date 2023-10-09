@@ -23,4 +23,10 @@ public class Cart extends BaseEntity {
     // 일대일 매핑은 옵션 지정하지 않으면 (fetch = FetchType.EAGER) 자동 지정
     @JoinColumn(name="mid") // 매핑할 외래키 지정
     private Member member;
+
+    public static Cart createCart(Member member){
+        Cart cart = new Cart();
+        cart.setMember(member);
+        return cart;
+    }
 }

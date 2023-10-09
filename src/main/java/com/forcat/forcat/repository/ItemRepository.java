@@ -3,11 +3,12 @@ package com.forcat.forcat.repository;
 import com.forcat.forcat.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom{
+public interface ItemRepository extends JpaRepository<Item, Long>, QuerydslPredicateExecutor<Item> ,ItemRepositoryCustom{
     // 제네릭 타입 <엔티티 타입 클래스, 기본키 타입>
 
     // 쿼리 메소드 이용
