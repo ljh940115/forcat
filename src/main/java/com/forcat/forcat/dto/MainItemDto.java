@@ -25,5 +25,4 @@ public class MainItemDto {
         this.imgUrl = imgUrl;
         this.price = price;
     }
-
 }
