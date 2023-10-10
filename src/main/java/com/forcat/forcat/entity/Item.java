@@ -1,6 +1,7 @@
 package com.forcat.forcat.entity;
 
 import com.forcat.forcat.dto.ItemFormDto;
+import com.forcat.forcat.exception.OutOfStockException;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
@@ -49,6 +50,14 @@ public class Item extends BaseEntity{
         this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
+
+    public void removeStock(int stockNumber){
+        int restStock = this.stockNumber - stockNumber;
+        if(restStock<0){
+            throw new OutOfStockException("상품의 재고가 부족 합니다. (현재 재고 수량: " + this.stockNumber + ")");
+        }
+        this.stockNumber = restStock;
     }
 /*    public void addImage(String imgName, String oriImgName){//Board 엔티티에 이미지를 추가
         //BoardImage 엔티티를 생성하고, UUID와 파일 이름을 설정한 다음
