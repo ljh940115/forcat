@@ -34,4 +34,7 @@ public class MainController {
 
     @GetMapping("/blog")//기타 기능
     public String blog(){log.info("==========MainCon...blog");return "blog";}
+
+    @GetMapping("/map")//기타 기능
+    public String map(){log.info("==========MainCon...blog");return "map";}
 }

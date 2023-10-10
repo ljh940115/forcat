@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+    <title>For Cat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="align-middle" layout:fragment="content">
+<form action="/content/contentList" method="get"></form>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../../static/images/bg_2.jpg');"
+         data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/index">Home <i
+                        class="ion-ios-arrow-forward"></i></a></span>
+                <h1 class="mb-0 bread">Content</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-md-4 d-flex ftco-animate" th:each="contentDto:${contentResponseDTO.dtoCList}">
+                <div class="blog-entry align-self-stretch">
+                    <a th:href="|@{/content/contentRead(cno =${contentDto.cno})}|" class="block-20 rounded"
+                       style="background-image: url('../../static/images/image_1.jpg');">
+                    </a>
+                    <div class="text p-4">
+                        <div class="meta mb-2">
+                            <div><a href="#">[[${#temporals.format(contentDto.regDate, 'yyyy-MM-dd')}]]</a></div>
+                            <div><a href="#">[[${contentDto.cwriter}]]</a></div>
+                            <div><a href="#" class="meta-chat"><span class="fa fa-comment"></span>[[${contentDto.creplyCount}]]</a>
+                            </div>
+                        </div>
+                        <h3 class="heading"><a href="#">[[${contentDto.ctitle}]]</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="float-end">
+            <ul class="pagination flex-wrap">
+                <!-- 처음 페이지로 가는 버튼 -->
+                <li class="page-item">
+                    <a class="page-link" th:if="${contentResponseDTO.cstart}" th:data-num="1">First</a>
+                </li>
+                <!-- 이전 페이지로 가는 버튼 -->
+                <li class="page-item" th:if="${contentResponseDTO.cprev}">
+                    <a class="page-link" th:data-num="${contentResponseDTO.cstart - 1}">Previous</a>
+                </li>
+                <th:block th:each="i: ${#numbers.sequence(contentResponseDTO.cstart, contentResponseDTO.cend)}">
+                    <li th:class="${contentResponseDTO.cpage == i}?'page-item active':'page-item'" >
+                        <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                    </li>
+                </th:block>
+                <!-- 다음 페이지로 가는 버튼 -->
+                <li class="page-item" th:if="${contentResponseDTO.cnext}">
+                    <a class="page-link"  th:data-num="${contentResponseDTO.cend + 1}">Next</a>
+                </li>
+                <!-- 마지막 페이지로 가는 버튼 -->
+                <li class="page-item">
+                    <a class="page-link" th:if="${contentResponseDTO.cend}" th:data-num="${contentResponseDTO.cend}">Last</a>
+                </li>
+                <li>
+                    <a href="/content/contentRegister" class="btn btn-primary" id="boardRegisterButton">글쓰기</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<script layout:fragment="script" th:inline="javascript">
+    //이벤트 처리
+    // 페이지네이션 관련 이벤트 핸들러
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()// 기본 동작 방지 (a 태그의 클릭 동작을 취소)
+        e.stopPropagation()// 이벤트 전파 중단
+        const target = e.target
+        if (target.tagName !== 'A') {// 클릭한 요소가 'A' 태그가 아니면 아무 작업도 하지 않습니다.
+            return
+        }
+        const num = target.getAttribute("data-num")// 클릭한 페이지 번호를 가져옵니다.
+        const formObj = document.querySelector("form")// 폼 요소를 가져옵니다.
+        // 숨겨진 input 태그를 폼에 추가하여 페이지 번호를 서버로 전송합니다.
+        formObj.innerHTML += `<input type='hidden' name='cpage' value='${num}'>`
+        formObj.submit();// 폼을 서버로 제출하여 페이지를 변경합니다.
+    }, false)
+
+    // 글쓰기 버튼 클릭 이벤트 핸들러
+    document.getElementById("boardRegisterButton").addEventListener("click", function (e) {
+        // 이벤트 동작을 정의합니다. 예를 들어, 글쓰기 페이지로 이동하거나 필요한 작업을 수행할 수 있습니다.
+        // 여기서는 글쓰기 페이지로 이동하는 예제를 제시합니다.
+        window.location.href = "/content/contentRegister"; // 페이지 이동
+        e.preventDefault(); // 기본 이벤트 동작 방지
+    });
+
+    /*정상 처리 모달 창*/
+    //shhow modal
+    const result = [[${result}]]
+
+    if (result) {
+        alert(result + "처리")
+    }
+    /*정상 처리 모달 창 종료*/
+
+    /*삭제 처리 모달 창*/
+    //shhow modal
+    const removeresult = [[${removeresult}]]
+
+    if (removeresult) {
+        alert("게시글이 삭제되었습니다.")
+    }
+    /*정상 처리 모달 창 종료*/
+</script>
+
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="../../static/js/popper.min.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script src="../../static/js/jquery.easing.1.3.js"></script>
+<script src="../../static/js/jquery.waypoints.min.js"></script>
+<script src="../../static/js/jquery.stellar.min.js"></script>
+<script src="../../static/js/jquery.animateNumber.min.js"></script>
+<script src="../../static/js/bootstrap-datepicker.js"></script>
+<script src="../../static/js/jquery.timepicker.min.js"></script>
+<script src="../../static/js/owl.carousel.min.js"></script>
+<script src="../../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../../static/js/scrollax.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script src="../../static/js/google-map.js"></script>
+<script src="../../static/js/main.js"></script>
+
+</body>
+</html>

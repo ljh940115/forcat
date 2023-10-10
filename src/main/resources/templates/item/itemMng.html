@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
+<head>
 
-<!-- 사용자 스크립트 추가 -->
+
+    <!-- 사용자 스크립트 추가 -->
     <script th:inline="javascript">
         $(document).ready(function(){
             $("#searchBtn").on("click",function(e) {
@@ -19,20 +21,21 @@
             var searchQuery = $("#searchQuery").val();
 
             location.href="/admin/items/" + page
-                        + "?searchDateType=" + searchDateType
-                        + "&searchSellStatus=" + searchSellStatus
-                        + "&searchBy=" + searchBy
-                        + "&searchQuery=" + searchQuery;
+                + "?searchDateType=" + searchDateType
+                + "&searchSellStatus=" + searchSellStatus
+                + "&searchBy=" + searchBy
+                + "&searchQuery=" + searchQuery;
         }
     </script>
 
-<!-- 사용자 CSS 추가 -->
+    <!-- 사용자 CSS 추가 -->
     <style>
         select{
             margin-right:10px;
         }
     </style>
-
+</head>
+<body>
 <div layout:fragment="content">
     <form th:action="@{'/admin/items/' + ${items.number}}" role="form" method="get" th:object="${items}">
        <table class="table">
@@ -67,10 +70,12 @@
                     </a>
                 </li>
 
+                <!-- 페이지 번호 버튼들 -->
                 <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${items.number eq page-1}?'active':''">
                     <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
                 </li>
 
+                <!-- Next 버튼 -->
                 <li class="page-item" th:classappend="${items.last}?'disabled'">
                     <a th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label='Next' class="page-link">
                         <span aria-hidden='true'>Next</span>
@@ -102,5 +107,5 @@
         </div>
     </form>
 </div>
-
+</body>
 </html>

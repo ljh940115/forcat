@@ -1,8 +1,8 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.ItemFormDto;
-import com.forcat.forcat.dto.ItemImgDto;
-import com.forcat.forcat.dto.ItemSearchDto;
+import com.forcat.forcat.dto.shop.ItemFormDto;
+import com.forcat.forcat.dto.shop.ItemImgDto;
+import com.forcat.forcat.dto.shop.ItemSearchDto;
 import com.forcat.forcat.dto.MainItemDto;
 import com.forcat.forcat.entity.Item;
 import com.forcat.forcat.entity.ItemImg;

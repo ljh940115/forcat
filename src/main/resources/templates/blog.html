@@ -153,5 +153,16 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="../static/js/google-map.js"></script>
 <script src="../static/js/main.js"></script>
+<script>
+    //NV메뉴 해당 페이지 표시
+    window.addEventListener('DOMContentLoaded', (event) => {
+        var href = "board/list";
+
+        // 현재 페이지와 href 속성이 일치하면 "active" 클래스 추가
+        if (currentURL === href) {
+            navItems[i].classList.add('active');
+        };
+    }
+</script>
 </body>
 </html>

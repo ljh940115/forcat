@@ -1,4 +1,4 @@
-package com.forcat.forcat.dto;
+package com.forcat.forcat.dto.shop;
 
 import com.forcat.forcat.entity.Item;
 import com.forcat.forcat.entity.ItemSellStatus;

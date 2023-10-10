@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--헤더 파일 명시-->
 <div th:fragment="headerFragment">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 <!--상단 링크-->
 <div class="wrap">
@@ -36,16 +37,16 @@
         </button>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="/index" class="nav-link">홈</a></li>
-                <li class="nav-item"><a href="/content" class="nav-link">콘텐츠</a></li>
+                <li class="nav-item"><a href="/index" class="nav-link">홈</a></li>
+                <li class="nav-item"><a href="/content/contentList" class="nav-link">콘텐츠</a></li>
                 <li class="nav-item"><a href="/shop/" class="nav-link">쇼핑</a></li>
-                <li class="nav-item"><a href="/board/list " class="nav-link">커뮤니티</a></li>
+                <li class="nav-item"><a href="/board/list" class="nav-link">커뮤니티</a></li>
                 <li class="nav-item"><a href="/tools" class="nav-link">툴즈</a></li>
-                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
-                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"></a></li>
                 <li class="nav-item">
                     <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/mypage" class="nav-link">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
-                    <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/tools" class="nav-link"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
+                    <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/#" class="nav-link"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
                 </li>
                 <li class="nav-item">
                     <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/logout" class="nav-link">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->

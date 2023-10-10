@@ -1,6 +1,6 @@
 package com.forcat.forcat.entity;
 
-import com.forcat.forcat.dto.ItemFormDto;
+import com.forcat.forcat.dto.shop.ItemFormDto;
 import com.forcat.forcat.exception.OutOfStockException;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;

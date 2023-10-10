@@ -6,11 +6,9 @@
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-
+    <!-- 사용자 스크립트 추가 -->
     <script th:inline="javascript">
 
         $(document).ready(function(){
@@ -162,11 +160,7 @@
         }
 
     </script>
-
-</th:block>
-
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
+    <!-- 사용자 CSS 추가 -->
     <style>
         .content-mg{
             margin-left:25%;
@@ -190,16 +184,12 @@
             font-size:24px
         }
     </style>
-</th:block>
+</head>
 
+<body>
 <div layout:fragment="content" class="content-mg">
-
-    <h2 class="mb-4">
-        장바구니 목록
-    </h2>
-
+    <h2 class="mb-4">장바구니 목록</h2>
     <div>
-
         <table class="table">
             <colgroup>
                 <col width="15%"/>
@@ -258,9 +248,7 @@
         <div class="text-center mt-3">
             <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
         </div>
-
     </div>
-
 </div>
-
+</body>
 </html>

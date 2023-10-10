@@ -1,6 +1,6 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.ItemFormDto;
+import com.forcat.forcat.dto.shop.ItemFormDto;
 import com.forcat.forcat.entity.Item;
 import com.forcat.forcat.entity.ItemImg;
 import com.forcat.forcat.entity.ItemSellStatus;

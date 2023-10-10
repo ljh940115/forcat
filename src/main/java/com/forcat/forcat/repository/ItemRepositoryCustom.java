@@ -1,6 +1,6 @@
 package com.forcat.forcat.repository;
 
-import com.forcat.forcat.dto.ItemSearchDto;
+import com.forcat.forcat.dto.shop.ItemSearchDto;
 import com.forcat.forcat.dto.MainItemDto;
 import com.forcat.forcat.entity.Item;
 import org.springframework.data.domain.Page;

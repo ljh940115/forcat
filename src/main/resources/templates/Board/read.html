@@ -7,7 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Board Read</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
+
 <body class="align-middle" layout:fragment="content">
 <div>
     <div class="row mt-3">
@@ -51,6 +53,7 @@
                             <a th:href="|@{/board/list}?${link}|" class="text-decoration-none">
                                 <button type="button" class="btn btn-primary">목록으로</button>
                             </a>
+
                             <a th:href="|@{/board/modify(bno=${dto.bno})}|" class="text-decoration-none">
                                 <button type="button" class="btn btn-secondary">수정</button>
                             </a>
@@ -106,10 +109,15 @@
                             <span class="input-group-text">댓글 내용</span>
                             <input type="text" class="form-control replyText">
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3" hidden="hidden" th:unless="${#authorization.expression('isAuthenticated()')}">
                             <span class="input-group-text">댓글 작성자</span>
-                            <input type="text" class="form-control replyer">
+                            <input type="text" class="form-control replyer" value="손님">
                         </div>
+                        <div class="input-group mb-3" hidden="hidden" th:if="${#authorization.expression('isAuthenticated()')}">
+                            <span class="input-group-text">댓글 작성자</span>
+                            <input type="text" class="form-control replyer" th:value="${#authentication.principal.username}" readonly>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary registerBtn">Register</button>
@@ -142,7 +150,8 @@
                 </div>
             </div>
         </div> <!--modifyModal -->
-
+    </div><!-- layout fragment end -->
+</div>
         <!--댓글 자바스크립트 처리, 비동기처리와 Axios-->
         <!--Axios 라이브러리 추가-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -348,6 +357,6 @@
             }, false)
 
         </script>
-    </div><!-- layout fragment end -->
+
 </body>
 </html>
