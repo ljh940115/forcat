@@ -300,6 +300,24 @@
   <script src="../static/js/google-map.js"></script>
   <script src="../static/js/main.js"></script>
 
-    
+    <script>
+        //NV메뉴 해당 페이지 표시
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // 현재 페이지 URL 가져오기
+            var currentURL = window.location.pathname;
+
+            // 모든 네비게이션 항목을 가져와서 순환
+            var navItems = document.querySelectorAll('.nav-item');
+            for (var i = 0; i < navItems.length; i++) {
+                var navLink = navItems[i].querySelector('.nav-link');
+                var href = navLink.getAttribute('href');
+
+                // 현재 페이지와 href 속성이 일치하면 "active" 클래스 추가
+                if (currentURL === href) {
+                    navItems[i].classList.add('active');
+                }
+            }
+        });
+    </script>
   </body>
 </html>

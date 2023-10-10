@@ -9,4 +9,5 @@ public interface ItemImgRepository extends JpaRepository<ItemImg, Long> {
     // 쿼리메소드 -> Id를 기준으로 오름차순 정려하여 ItemId를 찾음
     List<ItemImg> findByItemIdOrderByIdAsc(Long itemId);
 
+    ItemImg findByItemIdAndRepImgYn(Long itemId, String repImgYn);
 }

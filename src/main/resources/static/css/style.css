@@ -305,6 +305,9 @@ h1, .h1 {
 h2, .h2 {
   font-size: 2rem; }
 
+.h2FontWhite {
+  color: white }
+
 h3, .h3 {
   font-size: 1.75rem; }
 
@@ -5359,6 +5362,7 @@ button.bg-dark:focus {
   border-color: #fff !important; }
 
 .rounded {
+  width: 400px;
   border-radius: 0.25rem !important; }
 
 .rounded-top {
@@ -6368,13 +6372,16 @@ button.bg-dark:focus {
   width: 50% !important; }
 
 .w-75 {
-  width: 75% !important; }
+  width: 75% !important;
+  margin: 0 auto; }
 
 .w-100 {
-  width: 100% !important; }
+  width: 100% !important;
+}
 
 .w-auto {
-  width: auto !important; }
+  width: auto !important;
+  }
 
 .h-25 {
   height: 25% !important; }
@@ -9029,7 +9036,7 @@ textarea.form-control {
   .footer .block-21 .img {
     display: block;
     height: 80px;
-    width: 80px; }
+    width: 0; }
   .footer .block-21 .text {
     width: calc(100% - 100px); }
     .footer .block-21 .text .heading {

@@ -33,7 +33,7 @@ public class ItemImgService {
             // 파일명이 있다면
             imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
             // uploadFile 메소드를 통해 새로운 파일명을 리턴 받아 imgName에 저장
-            imgUrl = "/images/item/" + imgName;
+            imgUrl = "/view/" + imgName;
         }
 
         // 상품 이미지 정보 저장

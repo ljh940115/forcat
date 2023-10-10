@@ -42,4 +42,8 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     public String getName() {
         return this.mid;
     }
+
+    public String getEmail() {
+        return this.email;
+    }
 }

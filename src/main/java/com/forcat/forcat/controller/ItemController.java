@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
+    @PreAuthorize("hasRole('ADMIN')")//blog 페이지는 USER 권한 접속 가능
     @GetMapping(value = "/admin/item/new")// http://localhost/admin/item/new
     public String itemForm(Model model) {
         model.addAttribute("itemFormDto", new ItemFormDto());
@@ -55,6 +57,7 @@ public class ItemController {
         return "redirect:/"; // 완료되면 메인페이지로 리다이렉트 시킴
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//blog 페이지는 USER 권한 접속 가능
     @GetMapping(value = {"/admin/items", "/admin/items/{page}"})
     // 배열을 통해 http://localhost/admin/items와 http://localhost/admin/페이지번호 모두 반응
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {

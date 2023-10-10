@@ -5,16 +5,15 @@
 
 <!-- 사용자 스크립트 추가 -->
     <script th:inline="javascript">
-        $(document).ready(function(){
-
-            calculateToalPrice();
+        $(document).ready(function(){// 문서가 완전히 로드되면 실행
+            calculateToalPrice();//로드 후 호출
 
             $("#count").change( function(){
                 calculateToalPrice();
             });
         });
 
-        function calculateToalPrice(){
+        function calculateToalPrice(){//수량과 가격을 계산하고 합을 표시
             var count = $("#count").val();
             var price = $("#price").val();
             var totalPrice = price*count;
@@ -22,42 +21,33 @@
         }
 
         function order(){
+            //csrf 메타데이터를 가져옴
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/order";
-            var paramData = {
+            var url = "/order";//주문을 처리할 서버의 엔드포인트 URL을 지정
+            var paramData = {//주문할 상품의 아이템 ID와 수량을 JavaScript 객체 형태로 정의, JSON형식, AJAX 요청의 데이터로 사용
                 itemId : $("#itemId").val(),
                 count : $("#count").val()
             };
 
-            var param = JSON.stringify(paramData);
+            var param = JSON.stringify(paramData);//paramData 객체를 JSON 문자열로 변환
 
-            $.ajax({
+            $.ajax({//AJAX 요청을 수행
                 url      : url,
                 type     : "POST",
                 contentType : "application/json",
                 data     : param,
-                beforeSend : function(xhr){
-                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-                    xhr.setRequestHeader(header, token);
-                },
                 dataType : "json",
                 cache   : false,
                 success  : function(result, status){
                     alert("주문이 완료 되었습니다.");
                     location.href='/';
                 },
-                error : function(jqXHR, status, error){
-
-                    if(jqXHR.status == '401'){
-                        alert('로그인 후 이용해주세요');
+                error : function(status, error){
+                        alert('에러!');
                         location.href='/members/login';
-                    } else{
-                        alert(jqXHR.responseText);
                     }
-
-                }
             });
         }
 
@@ -100,7 +90,6 @@
                 }
             });
         }
-
     </script>
 
 <!-- 사용자 CSS 추가 -->
@@ -130,8 +119,6 @@
     </style>
 
 <div layout:fragment="content" style="margin-left:25%;margin-right:25%">
-
-
     <input type="hidden" id="itemId" th:value="${item.id}">
 
         <div class="d-flex">
@@ -168,7 +155,7 @@
                 </div>
                 <div th:if="${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL}" class="text-right">
                     <button type="button" class="btn btn-light border border-primary btn-lg" onclick="addCart()">장바구니 담기</button>
-                    <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="orderButton" onclick="order()">주문하기</button>
                 </div>
                 <div th:unless="${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL}" class="text-right">
                     <button type="button" class="btn btn-danger btn-lg">품절</button>

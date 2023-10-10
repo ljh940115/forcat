@@ -11,11 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name="item")
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter @Setter
+@Builder @AllArgsConstructor @NoArgsConstructor
 @ToString(exclude = "imageSet")//객체 값을 문자열로 리턴
 public class Item extends BaseEntity{
 
@@ -58,6 +55,10 @@ public class Item extends BaseEntity{
             throw new OutOfStockException("상품의 재고가 부족 합니다. (현재 재고 수량: " + this.stockNumber + ")");
         }
         this.stockNumber = restStock;
+    }
+
+    public void addStock(int stockNumber){
+        this.stockNumber += stockNumber;
     }
 /*    public void addImage(String imgName, String oriImgName){//Board 엔티티에 이미지를 추가
         //BoardImage 엔티티를 생성하고, UUID와 파일 이름을 설정한 다음

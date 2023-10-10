@@ -10,11 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString(exclude = "roleSet")
+@Getter @Setter @ToString(exclude = "roleSet")
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class Member extends BaseEntity{
 
     @Id
