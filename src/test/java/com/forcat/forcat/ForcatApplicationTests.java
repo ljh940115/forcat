@@ -9,5 +9,4 @@ class ForcatApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

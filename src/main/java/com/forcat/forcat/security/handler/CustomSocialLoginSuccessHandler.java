@@ -34,7 +34,6 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
             log.info("==========비밀번호 변경 필요");
             log.info("==========회원 수정 페이지로 이동합니다.");
             response.sendRedirect("/member/mypage");
-            return;
         } else { response.sendRedirect("/index");}
     }
 }

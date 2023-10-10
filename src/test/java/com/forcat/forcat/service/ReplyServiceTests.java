@@ -14,14 +14,8 @@ public class ReplyServiceTests {
     private ReplyService replyService;//객체 생성
 
     @Test
-    public void testRegister() {
-
-        ReplyDTO replyDTO = ReplyDTO.builder()
-                .replyText("ReplyDTO Text")
-                .replyer("replyer")
-                .bno(200L)
-                .build();
-
-        log.info(replyService.register(replyDTO));
+    public void testRegister () {
+        ReplyDTO replyDTO = ReplyDTO.builder ().replyText ("ReplyDTO Text").replyer ("replyer").bno (200L).build ();
+        log.info (replyService.register (replyDTO));
     }
 }

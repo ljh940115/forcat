@@ -1,86 +1,85 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang = "en" xmlns:th = "http://www.thymeleaf.org">
 <!--헤더 파일 명시-->
-<div th:fragment="headerFragment">
-<body>
-<!--상단 링크-->
-<div class="wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 d-flex align-items-center">
-                <p class="mb-0 phone pl-md-2">
-                    <a href="#" class="mr-2" id="phoneLink"><span class="fa fa-phone mr-1"></span> 031 0000 0000</a>
-                    <a href="#" id="emailLink"><span class="fa fa-paper-plane mr-1"></span> gg.ww.ljh940115@gmail.com</a>
-                </p>
-            </div>
-            <div class="col-md-6 d-flex justify-content-md-end">
-                <div class="social-media">
-                    <p class="mb-0 d-flex">
-                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-                        <a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+<div th:fragment = "headerFragment">
+    <body>
+    <!--상단 링크-->
+    <div class = "wrap">
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-md-6 d-flex align-items-center">
+                    <p class = "mb-0 phone pl-md-2">
+                        <a class = "mr-2" href = "#" id = "phoneLink"><span class = "fa fa-phone mr-1"></span> 031 0000 0000</a>
+                        <a href = "#" id = "emailLink"><span class = "fa fa-paper-plane mr-1"></span> gg.ww.ljh940115@gmail.com</a>
                     </p>
+                </div>
+                <div class = "col-md-6 d-flex justify-content-md-end">
+                    <div class = "social-media">
+                        <p class = "mb-0 d-flex">
+                            <a class = "d-flex align-items-center justify-content-center" href = "#"><span class = "fa fa-facebook"><i class = "sr-only">Facebook</i></span></a>
+                            <a class = "d-flex align-items-center justify-content-center" href = "#"><span class = "fa fa-twitter"><i class = "sr-only">Twitter</i></span></a>
+                            <a class = "d-flex align-items-center justify-content-center" href = "#"><span class = "fa fa-instagram"><i class = "sr-only">Instagram</i></span></a>
+                            <a class = "d-flex align-items-center justify-content-center" href = "#"><span class = "fa fa-dribbble"><i class = "sr-only">Dribbble</i></span></a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!--네비게이션 메뉴-->
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <a class="navbar-brand" href="/index"><span class="flaticon-pawprint-1 mr-2"></span>Cat comm</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="fa fa-bars"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="/index" class="nav-link">홈</a></li>
-                <li class="nav-item"><a href="/content" class="nav-link">콘텐츠</a></li>
-                <li class="nav-item"><a href="/shop" class="nav-link">쇼핑</a></li>
-                <li class="nav-item"><a href="/board/list " class="nav-link">커뮤니티</a></li>
-                <li class="nav-item"><a href="/tools" class="nav-link">툴즈</a></li>
-                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
-                <li class="nav-item"><a href="/tools" class="nav-link"></a></li>
-                <li class="nav-item">
-                    <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/mypage" class="nav-link">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
-                    <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/tools" class="nav-link"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
-                </li>
-                <li class="nav-item">
-                    <a th:if="${#authorization.expression('isAuthenticated()')}" href="/member/logout" class="nav-link">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
-                    <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/member/login" class="nav-link">로그인</a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
-                </li>
-            </ul>
+    <!--네비게이션 메뉴-->
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class = "navbar-brand" href = "/index"><span class = "flaticon-pawprint-1 mr-2"></span>Cat comm</a>
+            <button aria-controls = "ftco-nav" aria-expanded = "false" aria-label = "Toggle navigation" class = "navbar-toggler" data-target = "#ftco-nav" data-toggle = "collapse" type = "button">
+                <span class = "fa fa-bars"></span> Menu
+            </button>
+            <div class = "collapse navbar-collapse" id = "ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class = "nav-item"><a class = "nav-link" href = "/index">홈</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "/content/contentList">콘텐츠</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "/shop/">쇼핑</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "/board/list">커뮤니티</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "/tools">툴즈</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "#"></a></li>
+                    <li class = "nav-item">
+                        <a class = "nav-link" href = "/member/mypage" th:if = "${#authorization.expression('isAuthenticated()')}">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
+                        <a class = "nav-link" href = "/#" th:unless = "${#authorization.expression('isAuthenticated()')}"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
+                    </li>
+                    <li class = "nav-item">
+                        <a class = "nav-link" href = "/member/logout" th:if = "${#authorization.expression('isAuthenticated()')}">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
+                        <a class = "nav-link" href = "/member/login" th:unless = "${#authorization.expression('isAuthenticated()')}">로그인</a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {//페이지의 DOM 구조가 완전히 로드되면 해당 함수를 실행
-        // 전화번호 복사 버튼 클릭 이벤트 처리
-        document.getElementById("phoneLink").addEventListener("click", function (event) {
-            event.preventDefault(); // 링크의 기본 동작 방지
-            copyToClipboard("031-0000-0000"); // 전화번호 복사
+    <script>
+        document.addEventListener ("DOMContentLoaded", function () {//페이지의 DOM 구조가 완전히 로드되면 해당 함수를 실행
+            // 전화번호 복사 버튼 클릭 이벤트 처리
+            document.getElementById ("phoneLink").addEventListener ("click", function (event) {
+                event.preventDefault (); // 링크의 기본 동작 방지
+                copyToClipboard ("031-0000-0000"); // 전화번호 복사
+            });
+
+            // 이메일 주소 복사 버튼 클릭 이벤트 처리
+            document.getElementById ("emailLink").addEventListener ("click", function (event) {
+                event.preventDefault (); // 링크의 기본 동작 방지
+                copyToClipboard ("gg.ww.ljh940115@gmail.com"); // 이메일 주소 복사
+            });
+
+            // 텍스트를 클립보드에 복사하는 함수
+            function copyToClipboard (text) {//텍스트를 클립보드에 복사
+                var dummyTextArea = document.createElement ("textarea");//dummyTextArea라는 새로운 <textarea> 요소를 생성
+                document.body.appendChild (dummyTextArea);//body에 추가
+                dummyTextArea.value = text;//dummyTextArea에 복사하려는 값, 텍스트
+                dummyTextArea.select ();//텍스트를 클립보드에 복사
+                document.execCommand ("copy");
+                document.body.removeChild (dummyTextArea);//dummyTextArea를 페이지에서 제거
+                alert (text + "가 클립보드에 복사되었습니다.");
+            }
         });
-
-        // 이메일 주소 복사 버튼 클릭 이벤트 처리
-        document.getElementById("emailLink").addEventListener("click", function (event) {
-            event.preventDefault(); // 링크의 기본 동작 방지
-            copyToClipboard("gg.ww.ljh940115@gmail.com"); // 이메일 주소 복사
-        });
-
-        // 텍스트를 클립보드에 복사하는 함수
-        function copyToClipboard(text) {//텍스트를 클립보드에 복사
-            var dummyTextArea = document.createElement("textarea");//dummyTextArea라는 새로운 <textarea> 요소를 생성
-            document.body.appendChild(dummyTextArea);//body에 추가
-            dummyTextArea.value = text;//dummyTextArea에 복사하려는 값, 텍스트
-            dummyTextArea.select();//텍스트를 클립보드에 복사
-            document.execCommand("copy");
-            document.body.removeChild(dummyTextArea);//dummyTextArea를 페이지에서 제거
-            alert(text + "가 클립보드에 복사되었습니다.");
-        }
-    });
-</script>
-</body>
+    </script>
+    </body>
 </html>

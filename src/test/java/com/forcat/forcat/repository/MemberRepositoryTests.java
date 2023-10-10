@@ -23,47 +23,36 @@ public class MemberRepositoryTests {
     private PasswordEncoder passwordEncoder;
 
     @Test// 회원 추가 테스트
-    public void insertMembers(){
-        IntStream.rangeClosed(1,100).forEach(i -> {
-
-            Member member = Member.builder()
-                    .mid("member"+i)
-                    .mpw(passwordEncoder.encode("1111"))
-                    .email("email"+i+"@example.com")
-                    .build();
-
-            member.addRole(MemberRole.USER);
-
-            if(i >= 90){
-                member.addRole(MemberRole.ADMIN);
+    public void insertMembers () {
+        IntStream.rangeClosed (1, 100).forEach (i -> {
+            Member member = Member.builder ().mid ("member" + i).mpw (passwordEncoder.encode ("1111")).email ("email" + i + "@example.com").build ();
+            member.addRole (MemberRole.USER);
+            if (i >= 90) {
+                member.addRole (MemberRole.ADMIN);
             }
-            memberRepository.save(member);
+            memberRepository.save (member);
         });
     }//회원 추가 메서드 종료
 
     @Test//회원 조회 메서드
-    public void testRead(){
+    public void testRead () {
         //Optional을 이용해 null 예외처리 방지
-        Optional<Member> result = memberRepository.getWithRoles("memberTEST100");
+        Optional<Member> result = memberRepository.getWithRoles ("memberTEST100");
         //예외 발생 시 member에 값을 저장
-        Member member = result.orElseThrow();
-        log.info("==========회원 조회==========");
-        log.info(member);//멤버 정보 출력
-        log.info(member.getRoleSet());//멤버 권한 출력
-
-        member.getRoleSet().forEach(memberRole -> log.info(memberRole.name()));
-
+        Member member = result.orElseThrow ();
+        log.info ("==========회원 조회==========");
+        log.info (member);//멤버 정보 출력
+        log.info (member.getRoleSet ());//멤버 권한 출력
+        member.getRoleSet ().forEach (memberRole -> log.info (memberRole.name ()));
     }
 
     @Commit
     @Test
-    public void testUpdate(){
+    public void testUpdate () {
         String mid = "ljh940115@kakao.com";//소셜 로그인으로 추가된 사용자로 현재 DB에 존재하는 이메일
-        String mpw = passwordEncoder.encode("54321");
-
-        log.info("mid : " + mid);
-        log.info("mpw : " + mpw);
-        memberRepository.updatePassword(mpw, mid);
+        String mpw = passwordEncoder.encode ("54321");
+        log.info ("mid : " + mid);
+        log.info ("mpw : " + mpw);
+        memberRepository.updatePassword (mpw, mid);
     }
-
 }

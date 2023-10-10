@@ -24,7 +24,7 @@ public class ReplyDTO {
     private String replyText;
     @NotEmpty
     private String replyer;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regDate;
     @JsonIgnore
     private LocalDateTime modDate;

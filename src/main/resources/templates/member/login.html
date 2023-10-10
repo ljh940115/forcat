@@ -1,130 +1,109 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+<html layout:decorate = "~{layouts/layout1}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta content = "" name = "description"/>
+    <meta content = "" name = "author"/>
     <title>Simple Sidebar - Login</title>
     <!-- Favicon-->
-    <link rel="ic
-    <!-- Core theme CSS (includes Bootstrap)-->on" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
-    <link th:href="@{/css/login.css}" rel="stylesheet" />
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel = "stylesheet" th:href = "@{/css/styles.css}"/>
+    <link rel = "stylesheet" th:href = "@{/css/login.css}"/>
 </head>
-<body class="align-middle" layout:fragment="content">
-<div class="container-fluid d-flex justify-content-center" style="height: 100vh">
+<body class = "align-middle" layout:fragment = "content">
+<div class = "container-fluid d-flex justify-content-center" style = "height: 100vh">
 
-<!--    <div class="card align-self-center">
-        <div class="card-header">
-            LOGIN Page
-        </div>
-        <div class="card-body">
-            <th:block th:if="${param.logout != null}">
-                <h1>Logout........</h1>
-            </th:block>
-
-            <form id="registerForm" action="/member/login" method="post" th:if="${param.logout ==null}">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">아이디</span>
-                    <input type="text" name="username" class="form-control" placeholder="USER ID">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">패스워드</span>
-                    <input type="text" name="password" class="form-control" placeholder="PASSWORD">
-                </div>
-                <div class="input-group mb-3 ">
-                    <input class="form-check-input" type="checkbox" name="remember-me">
-                    <label class="form-check-label">
-                        자동 로그인
-                    </label>
-                </div>
-                <div class="my-4">
-                    <div class="float-end">
-                        <button type="submit" class="btn btn-primary submitBtn">LOGIN</button>
-                    </div>
-                </div>
-            </form>
-            <hr>
-            <div class="inner-cont">
-                <div class="social-login">
-                <a class="kakao" href="/oauth2/authorization/kakao">KAKAO</a>
-                <a class="google" href="/oauth2/authorization/google">GOOGLE</a>
-                </div>
-            </div>
-        </div>&lt;!&ndash;end card body&ndash;&gt;
-    </div>&lt;!&ndash;end card&ndash;&gt;-->
-
-
-    <div class="cont">
-        <form id="registerForm" action="/member/login" method="post" th:if="${param.logout ==null}">
-        <div class="form sign-in">
-            <h2>Welcome back,</h2>
-            <label>
-                <span>아이디</span>
-                <input type="text" name="username" class="form-control" placeholder="아이디를 입력해주세요">
-            </label>
-            <label>
-                <span>비밀번호</span>
-                <input type="text" name="password" class="form-control" placeholder="비밀번호를 입력해주세요">
-            </label>
-            <div class="input-group mb-3 ">
-                <input class="form-check-input" type="checkbox" name="remember-me">
-                <label class="form-check-label">
-                    자동 로그인
-                </label>
-            </div>
-            <p class="forgot-pass">Forgot password?</p>
-            <button type="submit" class="btn btn-primary submitBtn">LOGIN</button>
-            <button type="button" class="fb-btn" href="/oauth2/authorization/kakao">Join with <span>KAKAO</span></button>
-            <button type="button" class="fb-btn" href="/oauth2/authorization/google">Join with <span>GOOGLE</span></button>
-        </div>
-        </form>
-        <div class="sub-cont">
-            <div class="img">
-                <div class="img__text m--up">
-                    <h2>포켓이 처음이신가요?</h2>
-                    <p>지금 가입하고 더 많은 활동을 해보세요!</p>
-                </div>
-                <div class="img__text m--in">
-                    <h2>이미 가입하셨나요?</h2>
-                    <p>로그인하고 포켓에서 더 많은 활동을 해보세요!</p>
-                </div>
-                <div class="img__btn">
-                    <span class="m--up">회원가입</span>
-                    <span class="m--in">로그인</span>
-                </div>
-            </div>
-            <div class="form sign-up">
-                <h2>Time to feel like home,</h2>
+    <div class = "cont">
+        <form action = "/member/login" id = "registerForm" method = "post" th:if = "${param.logout ==null}">
+            <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
+            <div class = "form sign-in">
+                <h2>Welcome back,</h2>
                 <label>
                     <span>아이디</span>
-                    <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요.">
+                    <input class = "form-control" name = "username" placeholder = "아이디를 입력해주세요" type = "text">
                 </label>
                 <label>
                     <span>비밀번호</span>
-                    <input type="password" name="mpw" class="form-control" placeholder="비밀번호를 입력하세요.">
+                    <input class = "form-control" name = "password" placeholder = "비밀번호를 입력해주세요" type = "password">
+                    <br th:if="${loginErrorMsg}">
+                    <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"> </p>
                 </label>
-                <label>
-                    <span>이메일</span>
-                    <input type="email" name="email" class="form-control" placeholder="이메일을 입력하세요.">
-                </label>
-                <button type="button" class="submit">Sign Up</button>
-                <button type="button" class="fb-btn" href="/oauth2/authorization/kakao">Join with <span>KAKAO</span></button>
-                <button type="button" class="fb-btn" href="/oauth2/authorization/google">Join with <span>GOOGLE</span></button>
+                <div class = "input-group mb-3 ">
+                    <input class = "form-check-input" name = "remember-me" type = "checkbox">
+                    <label class = "form-check-label">
+                        자동 로그인
+                    </label>
+                </div>
+                <div style="border: 1px solid black">
+                    <h2>hi</h2>
+                </div>
+                <p class = "forgot-pass">Forgot password?</p>
+                <button class = "submit" id = "login" type = "submit">LOGIN</button>
+                <button class = "fb-btn" href = "/oauth2/authorization/kakao" type = "button">Join with <a class = "kakao" href = "/oauth2/authorization/kakao">KAKAO</a></button>
+                <button class = "fb-btn" href = "/oauth2/authorization/google" type = "button">Join with <a class = "google" href = "/oauth2/authorization/google">GOOGLE</a></button>
             </div>
-        </div>
-    </div>
 
+        </form>
+        <form action = "/member/join" id = "joinForm" method = "post">
+            <div class = "sub-cont">
+                <div class = "img">
+                    <div class = "img__text m--up">
+                        <h2 class = "h2FontWhite">포켓이 처음이신가요?</h2>
+                        <p>지금 가입하고 더 많은 활동을 해보세요!</p>
+                    </div>
+                    <div class = "img__text m--in">
+                        <h2 class = "h2FontWhite">이미 가입하셨나요?</h2>
+                        <p>로그인하고 포켓에서 더 많은 활동을 해보세요!</p>
+                    </div>
+                    <div class = "img__btn">
+                        <span class = "m--up">회원가입</span>
+                        <span class = "m--in">로그인</span>
+                    </div>
+                </div>
+                <div class = "form sign-up">
+                    <h2>Time to feel like home,</h2>
+                    <label>
+                        <span>아이디</span>
+                        <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
+                        <input class = "form-control" name = "mid" placeholder = "아이디를 입력하세요." type = "text">
+                    </label>
+                    <label>
+                        <span>비밀번호</span>
+                        <input class = "form-control" name = "mpw" placeholder = "비밀번호를 입력하세요." type = "password">
+                    </label>
+                    <label>
+                        <span>이메일</span>
+                        <input class = "form-control" name = "email" placeholder = "이메일을 입력하세요." type = "email">
+                    </label>
+                    <label>
+                        <span>이름</span>
+                        <input class = "form-control" name = "name" placeholder = "이름을 입력하세요." type = "text">
+                    </label>
+                    <label>
+                        <span>주소</span>
+                        <input class = "form-control" name = "address" placeholder = "주소를 입력하세요." type = "text">
+                    </label>
+                    <button class = "submit" id = "join" type = "button">Sign Up</button>
+                    <button class = "fb-btn" href = "/oauth2/authorization/kakao" type = "button">Join with <a class = "kakao" href = "/oauth2/authorization/kakao">KAKAO</a></button>
+                    <button class = "fb-btn" href = "/oauth2/authorization/google" type = "button">Join with <a class = "google" href = "/oauth2/authorization/google">GOOGLE</a></button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
-    document.querySelector('.img__btn').addEventListener('click', function() {
-        document.querySelector('.cont').classList.toggle('s--signup');
+    document.querySelector ('.img__btn').addEventListener ('click', function () {
+        document.querySelector ('.cont').classList.toggle ('s--signup');
+    });
+
+    document.querySelector ('#join').addEventListener ('click', function () {
+        // "Sign Up" 버튼이 클릭되었을 때 폼을 서버로 제출
+        document.getElementById ('joinForm').submit ();
     });
 </script>
 </body>

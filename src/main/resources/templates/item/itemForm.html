@@ -1,139 +1,149 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
-
+<html layout:decorate = "~{layouts/layout1}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta content = "" name = "description"/>
+    <meta content = "" name = "author"/>
+    <title>Simple Sidebar - Login</title>
+</head>
 <!-- 사용자 스크립트 추가 -->
-  <script th:inline="javascript">
-    $(document).ready(function(){
-      var errorMessage = [[${errorMessage}]];
-      if(errorMessage != null) {
-        alert(errorMessage);
-        // 상품 등록 실패 시 alert창을 통해 실패 사유 보여줌
-      }
+<script th:inline = "javascript">
+    $ (document).ready (function () {
+        var errorMessage = [[${errorMessage}]];
+        if (errorMessage != null) {
+            alert (errorMessage);
+            // 상품 등록 실패 시 alert창을 통해 실패 사유 보여줌
+        }
 
-      bindDomEvent();
+        bindDomEvent ();
 
     });
 
-    function bindDomEvent(){
-      $(".custom-file-input").on("change", function() {
-        var fileName = $(this).val().split("\\").pop();  //이미지 파일명
-        var fileExt = fileName.substring(fileName.lastIndexOf(".")+1); // 확장자 추출
-        fileExt = fileExt.toLowerCase(); //소문자 변환
+    function bindDomEvent () {
+        $ (".custom-file-input").on ("change", function () {
+            var fileName = $ (this).val ().split ("\\").pop ();  //이미지 파일명
+            var fileExt = fileName.substring (fileName.lastIndexOf (".") + 1); // 확장자 추출
+            fileExt = fileExt.toLowerCase (); //소문자 변환
 
-        if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp"){
-          alert("이미지 파일만 등록이 가능합니다.");
-          return;
-        }
+            if (fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp") {
+                alert ("이미지 파일만 등록이 가능합니다.");
+                return;
+            }
 
-        $(this).siblings(".custom-file-label").html(fileName);
-      });
+            $ (this).siblings (".custom-file-label").html (fileName);
+        });
     }
 
-  </script>
+</script>
 
 <!-- 사용자 CSS 추가 -->
-  <style>
+<style>
     .input-group {
-      margin-bottom : 15px
+        margin-bottom: 15px
     }
+
     .img-div {
-      margin-bottom : 10px
+        margin-bottom: 10px
     }
+
     .fieldError {
-      color: #bd2130;
+        color: #bd2130;
     }
-  </style>
+</style>
+<body>
+<div layout:fragment = "content">
 
-<div layout:fragment="content">
+    <form enctype = "multipart/form-data" method = "post" role = "form" th:object = "${itemFormDto}">
+        <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
+        <!-- 파일 전송 enctype="multipart/form-data" 사용
+             모든 문자 인코딩하지 않음, post 방식일 때만 사용 가능 -->
 
-  <form role="form" method="post" enctype="multipart/form-data" th:object="${itemFormDto}">
-    <!-- 파일 전송 enctype="multipart/form-data" 사용
-         모든 문자 인코딩하지 않음, post 방식일 때만 사용 가능 -->
+        <!-- <p class = "h2">상품 등록</p> -->
+        <p class="h2">
+            <span th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">상품 등록</span>
+            <span th:unless="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">상품 수정</span>
+        </p>
 
-    <p class="h2">
-      상품 등록
-    </p>
+        <input th:field = "*{id}" type = "hidden">
 
-    <input type="hidden" th:field="*{id}">
-
-    <div class="form-group">
-      <select th:field="*{itemSellStatus}" class="custom-select">
-        <!-- 상품 판매 상태 -> 재고가 없거나 미판매 시 품절로 표시 -->
-        <option value="SELL">판매중</option>
-        <option value="SOLD_OUT">품절</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">상품명</span>
-      </div>
-      <input type="text" th:field="*{itemNm}" class="form-control" placeholder="상품명을 입력해주세요">
-    </div>
-    <p th:if="${#fields.hasErrors('itemNm')}" th:errors="*{itemNm}" class="fieldError">Incorrect data</p>
-
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">가격</span>
-      </div>
-      <input type="number" th:field="*{price}" class="form-control" placeholder="상품의 가격을 입력해주세요">
-    </div>
-    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError">Incorrect data</p>
-
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">재고</span>
-      </div>
-      <input type="number" th:field="*{stockNumber}" class="form-control" placeholder="상품의 재고를 입력해주세요">
-    </div>
-    <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError">Incorrect data</p>
-
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">상품 상세 내용</span>
-      </div>
-      <textarea class="form-control" aria-label="With textarea" th:field="*{itemDetail}"></textarea>
-    </div>
-    <p th:if="${#fields.hasErrors('itemDetail')}" th:errors="*{itemDetail}" class="fieldError">Incorrect data</p>
-
-    <div th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">
-      <!-- 상품 이미지 정보 리스트가 비어있다면 -> 상품 등록 -->
-      <div class="form-group" th:each="num: ${#numbers.sequence(1,5)}">
-        <!-- #numbers.sequence(start, end) : start부터 end까지 숫자 시퀀스 생성
-             Thymeleaf에서 반복 작업 수행할 때 주로 사용-->
-        <div class="custom-file img-div">
-          <input type="file" class="custom-file-input" name="itemImgFile">
-          <label class="custom-file-label" th:text="상품이미지 + ${num}"></label>
+        <div class = "form-group">
+            <select class = "custom-select" th:field = "*{itemSellStatus}">
+                <!-- 상품 판매 상태 -->
+                <option value = "SELL">판매중</option>
+                <option value = "SOLD_OUT">품절</option>
+                <option value = "RESERVE">판매보류</option>
+            </select>
         </div>
-      </div>
-    </div>
 
-    <div th:if = "${not #lists.isEmpty(itemFormDto.itemImgDtoList)}">
-      <!-- 상품 이미지 정보 리스트가 비어있지 않다면 -> 상품 수정 -->
-      <div class="form-group" th:each="itemImgDto, status: ${itemFormDto.itemImgDtoList}">
-        <div class="custom-file img-div">
-          <input type="file" class="custom-file-input" name="itemImgFile">
-          <input type="hidden" name="itemImgIds" th:value="${itemImgDto.id}">
-          <!-- 어떤 이미지가 수정 되었는지 파악하기 위해 아이디를 hidden으로 숨겨서 전달 -->
-          <label class="custom-file-label" th:text="${not #strings.isEmpty(itemImgDto.oriImgName)} ? ${itemImgDto.oriImgName} : '상품이미지' + ${status.index+1}"></label>
-          <!-- #strings.isEmpty(String) : 객체가 비어 있는지?
-               삼항연산자 사용 -> 이미지 정보가 있다면 파일 이름 출력, 없다면 상품 이미지+번호 출력-->
+        <div class = "input-group">
+            <div class = "input-group-prepend">
+                <span class = "input-group-text">상품명</span>
+            </div>
+            <input class = "form-control" placeholder = "상품명을 입력해주세요" th:field = "*{itemNm}" type = "text">
         </div>
-      </div>
-    </div>
+        <p class = "fieldError" th:errors = "*{itemNm}" th:if = "${#fields.hasErrors('itemNm')}">Incorrect data</p>
 
-    <div th:if="${#strings.isEmpty(itemFormDto.id)}" style="text-align: center">
-      <!-- 상품 아이디가 비어있다면 -> 상품 등록 -> 저장 버튼 출력 -->
-      <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary">저장</button>
-    </div>
-    <div th:unless="${#strings.isEmpty(itemFormDto.id)}" style="text-align: center">
-      <!-- 상품 아이디가 있다면 -> 상품 수정 -> 수정 버튼 출력 -->
-      <button th:formaction="@{'/admin/item/' + ${itemFormDto.id} }" type="submit" class="btn btn-primary">수정</button>
-    </div>
-  </form>
+        <div class = "input-group">
+            <div class = "input-group-prepend">
+                <span class = "input-group-text">가격</span>
+            </div>
+            <input class = "form-control" placeholder = "상품의 가격을 입력해주세요" th:field = "*{price}" type = "number">
+        </div>
+        <p class = "fieldError" th:errors = "*{price}" th:if = "${#fields.hasErrors('price')}">Incorrect data</p>
+
+        <div class = "input-group">
+            <div class = "input-group-prepend">
+                <span class = "input-group-text">재고</span>
+            </div>
+            <input class = "form-control" placeholder = "상품의 재고를 입력해주세요" th:field = "*{stockNumber}" type = "number">
+        </div>
+        <p class = "fieldError" th:errors = "*{stockNumber}" th:if = "${#fields.hasErrors('stockNumber')}">Incorrect data</p>
+
+        <div class = "input-group">
+            <div class = "input-group-prepend">
+                <span class = "input-group-text">상품 상세 내용</span>
+            </div>
+            <textarea aria-label = "With textarea" class = "form-control" th:field = "*{itemDetail}"></textarea>
+        </div>
+        <p class = "fieldError" th:errors = "*{itemDetail}" th:if = "${#fields.hasErrors('itemDetail')}">Incorrect data</p>
+
+        <div th:if = "${#lists.isEmpty(itemFormDto.itemImgDtoList)}">
+            <!-- 상품 이미지 정보 리스트가 비어있다면 -> 상품 등록 -->
+            <div class = "form-group" th:each = "num: ${#numbers.sequence(1,5)}">
+                <!-- #numbers.sequence(start, end) : start부터 end까지 숫자 시퀀스 생성
+                     Thymeleaf에서 반복 작업 수행할 때 주로 사용-->
+                <div class = "custom-file img-div">
+                    <input class = "custom-file-input" name = "itemImgFile" type = "file">
+                    <label class = "custom-file-label" th:text = "상품이미지 + ${num}"></label>
+                </div>
+            </div>
+        </div>
+
+        <div th:if = "${not #lists.isEmpty(itemFormDto.itemImgDtoList)}">
+            <!-- 상품 이미지 정보 리스트가 비어있지 않다면 -> 상품 수정 -->
+            <div class = "form-group" th:each = "itemImgDto, status: ${itemFormDto.itemImgDtoList}">
+                <div class = "custom-file img-div">
+                    <input class = "custom-file-input" name = "itemImgFile" type = "file">
+                    <input name = "itemImgIds" th:value = "${itemImgDto.id}" type = "hidden">
+                    <!-- 어떤 이미지가 수정 되었는지 파악하기 위해 아이디를 hidden으로 숨겨서 전달 -->
+                    <label class = "custom-file-label" th:text = "${not #strings.isEmpty(itemImgDto.oriImgName)} ? ${itemImgDto.oriImgName} : '상품이미지' + ${status.index+1}"></label>
+                    <!-- #strings.isEmpty(String) : 객체가 비어 있는지?
+                         삼항연산자 사용 -> 이미지 정보가 있다면 파일 이름 출력, 없다면 상품 이미지+번호 출력-->
+                </div>
+            </div>
+        </div>
+
+        <div style = "text-align: center" th:if = "${#strings.isEmpty(itemFormDto.id)}">
+            <!-- 상품 아이디가 비어있다면 -> 상품 등록 -> 저장 버튼 출력 -->
+            <button class = "btn btn-primary" th:formaction = "@{/admin/item/new}" type = "submit">저장</button>
+        </div>
+        <div style = "text-align: center" th:unless = "${#strings.isEmpty(itemFormDto.id)}">
+            <!-- 상품 아이디가 있다면 -> 상품 수정 -> 수정 버튼 출력 -->
+            <button class = "btn btn-primary" th:formaction = "@{'/admin/item/' + ${itemFormDto.id} }" type = "submit">수정</button>
+        </div>
+    </form>
 
 </div>
-
+</body>
 </html>

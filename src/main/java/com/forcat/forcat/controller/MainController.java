@@ -26,12 +26,13 @@ public class MainController {
     @GetMapping("/shop")//쇼핑몰
     public String shop(){log.info("==========MainCon...shop");return "shop";}
 
-    @GetMapping("/comm")//커뮤니티, 게시판
-    public String comm(){log.info("==========MainCon...comm");return "comm";}
-
     @GetMapping("/tools")//기타 기능
     public String tools(){log.info("==========MainCon...tools");return "tools";}
 
     @GetMapping("/blog")//기타 기능
     public String blog(){log.info("==========MainCon...blog");return "blog";}
+
+    @GetMapping("/orter")//기타 기능
+    public String gallery(){log.info("==========MainCon...blog");return "gallery";}
+
 }

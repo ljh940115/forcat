@@ -1,88 +1,98 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layouts/layout1}">
+<html layout:decorate = "~{layouts/layout1}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<title>Simple Sidebar - Login</title>
-	<!-- Favicon-->
-	<link rel="ic
-    <!-- Core theme CSS (includes Bootstrap)-->on" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
-	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <meta content = "" name = "description"/>
+    <meta content = "" name = "author"/>
+    <title>Simple Sidebar - Login</title>
+    <!-- Favicon-->
+    <link rel = "ic
+    <!-- Core theme CSS (includes Bootstrap)-->on" th:href = "@{/assets/favicon.ico}" type = "image/x-icon"/>
+    <link rel = "stylesheet" th:href = "@{/css/styles.css}"/>
 </head>
-<body class="align-memberIddle" layout:fragment="content">
-<div class="container-fluid d-flex justify-content-center" style="height: 100vh">
+<body class = "align-memberIddle" layout:fragment = "content">
+<div class = "container-fluid d-flex justify-content-center" style = "height: 100vh">
 
-	<div class="card align-self-center">
-		<div class="card-header">
-			MyPage
-		</div>
-		<div class="card-body">
-			<div class="inner-cont">
-				<div class="social-login">
-					<form id="updateForm" action="/member/mypage" method="post">
-					<div class="input-group mb-3">
-						<span class="input-group-text">아이디</span>
-						<input type="text" name="mid" class="form-control" th:value="${#authentication.principal.username}" readonly>
-					</div>
+    <div class = "card align-self-center">
+        <div class = "card-header">
+            MyPage
+        </div>
+        <div class = "card-body">
+            <div class = "inner-cont">
+                <div class = "social-login">
+                    <form action = "/member/mypage" id = "updateForm" method = "post">
+                        <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">아이디</span>
+                            <input class = "form-control" name = "mid" readonly th:value = "${#authentication.principal.username}" type = "text">
+                        </div>
 
-					<div class="input-group mb-3">
-						<span class="input-group-text">비밀번호</span>
-						<input type="password" name="mpw" class="form-control" placeholder="비밀번호를 입력하세요." th:value="${#authentication.principal.password}">
-					</div>
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">비밀번호</span>
+                            <input class = "form-control" name = "mpw" placeholder = "비밀번호를 입력하세요." th:value = "${#authentication.principal.password}" type = "password">
+                        </div>
 
-					<div class="input-group mb-3">
-						<span class="input-group-text">EMAIL</span>
-						<input type="email" name="email" class="form-control" th:value="${#authentication.principal.email}">
-					</div>
-						<div class="my-4">
-							<div class="float-end">
-								<button type="submit" class="btn btn-primary submitBtn">수정</button>
-								<button type="button" class="btn btn-secondary" id="memberDelete">탈퇴</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="card-body">
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">EMAIL</span>
+                            <input class = "form-control" name = "email" th:value = "${#authentication.principal.email}" type = "email">
+                        </div>
 
-		</div><!--end card body-->
-	</div><!--end card-->
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">이름</span>
+                            <input class = "form-control" name = "name" readonly type = "text">
+                        </div>
+
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">주소</span>
+                            <input class = "form-control" name = "address" type = "text">
+                        </div>
+
+                        <div class = "my-4">
+                            <div class = "float-end">
+                                <button class = "btn btn-primary submitBtn" type = "submit">수정</button>
+                                <button class = "btn btn-secondary" id = "memberDelete" type = "button">탈퇴</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class = "card-body">
+
+        </div><!--end card body-->
+    </div><!--end card-->
 </div>
 <script>
-	$(document).ready(function() {
+    $ (document).ready (function () {
 
-		// 탈퇴 버튼 클릭 시
-		$("#memberDelete").click(function() {
-			// 확인 다이얼로그 표시
-			if (confirm("정말로 탈퇴하시겠습니까?")) {
-				// 현재 사용자의 mid 값을 가져오기
-				var mid = $("input[name='mid']").val();
+        // 탈퇴 버튼 클릭 시
+        $ ("#memberDelete").click (function () {
+            // 확인 다이얼로그 표시
+            if (confirm ("정말로 탈퇴하시겠습니까?")) {
+                // 현재 사용자의 mid 값을 가져오기
+                var mid = $ ("input[name='mid']").val ();
 
-				// AJAX 요청 보내기
-				$.ajax({
-					type: "POST",
-					url: "/member/delete",
-					data: { "mid": mid },
-					success: function(response) {
-						// 탈퇴 성공 시 처리
-						alert("탈퇴되었습니다.");
-						// 페이지를 리로드하거나 다른 작업을 수행하세요.
-					},
-					error: function() {
-						// 탈퇴 실패 시 처리
-						alert("탈퇴에 실패하였습니다.");
-					}
-				});
-			}
-		});
-	});
+                // AJAX 요청 보내기
+                $.ajax ({
+                    type   : "POST",
+                    url    : "/member/delete",
+                    data   : {"mid": mid},
+                    success: function (response) {
+                        // 탈퇴 성공 시 처리
+                        alert ("탈퇴되었습니다.");
+                        // 페이지를 리로드하거나 다른 작업을 수행하세요.
+                    },
+                    error  : function () {
+                        // 탈퇴 실패 시 처리
+                        alert ("탈퇴에 실패하였습니다.");
+                    }
+                });
+            }
+        });
+    });
 </script>
 </body>
 </html>

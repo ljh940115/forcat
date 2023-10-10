@@ -31,6 +31,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
+  --font-family: 'Noto Sans KR', sans-serif;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
@@ -304,6 +305,9 @@ h1, .h1 {
 
 h2, .h2 {
   font-size: 2rem; }
+
+.h2FontWhite {
+  color: white }
 
 h3, .h3 {
   font-size: 1.75rem; }
@@ -4035,19 +4039,31 @@ input[type="button"].btn-block {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-top: 50px;
   padding-left: 0;
   list-style: none;
-  border-radius: 0.25rem; }
+  border-radius: 0.25rem;
+  justify-content: center;}
 
 .page-link {
-  position: relative;
+/*  position: relative;
   display: block;
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
   color: #007bff;
   background-color: #fff;
-  border: 1px solid #dee2e6; }
+  border: 1px solid #dee2e6; 기존 코드*/
+  color: gray;
+  text-align: center;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  border: 2px solid #e6e6e6;
+  margin: 0 5px;}
+
   .page-link:hover {
     z-index: 2;
     color: #0056b3;
@@ -4062,14 +4078,19 @@ input[type="button"].btn-block {
   .page-link:not(:disabled):not(.disabled) {
     cursor: pointer; }
 
-.page-item:first-child .page-link {
+  .pageMove {
+    width: 70px;
+    border-radius: 25px;
+  }
+
+/*.page-item:first-child .page-link {
   margin-left: 0;
   border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem; }
+  border-bottom-left-radius: 0.25rem; }*/
 
-.page-item:last-child .page-link {
+/*.page-item:last-child .page-link {
   border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem; }
+  border-bottom-right-radius: 0.25rem; }*/
 
 .page-item.active .page-link {
   z-index: 1;
@@ -5359,6 +5380,7 @@ button.bg-dark:focus {
   border-color: #fff !important; }
 
 .rounded {
+  width: 400px;
   border-radius: 0.25rem !important; }
 
 .rounded-top {
@@ -6368,13 +6390,16 @@ button.bg-dark:focus {
   width: 50% !important; }
 
 .w-75 {
-  width: 75% !important; }
+  width: 75% !important;
+  margin: 0 auto; }
 
 .w-100 {
-  width: 100% !important; }
+  width: 100% !important;
+}
 
 .w-auto {
-  width: auto !important; }
+  width: auto !important;
+  }
 
 .h-25 {
   height: 25% !important; }
@@ -8251,7 +8276,7 @@ h1, h2, h3, h4, h5,
     opacity: .1;
     background: #000000; }
   .hero-wrap.hero-wrap-2 {
-    height: 400px; }
+    height: 350px; }
     .hero-wrap.hero-wrap-2 .overlay {
       opacity: .5;
       background: #207dff;
@@ -8263,7 +8288,7 @@ h1, h2, h3, h4, h5,
       background: linear-gradient(45deg, #207dff 0%, #00bd55 100%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207dff', endColorstr='#00bd55', GradientType=1 ); }
     .hero-wrap.hero-wrap-2 .slider-text {
-      height: 400px; }
+      height: 300px; }
       .hero-wrap.hero-wrap-2 .slider-text h1 {
         font-weight: 400;
         font-size: 40px; }
@@ -9029,7 +9054,7 @@ textarea.form-control {
   .footer .block-21 .img {
     display: block;
     height: 80px;
-    width: 80px; }
+    width: 0; }
   .footer .block-21 .text {
     width: calc(100% - 100px); }
     .footer .block-21 .text .heading {
@@ -9801,4 +9826,27 @@ textarea.form-control {
 
 .boardListHead, .boardListBody {
   text-align: center;
+}
+
+.error {
+  color: red;
+  -webkit-text-stroke-width: medium;
+}
+
+.contnet {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 25px;
+}
+
+.shopMainItemBox {
+  border-radius: 25px;
+}
+
+.banner {
+  object-fit: cover;
+}
+
+#boardRegisterButton {
+  position: absolute;
+  right: 50px;
 }

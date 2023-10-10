@@ -17,9 +17,7 @@ group = 'com.forcat'
 version = '0.0.1-SNAPSHOT'
 
 //자바 버전 명시
-java {
-    sourceCompatibility = '17'
-}
+java { sourceCompatibility = '17' }
 
 configurations {
     compileOnly {
@@ -68,12 +66,9 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testCompileOnly 'org.projectlombok:lombok' //테스트 롬북 의존성 추가
     testAnnotationProcessor 'org.projectlombok:lombok' //테스트 롬북 의존성 추가
-
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
+tasks.named('test') { useJUnitPlatform() }
 
 //쿼리dsl 관련 설정 추가
 def querydslDir = "$buildDir/generated/querydsl"
@@ -83,15 +78,9 @@ querydsl {
     querydslSourcesDir = querydslDir
 }
 
-sourceSets {
-    main.java.srcDir querydslDir
-}
+sourceSets { main.java.srcDir querydslDir }
 
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
+configurations { querydsl.extendsFrom compileClasspath }
 
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
+compileQuerydsl { options.annotationProcessorPath = configurations.querydsl }
 //쿼리dsl 관련 설정 추가 끝

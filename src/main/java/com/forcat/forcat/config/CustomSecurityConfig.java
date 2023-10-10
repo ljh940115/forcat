@@ -2,12 +2,15 @@ package com.forcat.forcat.config;
 
 import com.forcat.forcat.security.CustomUserDetailsService;
 import com.forcat.forcat.security.handler.CustomSocialLoginSuccessHandler;
+import com.forcat.forcat.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -22,78 +25,81 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
 @Log4j2//로그 사용
-@Configuration//환경설정 클래스
-@AllArgsConstructor//해당 필드에 쓴 모든 생성자 생성
-@EnableGlobalMethodSecurity(prePostEnabled = true)//어노테이션으로 권한 설정 @PreAuthorize() 사용
-public class CustomSecurityConfig{
+@Configuration
+@AllArgsConstructor//해당 필드에 대한 모든 생성자 생성
+@EnableGlobalMethodSecurity (prePostEnabled = true)//권한 설정 @PreAuthorize() 사용
+public class CustomSecurityConfig {//보안 환경설정 클래스
 
-    //자동 로그인용 주입
-    private final DataSource dataSource;
-    private final CustomUserDetailsService userDetailsService;
+    private final DataSource dataSource;//DB 연결
+    private final CustomUserDetailsService userDetailsService;//커스텀 사용자 서비스 클래스
 
     @Bean//비밀번호 암호화 처리
-    public PasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
-
-    @Bean//필터 체인을 이용해 경로 접근
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("==========필터 체인 환경 설정");
-
-        //커스텀 로그인 페이지
-        //formLogin:Form 로그인 기능 사용, loginPage:로그인이 필요한 경우 리다이렉트
-        http.formLogin().loginPage("/member/login");
-
-        //CSRF 토큰 비활성화
-        http.csrf().disable();
-
-        //자동 로그인 설정
-        http.rememberMe()
-                .key("12345678")//토큰 검증용 키
-                .tokenRepository(persistentTokenRepository())//토큰 저장 관리
-                .userDetailsService(userDetailsService)//자동 로그인 사용할 때 사용자 정보 확인
-                .tokenValiditySeconds(60 * 60 * 24 * 30);//유효 토큰 기간 60초, 60분, 24시간, 30일
-
-        //OAuth2 로그인 사용
-        http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
-
-        // 로그아웃 구성
-        http.logout() // 로그아웃 기능 작동함
-                .logoutUrl("/member/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
-                .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 이동페이지
-                .deleteCookies("JSESSIONID", "remember-me"); // 로그아웃 후 쿠키 삭제
-
-        /*http.authorizeHttpRequests()
-                .mvcMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated();//admin 권한만 접속 가능*/
-        return http.build();
+    public PasswordEncoder passwordEncoder () {
+        return new BCryptPasswordEncoder ();
     }
 
-    @Bean//"//"와 같은 형태의 URL도 정상적으로 처리
-    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {//
-        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
-        firewall.setAllowUrlEncodedSlash(true); // 이 부분을 true로 설정하여 "//"를 "/"로 허용합니다.
+    @Bean//필터 체인 설정 : URL 경로 및 보안 설정 정의
+    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+        log.info ("==========필터 체인 환경 설정");
+        /*CSRF 토큰 비활성화
+        http.csrf().disable();*/
+
+        /*로그아웃 구성 : CSRF 토큰 비활성화 상태에서 사용
+        http.logout () // 로그아웃 기능 작동함
+                .logoutUrl ("/member/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
+                .logoutSuccessUrl ("/member/login") // 로그아웃 성공 후 이동페이지
+                .deleteCookies ("JSESSIONID", "remember-me"); // 로그아웃 후 쿠키 삭제*/
+
+        //커스텀 로그인 페이지
+        http.formLogin ().loginPage ("/member/login").defaultSuccessUrl ("/")//로그인 성공 처리
+                .usernameParameter ("username")//로그인 시 사용할 파라미터 이름
+                .failureUrl ("/member/login/error")
+                .and().logout ().logoutRequestMatcher (new AntPathRequestMatcher ("/member/logout")).logoutSuccessUrl("/");
+                /*.failureForwardUrl ("/member/login").and ().logout ().logoutRequestMatcher//로그인 실패 시 리디렉션 위치
+                        (new AntPathRequestMatcher ("/member/logout")).logoutSuccessUrl//로그아웃 수행 위치
+                        ("/member/login").deleteCookies ("JSESSIONID", "remember-me");//로그인 실패 처리*/
+
+        //자동 로그인 설정
+        http.rememberMe ().key ("12345678")//토큰 검증용 키
+                .tokenRepository (persistentTokenRepository ())//토큰 저장 관리
+                .userDetailsService (userDetailsService)//자동 로그인 사용할 때 사용자 정보 확인
+                .tokenValiditySeconds (60 * 60 * 24 * 30);//유효 토큰 기간 60초, 60분, 24시간, 30일
+
+        //OAuth2 소셜 로그인 사용
+        http.oauth2Login ().loginPage ("/member/login").successHandler (authenticationSuccessHandler ());
+        return http.build ();
+    }
+
+    @Bean//보안 방화벽 설정 : "//"와 같은 형태의 URL도 정상적으로 처리
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall () {
+        log.info ("==========보안 방화벽 확인");
+        DefaultHttpFirewall firewall = new DefaultHttpFirewall ();
+        firewall.setAllowUrlEncodedSlash (true); // 이 부분을 true로 설정하여 "//"를 "/"로 허용합니다.
         return firewall;
     }
 
-    @Bean//쿠키 생성 시 쿠키 값 인코딩하기 위한 키 값과 정보 저장
-    public PersistentTokenRepository persistentTokenRepository() {
-        log.info("==========쿠키 생성 K.V");
-        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-        repo.setDataSource(dataSource);
+    @Bean//자동 로그인을 위한 토큰 저장 관리 설정
+    public PersistentTokenRepository persistentTokenRepository () {
+        log.info ("==========자동 로그인 쿠키 확인");
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl ();
+        repo.setDataSource (dataSource);
         return repo;
     }
 
-    @Bean//커스텀 소셜 로그인 성공 시 처리, 암호 인코딩
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        log.info("==========커스텀 소셜 로그인 성공 시, 암호 인코딩");
-        return new CustomSocialLoginSuccessHandler(passwordEncoder());
+    @Bean//소셜 로그인 성공 시 처리 : 암호 인코딩
+    public AuthenticationSuccessHandler authenticationSuccessHandler () {
+        log.info ("==========소셜 로그인 암호 인코딩");
+        return new CustomSocialLoginSuccessHandler (passwordEncoder ());
     }
 
-    @Bean//필터 css, js 등 정적 자원 처리 제외
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        log.info("==========웹 보안 환경 설정");
-        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    @Bean//정적 자원 요청 무시 : 시큐리티 처리하지 않음
+    public WebSecurityCustomizer webSecurityCustomizer () {
+        log.info ("==========시큐리티 예외");
+        return (web) -> web.ignoring ().requestMatchers (PathRequest.toStaticResources ().atCommonLocations ());
     }
 }
