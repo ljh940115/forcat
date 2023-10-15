@@ -12,5 +12,4 @@ public class ContentListReplyCountDTO {
     private String cwriter;
     private LocalDateTime regDate;
     private Long creplyCount;
-
-} // ContentListReplyCountDTO
+}

@@ -17,7 +17,7 @@ public class FileService {
         // substring : 인덱스부터 끝까지 문자열 추출
         // lastIndexOf : 문자열 뒤에서부터 문자를 찾아 인덱스 반환
         // 원본 파일명에서 확장자(.이후)를 추출하여 extension으로 저장
-        String savedFileName = uuid.toString() + extension;
+        String savedFileName = uuid + extension;
         // UUID.확장자의 형태로 새로운 파일명을 만들어 savedFileName에 저장
         String fileUploadFullUrl = uploadPath + "/" + savedFileName;
         // 업로드 경로/새로운 파일명을 조합하여 전체 파일 경로 fileUploadFullUrl로 저장
@@ -37,5 +37,4 @@ public class FileService {
             log.info("파일이 존재하지 않습니다.");
         }
     }
-
 }

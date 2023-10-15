@@ -14,26 +14,19 @@ import javax.persistence.ManyToOne;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "content")
+@ToString (exclude = "content")
 public class ContentImage implements Comparable<ContentImage> {
 
     @Id
     private String uuid;
-
     private String fileName;
-
     private int ord;
-
     @ManyToOne
     private Content content;
 
     @Override
-    public int compareTo(ContentImage other) {
+    public int compareTo (ContentImage other) {
         return this.ord - other.ord;
     }
-
-    public void changeContent(Content content){
-        this.content = content;
-    }
-
-} // ContentImage
+    public void changeContent (Content content) { this.content = content; }
+}

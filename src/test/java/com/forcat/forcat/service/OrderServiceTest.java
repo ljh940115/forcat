@@ -22,78 +22,63 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class OrderServiceTest {
 
     @Autowired
+    ItemRepository itemRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
     private OrderService orderService;
-
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    ItemRepository itemRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    public Item saveItem(){
-        Item item = new Item();
-        item.setItemNm("테스트 상품");
-        item.setPrice(10000);
-        item.setItemDetail("테스트 상품 상세 설명");
-        item.setItemSellStatus(ItemSellStatus.SELL);
-        item.setStockNumber(100);
-        return itemRepository.save(item);
+    public Item saveItem () {
+        Item item = new Item ();
+        item.setItemNm ("테스트 상품");
+        item.setPrice (10000);
+        item.setItemDetail ("테스트 상품 상세 설명");
+        item.setItemSellStatus (ItemSellStatus.SELL);
+        item.setStockNumber (100);
+        return itemRepository.save (item);
     }
 
-    public Member saveMember(){
-        Member member = new Member();
-        member.setMid("ggggg");
-        member.setName("John Doe");
-        member.setEmail("test@test.com");
-        member.setAddress("123 Main St");
-        member.setMpw(passwordEncoder.encode("password123"));
-        return memberRepository.save(member);
-
+    public Member saveMember () {
+        Member member = new Member ();
+        member.setMid ("ggggg");
+        member.setName ("John Doe");
+        member.setEmail ("test@test.com");
+        member.setAddress ("123 Main St");
+        member.setMpw (passwordEncoder.encode ("123"));
+        return memberRepository.save (member);
     }
 
     @Test
-    @DisplayName("주문 테스트")
-    public void order(){
-        Item item = saveItem();
-        Member member = saveMember();
-
-        OrderDto orderDto = new OrderDto();
-        orderDto.setCount(10);
-        orderDto.setItemId(item.getId());
-
-        Long orderId = orderService.order(orderDto, member.getEmail());
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(EntityNotFoundException::new);
-
-        List<OrderItem> orderItems = order.getOrderItems();
-
-        int totalPrice = orderDto.getCount()*item.getPrice();
-
-        assertEquals(totalPrice, order.getTotalPrice());
+    @DisplayName ("주문 테스트")
+    public void order () {
+        Item item = saveItem ();
+        Member member = saveMember ();
+        OrderDto orderDto = new OrderDto ();
+        orderDto.setCount (10);
+        orderDto.setItemId (item.getId ());
+        Long orderId = orderService.order (orderDto, member.getEmail ());
+        Order order = orderRepository.findById (orderId).orElseThrow (EntityNotFoundException::new);
+        List<OrderItem> orderItems = order.getOrderItems ();
+        int totalPrice = orderDto.getCount () * item.getPrice ();
+        assertEquals (totalPrice, order.getTotalPrice ());
     }
 
     @Test
-    @DisplayName("주문 취소 테스트")
-    public void cancelOrder(){
-        Item item = saveItem();
-        Member member = saveMember();
-
-        OrderDto orderDto = new OrderDto();
-        orderDto.setCount(10);
-        orderDto.setItemId(item.getId());
-        Long orderId = orderService.order(orderDto, member.getEmail());
-
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(EntityNotFoundException::new);
-        orderService.cancelOrder(orderId);
-
-        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
-        assertEquals(100, item.getStockNumber());
+    @DisplayName ("주문 취소 테스트")
+    public void cancelOrder () {
+        Item item = saveItem ();
+        Member member = saveMember ();
+        OrderDto orderDto = new OrderDto ();
+        orderDto.setCount (10);
+        orderDto.setItemId (item.getId ());
+        Long orderId = orderService.order (orderDto, member.getEmail ());
+        Order order = orderRepository.findById (orderId).orElseThrow (EntityNotFoundException::new);
+        orderService.cancelOrder (orderId);
+        assertEquals (OrderStatus.CANCEL, order.getOrderStatus ());
+        assertEquals (100, item.getStockNumber ());
     }
 }

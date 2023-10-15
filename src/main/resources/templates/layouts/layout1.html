@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <!--헤더, 푸터 가져오기, -->
-<html lagn="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lagn = "ko"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th = "http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset = "UTF-8"/>
     <title>thymeleaf layout</title>
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
-    <th:block th:replace="fragments/config :: configFragment"></th:block>
+    <meta content = "width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" name = "viewport"/>
+    <th:block th:replace = "fragments/config :: configFragment"></th:block>
 </head>
 <body>
 <!-- header fragment 사용 -->
-<th:block th:replace="fragments/headerFragment :: headerFragment"></th:block>
+<th:block th:replace = "fragments/headerFragment :: headerFragment"></th:block>
+<div style="width: 1140px; margin: auto; background: #f8f9fd !important;">
 <!-- content fragment 사용 -->
-<th:block layout:fragment="content"></th:block>
+<th:block layout:fragment = "content"></th:block>
+</div>
 <!-- footer fragment 사용 -->
-<th:block th:replace="fragments/footerFragment :: footerFragment"></th:block>
+<th:block th:replace = "fragments/footerFragment :: footerFragment"></th:block>
 </body>
 </html>

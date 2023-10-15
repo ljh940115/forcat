@@ -15,15 +15,9 @@ import java.util.List;
 public class ContentListAllDTO {
 
     private Long cno;
-
     private String ctitle;
-
     private String cwriter;
-
     private LocalDateTime regDate;
-
     private Long creplyCount;
-
     private List<ContentImageDTO> contentImages;
-
-} // ContentListAllDTO
+}

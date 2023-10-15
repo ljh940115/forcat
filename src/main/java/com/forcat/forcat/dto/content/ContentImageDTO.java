@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 public class ContentImageDTO {
 
     private String uuid;
-
     private String fileName;
-
     private int ord;
-
-} // ContentImageDTO
+}

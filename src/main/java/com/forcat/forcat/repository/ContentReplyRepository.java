@@ -10,9 +10,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ContentReplyRepository extends JpaRepository<ContentReply, Long> {
 
-    @Query("select cr from ContentReply cr where cr.content.cno = :cno")
-    Page<ContentReply> listOfContent(@Param("cno")Long cno, Pageable pageable);
+    @Query ("select cr from ContentReply cr where cr.content.cno = :cno")
+    Page<ContentReply> listOfContent (@Param ("cno") Long cno, Pageable pageable);
 
-    void deleteByContent_Cno(Long cno);
-
+    void deleteByContent_Cno (Long cno);
 }

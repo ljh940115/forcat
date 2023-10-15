@@ -8,16 +8,14 @@ import org.springframework.data.domain.Pageable;
 
 public interface SearchContentRepository {
 
-    Page<Content> searchContent1(Pageable pageable);
+    Page<Content> searchContent1 (Pageable pageable);
 
     //Querydsl로 검색 처리
-    Page<Content> searchContentAll(String[] types, String keyword, Pageable pageable);
+    Page<Content> searchContentAll (String[] types, String keyword, Pageable pageable);
 
-    Page<ContentListReplyCountDTO> searchWithContentReplyCount(String[] types, String keyword, Pageable pageable);
+    Page<ContentListReplyCountDTO> searchWithContentReplyCount (String[] types, String keyword, Pageable pageable);
 
-    Page<ContentListAllDTO> searchWithContentAll(String[] types, String keyword, Pageable pageable);
+    Page<ContentListAllDTO> searchWithContentAll (String[] types, String keyword, Pageable pageable);
 
-    Page<ContentListAllDTO> searchWithContentRecent(String[] types, String keyword, Pageable pageable);
-
-
-} // SearchContentRepository
+    Page<ContentListAllDTO> searchWithContentRecent (String[] types, String keyword, Pageable pageable);
+}

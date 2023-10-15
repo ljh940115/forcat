@@ -1,52 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+<html layout:decorate = "~{layouts/layout1}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
     <title>Title</title>
 </head>
 
-<body class="align-middle" layout:fragment="content">
-<div class="row mt-3">
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
+<body class = "align-middle" layout:fragment = "content">
+<div class = "row mt-3">
+    <div class = "col">
+        <div class = "card">
+            <div class = "card-header">
                 Content Register
             </div>
-            <div class="card-body">
-                <form action="/content/contentRegister" method="post">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Title</span>
-                        <input type="text" name="ctitle" class="form-control" placeholder="Title">
+            <div class = "card-body">
+                <form action = "/content/contentRegister" method = "post">
+                    <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Title</span>
+                        <input class = "form-control" name = "ctitle" placeholder = "Title" type = "text">
                     </div>
 
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Content</span>
-                        <textarea class="form-control col-sm-5" rows="5" name="ccontent"></textarea>
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Content</span>
+                        <textarea class = "form-control col-sm-5" name = "ccontent" rows = "5"></textarea>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Writer</span>
-                        <input type="text" name="cwriter" class="form-control" placeholder="Writer">
+
+                    <div class = "input-group mb-3" hidden = "hidden" th:unless = "${#authorization.expression('isAuthenticated()')}">
+                        <span class = "input-group-text">작성자</span>
+                        <input class = "form-control" name = "cwriter" type = "text" value = "손님">
+                    </div>
+                    <div class = "input-group mb-3" hidden = "hidden" th:if = "${#authorization.expression('isAuthenticated()')}">
+                        <span class = "input-group-text">작성자</span>
+                        <input class = "form-control" name = "cwriter" readonly th:value = "${#authentication.principal.username}" type = "text">
                     </div>
 
                     <!--이미지 첨부파일 등록-->
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Images</span>
-                        <div class="float-end uploadHidden">
-                            <button type="button" class="btn btn-primary uploadFileBtn">ADD Files</button>
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Images</span>
+                        <div class = "float-end uploadHidden">
+                            <button class = "btn btn-primary uploadFileBtn" type = "button">ADD Files</button>
                         </div>
                     </div>
                     <!--/이미지 첨부파일 등록-->
 
-                    <div class="my-4">
-                        <div class="float-end">
-                            <a href="/content/contentList" class="btn btn-primary" >목록으로</a>
-                            <button type="submit" class="btn btn-primary submitBtn">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
+                    <div class = "my-4">
+                        <div class = "float-end">
+                            <a class = "btn btn-primary" href = "/content/contentList">목록으로</a>
+                            <button class = "btn btn-primary submitBtn" type = "submit">Submit</button>
+                            <button class = "btn btn-secondary" type = "reset">Reset</button>
                         </div>
                     </div>
 
@@ -56,42 +61,42 @@
     </div><!-- end col-->
 </div><!-- end row-->
 
-<!—- 첨부 파일 섬네일을 보여줄 부분 -->
-<div class="row mt-3">
-    <div class="col ">
-        <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+      <!—- 첨부 파일 섬네일을 보여줄 부분 -->
+<div class = "row mt-3">
+    <div class = "col ">
+        <div class = "container-fluid d-flex uploadResult" style = "flex-wrap: wrap;">
         </div>
     </div>
 </div>
 
-<!—- 첨부파일 추가를 위한 모달창 -->
-<div class="modal uploadModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Upload File</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <!—- 첨부파일 추가를 위한 모달창 -->
+<div class = "modal uploadModal" tabindex = "-1">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h5 class = "modal-title">Upload File</h5>
+                <button aria-label = "Close" class = "btn-close" data-bs-dismiss = "modal" type = "button"></button>
             </div>
-            <div class="modal-body">
-                <div class="input-group mb-3">
-                    <input type="file" name="files" class="form-control" multiple>
+            <div class = "modal-body">
+                <div class = "input-group mb-3">
+                    <input class = "form-control" multiple name = "files" type = "file">
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary uploadBtn">Upload</button>
-                <button type="button" class="btn btn-outline-dark closeUploadBtn">Close</button>
+            <div class = "modal-footer">
+                <button class = "btn btn-primary uploadBtn" type = "button">Upload</button>
+                <button class = "btn btn-outline-dark closeUploadBtn" type = "button">Close</button>
             </div>
         </div>
     </div>
 </div><!--첨부 파일 등록 모달창-->
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/js/board/upload.js"></script>
+<script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src = "/js/board/upload.js"></script>
 
-<script layout:fragment="script" th:inline="javascript">
+<script layout:fragment = "script" th:inline = "javascript">
     /*에러 메세지 처리*/
     const errors = [[${errors}]]
-    console.log(errors)
+    console.log (errors)
 
     let errorMsg = ''
 
@@ -99,56 +104,56 @@
         for (let i = 0; i < errors.length; i++) {
             errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
         }
-        alert(errorMsg)
+        alert (errorMsg)
     }
 
     //업로드 모달창
-    const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
+    const uploadModal = new bootstrap.Modal (document.querySelector (".uploadModal"))
 
-    document.querySelector(".uploadFileBtn").addEventListener("click", function (e) {
+    document.querySelector (".uploadFileBtn").addEventListener ("click", function (e) {
 
-        e.stopPropagation()
-        e.preventDefault()
-        uploadModal.show()
+        e.stopPropagation ()
+        e.preventDefault ()
+        uploadModal.show ()
 
     }, false)
 
     /*모달창 파일 업로드, 섬네일 출력*/
-    document.querySelector(".uploadBtn").addEventListener("click", function (e) {
+    document.querySelector (".uploadBtn").addEventListener ("click", function (e) {
 
-        const formObj = new FormData();
+        const formObj = new FormData ();
 
-        const fileInput = document.querySelector("input[name='files']")
+        const fileInput = document.querySelector ("input[name='files']")
 
-        console.log(fileInput.files)
+        console.log (fileInput.files)
 
         const files = fileInput.files
 
         for (let i = 0; i < files.length; i++) {
-            formObj.append("files", files[i]);
+            formObj.append ("files", files[i]);
         }
 
         /*업로드 서버 성공 처리*/
-        uploadToServer(formObj).then(result => {
-            console.log(result)
+        uploadToServer (formObj).then (result => {
+            console.log (result)
             for (const uploadResult of result) {
-                showUploadFile(uploadResult)
+                showUploadFile (uploadResult)
             }
-            uploadModal.hide()
-        }).catch(e => {
-            uploadModal.hide()
+            uploadModal.hide ()
+        }).catch (e => {
+            uploadModal.hide ()
         })
 
     }, false)
 
-    const uploadResult = document.querySelector(".uploadResult")
+    const uploadResult = document.querySelector (".uploadResult")
 
-    function showUploadFile({uuid, fileName, link}) {
+    function showUploadFile ({uuid, fileName, link}) {
 
         const str = `<div class="card col-4">
             <div class="card-header d-flex justify-content-center">
                 ${fileName}
-                <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)" >X</button>
+                <button class="btn-sm btn-danger" onclick="removeFile('${uuid}', '${fileName}', this)" >X</button>
             </div>
             <div class="card-body">
                  <img src="/view/${link}" data-src="${uuid + "_" + fileName}" >
@@ -159,44 +164,44 @@
     }
 
     /*첨부파일 삭제*/
-    function removeFile(uuid, fileName, obj) {
+    function removeFile (uuid, fileName, obj) {
 
-        console.log(uuid)
-        console.log(fileName)
-        console.log(obj)
+        console.log (uuid)
+        console.log (fileName)
+        console.log (obj)
 
-        const targetDiv = obj.closest(".card")
+        const targetDiv = obj.closest (".card")
 
-        removeFileToServer(uuid, fileName).then(data => {
-            targetDiv.remove()
+        removeFileToServer (uuid, fileName).then (data => {
+            targetDiv.remove ()
         })
     }
 
     /*From 태그 submit 동작 시 같이 submit 처리*/
-    document.querySelector(".submitBtn").addEventListener("click", function (e) {
+    document.querySelector (".submitBtn").addEventListener ("click", function (e) {
 
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault ()
+        e.stopPropagation ()
 
-        const target = document.querySelector(".uploadHidden")
+        const target = document.querySelector (".uploadHidden")
 
-        const uploadFiles = uploadResult.querySelectorAll("img")
+        const uploadFiles = uploadResult.querySelectorAll ("img")
 
         let str = ''
 
         for (let i = 0; i < uploadFiles.length; i++) {
             const uploadFile = uploadFiles[i]
-            const imgLink = uploadFile.getAttribute("data-src")
+            const imgLink = uploadFile.getAttribute ("data-src")
 
             str += `<input type='hidden' name='fileNames' value="${imgLink}">`
         }
 
         target.innerHTML = str;
 
-        const formObj = document.querySelector("form");
+        const formObj = document.querySelector ("form");
 
-        formObj.submit();
-        formObj.reset();
+        formObj.submit ();
+        formObj.reset ();
 
     }, false)
 </script>

@@ -22,10 +22,8 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     private boolean social;
     private Map<String, Object> props; //소셜 로그인 정보
 
-    public MemberSecurityDTO(String username, String password, String email, boolean del, boolean social,
-                             Collection<? extends GrantedAuthority> authorities) {
-                                super(username, password, authorities);
-
+    public MemberSecurityDTO (String username, String password, String email, boolean del, boolean social, Collection<? extends GrantedAuthority> authorities) {
+        super (username, password, authorities);
         this.mid = username;
         this.mpw = password;
         this.email = email;
@@ -34,16 +32,16 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     }
 
     @Override
-    public Map<String, Object> getAttributes() {
-        return this.getProps();
+    public Map<String, Object> getAttributes () {
+        return this.getProps ();
     }
 
     @Override
-    public String getName() {
+    public String getName () {
         return this.mid;
     }
 
-    public String getEmail() {
+    public String getEmail () {
         return this.email;
     }
 }

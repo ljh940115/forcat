@@ -10,8 +10,7 @@ import java.util.Optional;
 
 public interface ContentRepository extends JpaRepository<Content, Long>, SearchContentRepository {
 
-    @EntityGraph(attributePaths = {"imageSet"})
-    @Query("select c from Content c where c.cno =:cno")
-    Optional<Content> findByIdWithContentImages(@Param("cno")Long cno);
-
+    @EntityGraph (attributePaths = {"imageSet"})
+    @Query ("select c from Content c where c.cno =:cno")
+    Optional<Content> findByIdWithContentImages (@Param ("cno") Long cno);
 } // ContentRepository

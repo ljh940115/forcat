@@ -17,7 +17,7 @@ public class ContentDTO {
     private Long cno;
 
     @NotEmpty
-    @Size(min=3, max = 100)
+    @Size (min = 3, max = 100)
     private String ctitle;
     @NotEmpty
     private String ccontent;
@@ -25,7 +25,6 @@ public class ContentDTO {
     private String cwriter;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    //첨부파일의 이름들
-    private List<String> fileNames;
+    private List<String> fileNames;//첨부파일의 이름들
 
 } // ContentDTO

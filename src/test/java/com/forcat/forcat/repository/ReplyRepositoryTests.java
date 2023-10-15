@@ -22,32 +22,24 @@ public class ReplyRepositoryTests {
     private BoardRepository boardRepository;
 
     @Test
-    public void testInsert() {
-            Long bno = 810L;
-
-            Board board = Board.builder().bno(bno).build();
-
-            Reply reply = Reply.builder()
-                    .board(board)
-                    .replyText("댓글.....")
-                    .replyer("replyer1")
-                    .build();
-
-            replyRepository.save(reply);
+    public void testInsert () {
+        Long bno = 810L;
+        Board board = Board.builder ().bno (bno).build ();
+        Reply reply = Reply.builder ().board (board).replyText ("댓글.....").replyer ("replyer1").build ();
+        replyRepository.save (reply);
     }
 
     @Transactional//동시 처리
     @Test
-    public void testBoardReplies() {
-
+    public void testBoardReplies () {
         Long bno = 2L;
         //페이징 처리용 객체 생성, 0번째 페이지, 페이지 당 10개 댓글, rno 기준 내림차순
-        Pageable pageable = PageRequest.of(0,10, Sort.by("rno").descending());
+        Pageable pageable = PageRequest.of (0, 10, Sort.by ("rno").descending ());
         //게시글 번호, 페이징 정보 기반 댓글 가져온다.
-        Page<Reply> result = replyRepository.listOfBoard(bno, pageable);
+        Page<Reply> result = replyRepository.listOfBoard (bno, pageable);
         //조회한 댓글 목록에서 댓글을 하나씩 출력
-        result.getContent().forEach(reply -> {
-            log.info(reply);
+        result.getContent ().forEach (reply -> {
+            log.info (reply);
         });
     }
 }

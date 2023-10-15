@@ -16,23 +16,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Optional;
 
 @Controller//컨트롤러
-@RequestMapping("/shop")
+@RequestMapping ("/shop")
 @Log4j2//로그 사용
 @RequiredArgsConstructor//final, notnull 필드 생성자 자동 생성
 public class ShopController {
 
     private final ItemService itemService;
 
-    @GetMapping(value = "/")
-    public String shopMain(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
-
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
-        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
-
-        model.addAttribute("items", items);
-        model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 5);
-
+    @GetMapping (value = "/")
+    public String shopMain (ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of (page.isPresent () ? page.get () : 0, 6);
+        Page<MainItemDto> items = itemService.getMainItemPage (itemSearchDto, pageable);
+        model.addAttribute ("items", items);
+        model.addAttribute ("itemSearchDto", itemSearchDto);
+        model.addAttribute ("maxPage", 5);
         return "shopMain";
     }
 }

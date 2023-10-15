@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication//시큐리티 비활성 : (exclude = SecurityAutoConfiguration.class)
 @EnableJpaAuditing//BaseEntity에 감시 기능을 사용하기 위해 감시 기능 활성화 명시
 public class ForcatApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(ForcatApplication.class, args);
+    public static void main (String[] args) {
+        SpringApplication.run (ForcatApplication.class, args);
     }
 }

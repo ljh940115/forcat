@@ -4,11 +4,6 @@
     padding: 0;
 }
 
-body {
-    font-family: "Open Sans", Helvetica, Arial, sans-serif;
-    background: #ededed;
-}
-
 input, button {
     border: none;
     outline: none;
@@ -27,7 +22,7 @@ input, button {
     position: relative;
     width: 900px;
     height: 850px;
-    margin: 0 auto 100px;
+    margin: 50px auto 100px;
     background: #fff;
 }
 
@@ -82,7 +77,8 @@ button {
     top: 0;
     width: 900px;
     height: 100%;
-    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/sections-3.jpg");
+    background-position: center;
+    background-image: url("https://cdn.pixabay.com/photo/2018/07/13/10/20/kittens-3535404_1280.jpg");
     background-size: cover;
     transition: transform 1.2s ease-in-out;
 }

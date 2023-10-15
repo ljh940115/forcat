@@ -24,10 +24,8 @@ public class ContentReplyDTO {
     private String creplyText;
     @NotEmpty
     private String creplyer;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regDate;
     @JsonIgnore
     private LocalDateTime modDate;
-
 }
