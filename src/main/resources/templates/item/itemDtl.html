@@ -148,8 +148,11 @@
             <span class = "badge badge-primary mgb-15" th:if = "${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL}">
                 판매중
             </span>
-            <span class = "badge btn-danger mgb-15" th:unless = "${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL}">
+            <span class = "badge btn-danger mgb-15" th:if= "${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SOLD_OUT}">
                 품절
+            </span>
+            <span class = "badge btn-danger mgb-15" th:if = "${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).RESERVE}">
+                판매 보류
             </span>
             <div class = "h4" th:text = "${item.itemNm}"></div>
             <hr class = "my-4">
@@ -177,7 +180,7 @@
                 <button class = "btn btn-primary btn-lg" onclick = "order()" type = "button">주문하기</button>
             </div>
             <div class = "text-right" th:unless = "${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL}">
-                <button class = "btn btn-danger btn-lg" type = "button">품절</button>
+                <button class = "btn btn-danger btn-lg" type = "button">구매불가</button>
             </div>
         </div>
     </div>

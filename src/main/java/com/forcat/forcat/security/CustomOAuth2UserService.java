@@ -59,13 +59,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             member.addRole (MemberRole.USER);
             memberRepository.save (member);//회원 정보를 저장
             //MemberSecurityDTO 구성 및 반환
-            MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO (email, "1111", email, false, true, List.of (new SimpleGrantedAuthority ("ROLE_USER")));
+            MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO (email, "1111", email, member.getName(), member.getAddress(), false, true, List.of (new SimpleGrantedAuthority ("ROLE_USER")));
             memberSecurityDTO.setProps (params);//setProps 메서드를 호출하여 사용자의 추가 정보(params)를 설정
             return memberSecurityDTO;
         } else {////데이터베이스에 해당 이메일을 사용자가 있다면
             Member member = result.get ();
             MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO (//소셜 로그인 사용자로 설정
-                    member.getMid (), member.getMpw (), member.getEmail (), member.isDel (), member.isSocial (), member.getRoleSet ().stream ().map (memberRole -> new SimpleGrantedAuthority ("ROLE_" + memberRole.name ())).collect (Collectors.toList ()));
+                    member.getMid (), member.getMpw (), member.getEmail (), member.getName(), member.getAddress(), member.isDel (), member.isSocial (), member.getRoleSet ().stream ().map (memberRole -> new SimpleGrantedAuthority ("ROLE_" + memberRole.name ())).collect (Collectors.toList ()));
             return memberSecurityDTO;
         }//MemberSecurityDTO는 Spring Security의 인증 및 권한 확인에 사용
     }

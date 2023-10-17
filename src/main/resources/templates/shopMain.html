@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <a href = "/admin/item/new">상품 등록</a> / <a href = "/admin/items">상품 현황</a>/ <a href = "/orders">상품 장바구니</a>
+    <a href="/admin/item/new">상품 등록</a> / <a href="/admin/items">상품 현황</a> / <a href="/cart">상품 장바구니</a> / <a href="/orders">구매 이력</a>
 
     <input name = "searchQuery" th:value = "${itemSearchDto.searchQuery}" type = "hidden">
     <div class = "center" th:if = "${not #strings.isEmpty(itemSearchDto.searchQuery)}">

@@ -1,6 +1,5 @@
 package com.forcat.forcat.controller;
 
-import com.forcat.forcat.dto.member.MemberCheckDTO;
 import com.forcat.forcat.dto.member.MemberJoinDTO;
 import com.forcat.forcat.dto.member.MemberUpdateDTO;
 import com.forcat.forcat.service.MemberService;
@@ -20,21 +19,6 @@ public class MemberController {
 
     @Autowired    //의존성 주입
     private final MemberService memberService;
-
-    @PostMapping ("/check")
-    public String checkOST (MemberCheckDTO memberCheckDTO, RedirectAttributes redirectAttributes) {
-        log.info ("==========회원 확인 실행");
-        log.info ("확인할 정보: " + memberCheckDTO);
-
-        try {
-            memberService.check (memberCheckDTO);
-        } catch (MemberService.MidExistException e) {
-            redirectAttributes.addFlashAttribute ("error", "mid");
-            return "redirect:/member/login";
-        }
-        redirectAttributes.addFlashAttribute ("result", "success");
-        return "redirect:/member/login"; //회원 가입 후 로그인
-    }
 
     @GetMapping ("/login")//로그인 페이지, CustomSecurityConfig로부터 리다이렉트 받음
     public String loginGET (String errorCode, String logout) {

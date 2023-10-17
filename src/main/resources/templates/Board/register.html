@@ -7,6 +7,10 @@
 <head>
     <meta charset = "UTF-8">
     <title>포캣 게시판</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src = "/js/board/upload.js"></script>
 </head>
 
 <body class = "align-middle" layout:fragment = "content">
@@ -89,8 +93,6 @@
     </div>
 </div><!--첨부 파일 등록 모달창-->
 
-<script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src = "/js/board/upload.js"></script>
 
 <script layout:fragment = "script" th:inline = "javascript">
     /*에러 메세지 처리*/
@@ -121,16 +123,33 @@
     document.querySelector (".uploadBtn").addEventListener ("click", function (e) {
 
         const formObj = new FormData ();
-
         const fileInput = document.querySelector ("input[name='files']")
 
         console.log (fileInput.files)
-
         const files = fileInput.files
 
         for (let i = 0; i < files.length; i++) {
             formObj.append ("files", files[i]);
         }
+
+        const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+        const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+        formObj.append(csrfHeader, csrfToken);
+
+        axios.post("/register", formObj, {
+            headers: {
+                [csrfHeader]: csrfToken,
+                "Content-Type": "multipart/form-data",
+            },
+        })
+            .then((response) => {
+                console.log(response.data);
+                // 처리 성공 시 할 일
+            })
+            .catch((error) => {
+                console.error(error);
+                // 오류 처리
+            });
 
         /*모달창 취소 버튼*/
         const cancelUploadBtn = document.getElementById ("cancelUploadBtn");

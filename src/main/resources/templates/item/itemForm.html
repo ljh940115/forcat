@@ -59,15 +59,20 @@
         <!-- 파일 전송 enctype="multipart/form-data" 사용
              모든 문자 인코딩하지 않음, post 방식일 때만 사용 가능 -->
 
-        <p class = "h2">상품 등록</p>
+        <!-- <p class = "h2">상품 등록</p> -->
+        <p class="h2">
+            <span th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">상품 등록</span>
+            <span th:unless="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">상품 수정</span>
+        </p>
 
         <input th:field = "*{id}" type = "hidden">
 
         <div class = "form-group">
             <select class = "custom-select" th:field = "*{itemSellStatus}">
-                <!-- 상품 판매 상태 -> 재고가 없거나 미판매 시 품절로 표시 -->
+                <!-- 상품 판매 상태 -->
                 <option value = "SELL">판매중</option>
                 <option value = "SOLD_OUT">품절</option>
+                <option value = "RESERVE">판매보류</option>
             </select>
         </div>
 

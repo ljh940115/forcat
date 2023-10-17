@@ -1,6 +1,5 @@
 package com.forcat.forcat.service;
 
-import com.forcat.forcat.dto.member.MemberCheckDTO;
 import com.forcat.forcat.dto.member.MemberJoinDTO;
 import com.forcat.forcat.dto.member.MemberUpdateDTO;
 import com.forcat.forcat.repository.MemberRepository;
@@ -20,12 +19,6 @@ public class MemberServiceImpl implements MemberService {
     private final ModelMapper modelMapper;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Override
-    public void check (MemberCheckDTO memberCheckDTO) throws
-                                                      MidExistException {
-
-    }
 
     @Override
     public void join (MemberJoinDTO memberJoinDTO) throws MidExistException {
@@ -49,9 +42,11 @@ public class MemberServiceImpl implements MemberService {
         String mid = memberUpdateDTO.getMid ();
         String mpw = memberUpdateDTO.getMpw ();
         String email = memberUpdateDTO.getEmail ();
+        String name = memberUpdateDTO.getName ();
+        String address = memberUpdateDTO.getAddress ();
         Member member = modelMapper.map (memberUpdateDTO, Member.class);//회원 정보를 담는다
         member.changePassword (passwordEncoder.encode (memberUpdateDTO.getMpw ()));//정상인 경우 비밀번호 인코딩
-        memberRepository.updateMemberData (mid, mpw, email);
+        memberRepository.updateMemberData (mid, mpw, email, name, address);
         //로그 출력
         log.info ("=======================");
         log.info (member);

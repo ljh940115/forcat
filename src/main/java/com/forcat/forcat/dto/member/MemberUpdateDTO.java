@@ -8,4 +8,6 @@ public class MemberUpdateDTO {//회원 수정 DTO
     private String mid;
     private String mpw;
     private String email;
+    private String name;
+    private String address;
 }

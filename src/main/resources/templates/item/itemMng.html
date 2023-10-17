@@ -55,7 +55,16 @@
                 <td>
                     <a th:href = "'/admin/item/'+${item.id}" th:text = "${item.itemNm}"></a>
                 </td>
-                <td th:text = "${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
+                <!-- <td th:text="${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL} ? '판매중' : '품절'"></td> -->
+                <td th:if="${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SELL}">
+                    판매중
+                </td>
+                <td th:if="${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).SOLD_OUT}">
+                    품절
+                </td>
+                <td th:if="${item.itemSellStatus == T(com.forcat.forcat.entity.ItemSellStatus).RESERVE}">
+                    판매중지
+                </td>
                 <td th:text = "${#authentication.principal.username}"></td>
                 <td th:text = "${item.regDate}"></td>
             </tr>

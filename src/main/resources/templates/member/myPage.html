@@ -39,6 +39,17 @@
                             <span class = "input-group-text">EMAIL</span>
                             <input class = "form-control" name = "email" th:value = "${#authentication.principal.email}" type = "email">
                         </div>
+
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">이름</span>
+                            <input class = "form-control" name = "name" readonly type = "text">
+                        </div>
+
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">주소</span>
+                            <input class = "form-control" name = "address" type = "text">
+                        </div>
+
                         <div class = "my-4">
                             <div class = "float-end">
                                 <button class = "btn btn-primary submitBtn" type = "submit">수정</button>

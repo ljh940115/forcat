@@ -7,6 +7,8 @@
 <head>
     <meta charset = "UTF-8">
     <title>포캣 게시판</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 
 <body class = "align-middle" layout:fragment = "content">
@@ -236,22 +238,35 @@
 
     //댓글 등록 버튼 이벤트
     registerBtn.addEventListener ("click", function (e) {
-        const replyObj = {
+
+        var token = $("meta[name='_csrf']").attr("content");//토큰 가져오기
+        var header = $("meta[name='_csrf_header']").attr("content");//헤더 가져오기
+
+        const replyObj = {//댓글 객체 설정
             bno      : bno,
             replyText: replyText.value,
             replyer  : replyer.value
         }
 
-        addReply (replyObj).then (result => {
-            alert (result.rno)
-            registerModal.hide ()
-            replyText.value = ''
-            replyer.value = ''
-            printReplies (1, 10, true) //댓글 목록 갱신
-        }).catch (e => {
-            alert ("Exception...")
+        const headers = {//요청 헤더 설정
+            [header]: token, //CSRF 토큰을 헤더에 추가
+            "Content-Type": "application/json"
+        };
+
+        axios.post("/replies/", replyObj, {
+            headers: headers
         })
-    }, false)
+            .then(function (response) {
+                alert(response.data.rno);
+                registerModal.hide();//댓글 모달 숨기기
+                replyText.value = '';//댓글 내용 초기화
+                replyer.value = '';//댓글 작성자 초기화
+                printReplies(1, 10, true); //댓글 목록 갱신
+            })
+            .catch(function (error) {
+                alert("Exception...");
+            });
+    }, false);
 
     let page = 1
     let size = 10
@@ -323,16 +338,29 @@
             replyText: modifyText.value
         }
 
-        modifyReply (replyObj).then (result => {
-            alert (result.rno + ' 댓글이 수정되었습니다.')
-            replyText.value = ''
-            modifyModal.hide ()
-            printReplies (page, size, true)
+        // CSRF 토큰 가져오기
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
 
-        }).catch (e => {
-            console.log (e)
+        // 요청 헤더 설정
+        const headers = {
+            [header]: token, // CSRF 토큰을 헤더에 추가
+            "Content-Type": "application/json"
+        };
+
+        axios.put("/replies/" + replyObj.rno, replyObj, {
+            headers: headers
         })
-    }, false)
+            .then(function (response) {
+                alert(response.data.rno + ' 댓글이 수정되었습니다.');
+                replyText.value = '';
+                modifyModal.hide();
+                printReplies(page, size, true);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, false);
 
     closeModifyBtn.addEventListener ("click", function (e) {
         modifyModal.hide ()
@@ -340,21 +368,31 @@
 
     //댓글 삭제와 화면 갱신
     removeBtn.addEventListener ("click", function (e) {
-        removeReply (replyHeader.innerHTML).then (result => {
+        const rno = replyHeader.innerHTML; // 삭제할 댓글의 번호
 
-            alert (result.rno + ' 댓글이 삭제되었습니다.')
-            replyText.value = ''
-            modifyModal.hide ()
+        // CSRF 토큰 가져오기
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
 
-            page = 1 // 이 부분이 없다면 원래 페이지로
+        // 요청 헤더 설정
+        const headers = {
+            [header]: token, // CSRF 토큰을 헤더에 추가
+        };
 
-            printReplies (page, size)
-
-        }).catch (e => {
-            console.log (e)
+        axios.delete("/replies/" + rno, {
+            headers: headers
         })
-    }, false)
-
+            .then(function (response) {
+                alert(response.data.rno + ' 댓글이 삭제되었습니다.');
+                replyText.value = '';
+                modifyModal.hide();
+                page = 1; // 이 부분이 없다면 원래 페이지로
+                printReplies(page, size, true); // 댓글 목록 갱신
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }, false);
 </script>
 
 </body>

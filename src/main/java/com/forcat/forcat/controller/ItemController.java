@@ -53,7 +53,7 @@ public class ItemController {
             model.addAttribute ("errorMessage", "상품 등록 중 에러가 발생하였습니다.");
             return "item/itemForm"; // 에러 메세지와 함께 상품 등록 페이지로 리턴
         }
-        return "redirect:/"; // 완료되면 메인페이지로 리다이렉트 시킴
+        return "redirect:/shop/"; // 완료되면 메인페이지로 리다이렉트 시킴
     }
 
     //@PreAuthorize("hasRole('ADMIN')")//blog 페이지는 USER 권한 접속 가능
@@ -102,7 +102,7 @@ public class ItemController {
             model.addAttribute ("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
             return "item/itemForm";
         }
-        return "redirect:/";
+        return "redirect:/shop/"; // 완료되면 메인페이지로 리다이렉트 시킴
     }
 
     @GetMapping (value = "/item/{itemId}")
