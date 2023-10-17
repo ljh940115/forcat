@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -64,6 +65,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+
     @GetMapping ({"/read", "modify"})//게시글 조회, 수정
     public void read (Long bno, PageRequestDTO pageRequestDTO, Model model) {
         log.info ("==========게시글 조회 / 수정 출력");
@@ -71,6 +73,7 @@ public class BoardController {
         model.addAttribute ("dto", boardDTO); //모델 객체에 dto라는 이름으로 boardDTO를 전달
     }
 
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping ("/modify")//게시글 수정
     public String modify (@Valid BoardDTO boardDTO,//수정할 게시글 정보
                           BindingResult bindingResult,//유효성 검사

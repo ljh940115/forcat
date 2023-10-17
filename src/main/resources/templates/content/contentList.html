@@ -5,7 +5,7 @@
       xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-    <title>For Cat</title>
+    <title>고양이 커뮤니티 포캣 - 콘텐츠</title>
     <meta charset = "utf-8">
     <script layout:fragment = "script" th:inline = "javascript">
         //이벤트 처리
@@ -64,9 +64,9 @@
     <div class = "container">
         <div class = "row no-gutters slider-text align-items-end">
             <div class = "col-md-9 ftco-animate pb-5">
-                <p class = "breadcrumbs mb-2"><span class = "mr-2"><a href = "/index">Home <i
+                <p class = "breadcrumbs mb-2"><span class = "mr-2"><a href = "/index">홈<i
                         class = "ion-ios-arrow-forward"></i></a></span>
-                <h1 class = "mb-0 bread">Content</h1>
+                <h1 class = "mb-0 bread">콘텐츠</h1>
             </div>
         </div>
     </div>
@@ -77,15 +77,16 @@
         <div class = "row d-flex">
             <div class = "col-md-6 ftco-animate" th:each = "contentDto:${contentResponseDTO.dtoCList}">
                 <div class = "blog-entry align-self-stretch contnet">
-                    <a class = "block-20 rounded" style = "background-image: url('../../static/images/image_1.jpg');"
+                    <a class = "block-20 rounded" style = "background-image: url('/images/content/s_2.jpg');"
                        th:href = "|@{/content/contentRead(cno =${contentDto.cno})}|">
                     </a>
                     <div class = "text p-4">
                         <div class = "meta mb-2">
+
+
                             <div><a href = "#">[[${#temporals.format(contentDto.regDate, 'yyyy-MM-dd')}]]</a></div>
                             <div><a href = "#">[[${contentDto.cwriter}]]</a></div>
-                            <div><a class = "meta-chat" href = "#"><span class = "fa fa-comment"></span>[[${contentDto.creplyCount}]]</a>
-                            </div>
+                            <div><a class = "meta-chat" href = "#"><span class = "fa fa-comment"></span>[[${contentDto.creplyCount}]]</a></div>
                         </div>
                         <h3 class = "heading"><a href = "#">[[${contentDto.ctitle}]]</a></h3>
                     </div>

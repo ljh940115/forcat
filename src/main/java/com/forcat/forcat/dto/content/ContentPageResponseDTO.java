@@ -19,6 +19,8 @@ public class ContentPageResponseDTO<E> {
     private boolean cnext;//다음 페이지의 존재 여부
     private List<E> dtoCList;
 
+
+
     @Builder (builderMethodName = "withContentAll")
     public ContentPageResponseDTO (ContentPageRequestDTO contentpageRequestDTO, List<E> dtoCList, int ctotal) {
         if (ctotal <= 0) {
@@ -37,4 +39,7 @@ public class ContentPageResponseDTO<E> {
         this.cprev = this.cstart > 1;
         this.cnext = ctotal > this.cend * this.csize;
     }
+
+
+
 }

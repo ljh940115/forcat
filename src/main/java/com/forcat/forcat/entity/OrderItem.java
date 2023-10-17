@@ -29,6 +29,7 @@ public class OrderItem extends BaseEntity {
         orderItem.setCount (count);//주문할 개수 저장
         orderItem.setOrderPrice (item.getPrice ());//아이템의 현재 가격 저장
         item.removeStock (count);////주문 수량만큼 상품 재고 삭제
+        item.changeStatus();
         return orderItem;
     }
 
@@ -38,5 +39,6 @@ public class OrderItem extends BaseEntity {
 
     public void cancel () {
         this.getItem ().addStock (count);
+        this.getItem().changeStatus();
     }//주문 취소 시 재고 증가
 }

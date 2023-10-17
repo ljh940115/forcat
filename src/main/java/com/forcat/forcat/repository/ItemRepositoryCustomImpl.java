@@ -76,8 +76,37 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     public Page<MainItemDto> getMainItemPage (ItemSearchDto itemSearchDto, Pageable pageable) {
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
-        List<MainItemDto> content = queryFactory.select (new QMainItemDto (item.id, item.itemNm, item.itemDetail, itemImg.imgUrl, item.price)).from (itemImg).join (itemImg.item, item).where (itemImg.repImgYn.eq ("Y")).where (itemNmLike (itemSearchDto.getSearchQuery ())).orderBy (item.id.desc ()).offset (pageable.getOffset ()).limit (pageable.getPageSize ()).fetch ();
-        long total = queryFactory.select (Wildcard.count).from (itemImg).join (itemImg.item, item).where (itemImg.repImgYn.eq ("Y")).where (itemNmLike (itemSearchDto.getSearchQuery ())).fetchOne ();
+        List<MainItemDto> content = queryFactory
+                .select(
+                        new QMainItemDto(
+                                item.id,
+                                item.itemNm,
+                                item.itemDetail,
+                                itemImg.imgUrl,
+                                item.price)
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(item.itemSellStatus.ne(ItemSellStatus.RESERVE)) // 상품판매여부(ItemSellStatus)가 RESERVE 아닌 경우만
+                .where(itemImg.repImgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                //.orderBy(item.id.desc())
+                .orderBy(
+                        item.itemSellStatus.asc(),  // ItemSellStatus 오름차순(SELL - SOLD_OUT - RESERVE)
+                        item.id.desc()              // item.id 내림차순
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = queryFactory
+                .select(Wildcard.count)
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.repImgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .fetchOne()
+                ;
         return new PageImpl<> (content, pageable, total);
     }
 }

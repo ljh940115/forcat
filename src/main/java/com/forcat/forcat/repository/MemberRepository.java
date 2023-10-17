@@ -30,8 +30,8 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Modifying
     @Transactional
-    @Query ("update Member m set m.mpw =:mpw, m.email =:email where m.mid = :mid ")
-    void updateMemberData (@Param ("mid") String mid, @Param ("mpw") String mpw, @Param ("email") String email);//회원 정보 수정(비밀번호, 이메일)
+    @Query ("update Member m set m.mpw =:mpw, m.email =:email , m.name =:name, m.address =:address where m.mid = :mid ")
+    void updateMemberData (@Param ("mid") String mid, @Param ("mpw") String mpw, @Param ("email") String email, @Param ("name") String name, @Param ("address") String address);//회원 정보 수정(비밀번호, 이메일)
 
     @Transactional
     void deleteByMid (String mid);// 멤버 1명을 삭제

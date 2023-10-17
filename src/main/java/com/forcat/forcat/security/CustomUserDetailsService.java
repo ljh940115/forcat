@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {//UserDetai
             throw new UsernameNotFoundException ("username not found...");
         }
         Member member = result.get ();//해당 아이디를 가진 사용자가 있다면 MemberSecurityDTO 생성
-        MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO (member.getMid (), member.getMpw (), member.getEmail (), member.isDel (), false, member.getRoleSet ().stream ().map (memberRole -> new SimpleGrantedAuthority ("ROLE_" + memberRole.name ())).collect (Collectors.toList ()));
+        MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO (member.getMid (), member.getMpw (), member.getEmail (), member.getName(), member.getAddress(), member.isDel (), false, member.getRoleSet ().stream ().map (memberRole -> new SimpleGrantedAuthority ("ROLE_" + memberRole.name ())).collect (Collectors.toList ()));
         log.info ("memberSecurityDTO");
         log.info (memberSecurityDTO);
         return memberSecurityDTO;

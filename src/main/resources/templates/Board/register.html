@@ -7,6 +7,8 @@
 <head>
     <meta charset = "UTF-8">
     <title>포캣 게시판</title>
+    <meta name = "_csrf" th:content = "${_csrf.token}"/>
+    <meta name = "_csrf_header" th:content = "${_csrf.headerName}"/>
 </head>
 
 <body class = "align-middle" layout:fragment = "content">
@@ -87,25 +89,19 @@
             </div>
         </div>
     </div>
+    <script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src = "/js/board/upload.js"></script>
 </div><!--첨부 파일 등록 모달창-->
+<script>
+    const buttonElement = document.querySelector(".uploadBtn");
 
-<script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src = "/js/board/upload.js"></script>
-
-<script layout:fragment = "script" th:inline = "javascript">
-    /*에러 메세지 처리*/
-    const errors = [[${errors}]]
-    console.log (errors)
-
-    let errorMsg = ''
-
-    if (errors) {
-        for (let i = 0; i < errors.length; i++) {
-            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
-        }
-        alert (errorMsg)
+    if (buttonElement) {
+        buttonElement.addEventListener("click", function(e) {
+            // 이벤트 핸들러 내에서 버튼 요소가 존재할 때만 실행할 코드 작성
+            // 예: value 속성에 접근
+            const value = buttonElement.value;
+        }, false);
     }
-
     //업로드 모달창
     const uploadModal = new bootstrap.Modal (document.querySelector (".uploadModal"))
 
@@ -118,22 +114,34 @@
     }, false)
 
     /*모달창 파일 업로드, 섬네일 출력*/
-    document.querySelector (".uploadBtn").addEventListener ("click", function (e) {
+    document.querySelector(".uploadBtn").addEventListener("click", function(e) {
 
-        const formObj = new FormData ();
+        const formObj = new FormData();
 
-        const fileInput = document.querySelector ("input[name='files']")
+        // CSRF 토큰을 가져와 FormData에 추가
+        const csrfHeader = document.querySelector('input[name="_csrf.headerName"]').value;
+        const csrfToken = document.querySelector('input[name="_csrf.token"]').value;
+        formObj.append(csrfHeader, csrfToken);
 
-        console.log (fileInput.files)
-
-        const files = fileInput.files
+        const fileInput = document.querySelector("input[name='files']");
+        const files = fileInput.files;
 
         for (let i = 0; i < files.length; i++) {
-            formObj.append ("files", files[i]);
+            formObj.append("files", files[i]);
         }
 
-        /*모달창 취소 버튼*/
-        const cancelUploadBtn = document.getElementById ("cancelUploadBtn");
+        uploadToServer(formObj).then(result => {
+            console.log(result)
+            //console.log(result)
+            for (const uploadResult of result) {
+                showUploadFile(uploadResult)
+            }
+            uploadModal.hide()
+        }).catch(e => {
+            uploadModal.hide()
+        })
+
+    },false)
 
         // Add an event listener to hide the modal when the cancel button is clicked
         cancelUploadBtn.addEventListener ("click", function (e) {
@@ -142,18 +150,9 @@
             uploadModal.hide (); // Hide the modal
         }, false);
 
-        /*업로드 서버 성공 처리*/
-        uploadToServer (formObj).then (result => {
-            console.log (result)
-            for (const uploadResult of result) {
-                showUploadFile (uploadResult)
-            }
-            uploadModal.hide ()
-        }).catch (e => {
-            uploadModal.hide ()
-        })
 
-    }, false)
+    /*모달창 취소 버튼*/
+    const cancelUploadBtn = document.getElementById ("cancelUploadBtn");
 
     const uploadResult = document.querySelector (".uploadResult")
 

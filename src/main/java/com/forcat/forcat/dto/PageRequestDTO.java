@@ -21,7 +21,7 @@ public class PageRequestDTO {//페이징 관련, 검색 종류, 키워드 추가
     @Builder.Default
     private int page = 1;
     @Builder.Default
-    private int size = 5;
+    private int size = 10;
     private String type; // 검색의 종류 t,c, w, tc,tw, twc
     private String keyword;
     //검색 조건 및 페이징 조건 문자열 구성

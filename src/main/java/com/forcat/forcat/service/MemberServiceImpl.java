@@ -49,9 +49,11 @@ public class MemberServiceImpl implements MemberService {
         String mid = memberUpdateDTO.getMid ();
         String mpw = memberUpdateDTO.getMpw ();
         String email = memberUpdateDTO.getEmail ();
+        String name = memberUpdateDTO.getName ();
+        String address = memberUpdateDTO.getAddress ();
         Member member = modelMapper.map (memberUpdateDTO, Member.class);//회원 정보를 담는다
         member.changePassword (passwordEncoder.encode (memberUpdateDTO.getMpw ()));//정상인 경우 비밀번호 인코딩
-        memberRepository.updateMemberData (mid, mpw, email);
+        memberRepository.updateMemberData (mid, mpw, email, name, address);
         //로그 출력
         log.info ("=======================");
         log.info (member);

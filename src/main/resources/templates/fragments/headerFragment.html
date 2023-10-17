@@ -1,5 +1,45 @@
 <!DOCTYPE html>
 <html lang = "en" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <script>        document.addEventListener("DOMContentLoaded", function () {
+        var shoppingButton = document.querySelector(".nav-item a[href='/shop/']");
+        var dropdownMenu = document.createElement("div");
+        dropdownMenu.className = "dropdown-menu";
+        dropdownMenu.style.display = "none";
+        dropdownMenu.innerHTML = `
+        <a class="dropdown-item" href="/cart">상품 장바구니</a>
+        <a class="dropdown-item" href="/orders">구매 이력</a>
+        <a class="dropdown-item" href="/admin/item/new">상품 등록</a>
+        <a class="dropdown-item" href="/admin/items">상품 현황</a>
+    `;
+
+        var timeoutId;
+
+        shoppingButton.addEventListener("mouseenter", function () {
+            clearTimeout(timeoutId);
+            dropdownMenu.style.display = "block";
+        });
+
+        dropdownMenu.addEventListener("mouseenter", function () {
+            clearTimeout(timeoutId);
+        });
+
+        shoppingButton.addEventListener("mouseleave", function () {
+            timeoutId = setTimeout(function () {
+                dropdownMenu.style.display = "none";
+            }, 1000); // 1초 후 드롭다운 메뉴 숨김
+        });
+
+        dropdownMenu.addEventListener("mouseleave", function () {
+            timeoutId = setTimeout(function () {
+                dropdownMenu.style.display = "none";
+            }, 1000); // 1초 후 드롭다운 메뉴 숨김
+        });
+
+        shoppingButton.parentNode.appendChild(dropdownMenu);
+    });
+    </script>
+</head>
 <!--헤더 파일 명시-->
 <div th:fragment = "headerFragment">
     <body>
@@ -30,7 +70,7 @@
     <!--네비게이션 메뉴-->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class = "navbar-brand" href = "/index"><span class = "flaticon-pawprint-1 mr-2"></span>Cat comm</a>
+            <a class = "navbar-brand" href = "/index"><img src="/images/petFootLogo.png" class="siteLogo">FORCAT</a>
             <button aria-controls = "ftco-nav" aria-expanded = "false" aria-label = "Toggle navigation" class = "navbar-toggler" data-target = "#ftco-nav" data-toggle = "collapse" type = "button">
                 <span class = "fa fa-bars"></span> Menu
             </button>
@@ -38,20 +78,12 @@
                 <ul class="navbar-nav ml-auto">
                     <li class = "nav-item"><a class = "nav-link" href = "/index">홈</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/content/contentList">콘텐츠</a></li>
-<!--                    <div class="dropdown">
-                        <li class = "nav-item dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><a class = "nav-link" href = "#">쇼핑</a></li>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </div>-->
+                    <li class = "nav-item dropdown-mom"><a class = "nav-link" href = "/shop/">쇼핑</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/board/list">커뮤니티</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/tools">툴즈</a></li>
-                    <li class = "nav-item"><a class = "nav-link" href = "#"></a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "/notice/list">공지사항</a></li>
                     <li class = "nav-item">
                         <a class = "nav-link" href = "/member/mypage" th:if = "${#authorization.expression('isAuthenticated()')}">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
-                        <a class = "nav-link" href = "/#" th:unless = "${#authorization.expression('isAuthenticated()')}"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
                     </li>
                     <li class = "nav-item">
                         <a class = "nav-link" href = "/member/logout" th:if = "${#authorization.expression('isAuthenticated()')}">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
@@ -61,32 +93,6 @@
             </div>
         </div>
     </nav>
-
-    <script>
-        document.addEventListener ("DOMContentLoaded", function () {//페이지의 DOM 구조가 완전히 로드되면 해당 함수를 실행
-            // 전화번호 복사 버튼 클릭 이벤트 처리
-            document.getElementById ("phoneLink").addEventListener ("click", function (event) {
-                event.preventDefault (); // 링크의 기본 동작 방지
-                copyToClipboard ("031-0000-0000"); // 전화번호 복사
-            });
-
-            // 이메일 주소 복사 버튼 클릭 이벤트 처리
-            document.getElementById ("emailLink").addEventListener ("click", function (event) {
-                event.preventDefault (); // 링크의 기본 동작 방지
-                copyToClipboard ("gg.ww.ljh940115@gmail.com"); // 이메일 주소 복사
-            });
-
-            // 텍스트를 클립보드에 복사하는 함수
-            function copyToClipboard (text) {//텍스트를 클립보드에 복사
-                var dummyTextArea = document.createElement ("textarea");//dummyTextArea라는 새로운 <textarea> 요소를 생성
-                document.body.appendChild (dummyTextArea);//body에 추가
-                dummyTextArea.value = text;//dummyTextArea에 복사하려는 값, 텍스트
-                dummyTextArea.select ();//텍스트를 클립보드에 복사
-                document.execCommand ("copy");
-                document.body.removeChild (dummyTextArea);//dummyTextArea를 페이지에서 제거
-                alert (text + "가 클립보드에 복사되었습니다.");
-            }
-        });
-    </script>
     </body>
+</div>
 </html>
