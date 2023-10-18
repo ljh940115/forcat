@@ -23,9 +23,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.multipart.support.MultipartFilter;
 
 import javax.sql.DataSource;
 
@@ -48,12 +51,26 @@ public class CustomSecurityConfig {//보안 환경설정 클래스
         log.info ("==========필터 체인 환경 설정");
         /*CSRF 토큰 비활성화
         http.csrf().disable();*/
-
+        /*http.csrf().ignoringAntMatchers("/upload", "/board/register");*/
         /*로그아웃 구성 : CSRF 토큰 비활성화 상태에서 사용
         http.logout () // 로그아웃 기능 작동함
                 .logoutUrl ("/member/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
                 .logoutSuccessUrl ("/member/login") // 로그아웃 성공 후 이동페이지
                 .deleteCookies ("JSESSIONID", "remember-me"); // 로그아웃 후 쿠키 삭제*/
+
+        http.authorizeRequests() // 요청에 대한 인증 및 권한 설정
+                .mvcMatchers("/", "/index/**", "/content/**", "/board/**", "/member/**", "/replies/**", "/item/**", "/shop/**", "/view/**", "/upload/**", "/remove/**").permitAll() // permitAll() : 모든 사용자 접근 허용
+                .mvcMatchers("/static/**").permitAll()
+                .mvcMatchers("/upload").permitAll()
+                .mvcMatchers("/admin/**").hasRole("ADMIN") // ADMIN Role인 사용자만 접근 허용
+                .anyRequest().authenticated() // 그 외 요청은 인증된 사용자만 가능
+                .and()
+                .csrf()
+                .csrfTokenRepository(csrfTokenRepository()); // CSRF 토큰을 사용할 URL을 지정
+
+        http.exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+        // 인증되지 않은 사용자의 접근 시 수행되는 핸들러 -> CustomAuthenticationEntryPoint로 보냄
 
         //커스텀 로그인 페이지
         http.formLogin ().loginPage ("/member/login").defaultSuccessUrl ("/")//로그인 성공 처리
@@ -74,6 +91,7 @@ public class CustomSecurityConfig {//보안 환경설정 클래스
         http.oauth2Login ().loginPage ("/member/login").successHandler (authenticationSuccessHandler ());
         return http.build ();
     }
+
 
     @Bean//보안 방화벽 설정 : "//"와 같은 형태의 URL도 정상적으로 처리
     public HttpFirewall allowUrlEncodedSlashHttpFirewall () {
@@ -101,5 +119,12 @@ public class CustomSecurityConfig {//보안 환경설정 클래스
     public WebSecurityCustomizer webSecurityCustomizer () {
         log.info ("==========시큐리티 예외");
         return (web) -> web.ignoring ().requestMatchers (PathRequest.toStaticResources ().atCommonLocations ());
+    }
+
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN"); // CSRF 토큰의 헤더 이름
+        return repository;
     }
 }

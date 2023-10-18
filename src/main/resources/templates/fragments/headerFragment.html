@@ -30,7 +30,7 @@
     <!--네비게이션 메뉴-->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class = "navbar-brand" href = "/index"><span class = "flaticon-pawprint-1 mr-2"></span>Cat comm</a>
+            <a class = "navbar-brand" href = "/index"><img src="/images/petFootLogo.png" class="siteLogo">FORCAT</a>
             <button aria-controls = "ftco-nav" aria-expanded = "false" aria-label = "Toggle navigation" class = "navbar-toggler" data-target = "#ftco-nav" data-toggle = "collapse" type = "button">
                 <span class = "fa fa-bars"></span> Menu
             </button>
@@ -41,10 +41,8 @@
                     <li class = "nav-item"><a class = "nav-link" href = "/shop/">쇼핑</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/board/list">커뮤니티</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/tools">툴즈</a></li>
-                    <li class = "nav-item"><a class = "nav-link" href = "#"></a></li>
                     <li class = "nav-item">
                         <a class = "nav-link" href = "/member/mypage" th:if = "${#authorization.expression('isAuthenticated()')}">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
-                        <a class = "nav-link" href = "/#" th:unless = "${#authorization.expression('isAuthenticated()')}"></a><!--인증되지 않은 상태라면 로그인 링크를 표시한다.-->
                     </li>
                     <li class = "nav-item">
                         <a class = "nav-link" href = "/member/logout" th:if = "${#authorization.expression('isAuthenticated()')}">로그아웃</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->

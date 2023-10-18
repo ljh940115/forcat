@@ -42,12 +42,12 @@
 
                         <div class = "input-group mb-3">
                             <span class = "input-group-text">이름</span>
-                            <input class = "form-control" name = "name" readonly type = "text">
+                            <input class = "form-control" name = "name" readonly type = "text" th:value = "${#authentication.principal.name}">
                         </div>
 
                         <div class = "input-group mb-3">
                             <span class = "input-group-text">주소</span>
-                            <input class = "form-control" name = "address" type = "text">
+                            <input class = "form-control" name = "address" type = "text" th:value = "${#authentication.principal.address}">
                         </div>
 
                         <div class = "my-4">

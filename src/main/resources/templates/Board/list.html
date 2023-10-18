@@ -25,7 +25,7 @@
 </section>
 
 <!--검색창-->
-<div class = "row mt-3">
+<div class = "row mt-3 search-form-box ">
     <form action = "/board/list" method = "get">
         <div class = "col">
             <input name = "size" th:value = "${pageRequestDTO.size}" type = "hidden">
@@ -81,7 +81,7 @@
                         </td>
                         <td>
                             <a class = "text-decoration-none" th:href = "|@{/board/read(bno =${dto.bno})}&${link}|"> [[${dto.title}]] </a>
-                            <span class = "badge progress-bar-success" style = "background-color: #0a53be">[[${dto.replyCount}]]</span>
+                            <span class = "badge progress-bar-success" style = "background-color: #FAE100">[[${dto.replyCount}]]</span>
 
                         </td>
                         <td>[[${dto.writer}]]</td>

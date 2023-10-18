@@ -88,11 +88,9 @@
         </div>
     </div>
 </div><!--첨부 파일 등록 모달창-->
-
 <script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src = "/js/board/upload.js"></script>
-
-<script layout:fragment = "script" th:inline = "javascript">
+<script>
     /*에러 메세지 처리*/
     const errors = [[${errors}]]
     console.log (errors)
