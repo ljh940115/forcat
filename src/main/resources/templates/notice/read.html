@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html layout:decorate = "~{layouts/layout1}"
+      xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th = "http://www.thymeleaf.org">
+
+<head>
+    <meta charset = "UTF-8">
+    <title>고양이 커뮤니티 포캣 - 공지사항</title>
+</head>
+
+<body class = "align-middle" layout:fragment = "content">
+<div>
+    <div class = "row mt-3">
+        <div class = "col">
+            <div class = "card">
+                <div class = "card-header">
+                    Notice Read
+                </div>
+                <div class = "card-body">
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Bno</span>
+                        <input class = "form-control" readonly th:value = "${noticeDTO.noticeNo}" type = "text">
+                    </div>
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Title</span>
+                        <input class = "form-control" readonly th:value = "${noticeDTO.noticeTitle}" type = "text">
+                    </div>
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Content</span>
+                        <textarea class = "form-control col-sm-5" readonly rows = "5">[[${noticeDTO.noticeContent}]]</textarea>
+                    </div>
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">Writer</span>
+                        <input class = "form-control" readonly th:value = "${noticeDTO.noticeWriter}" type = "text">
+                    </div>
+
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">RegDate</span>
+                        <input class = "form-control" readonly
+                               th:value = "${#temporals.format(noticeDTO.regDate, 'yyyy-MM-dd HH:mm:ss')}" type = "text">
+                    </div>
+                    <div class = "input-group mb-3">
+                        <span class = "input-group-text">ModDate</span>
+                        <input class = "form-control" readonly
+                               th:value = "${#temporals.format(noticeDTO.modDate, 'yyyy-MM-dd HH:mm:ss')}" type = "text">
+                    </div>
+                    <div class = "my-4">
+                        <div class = "float-end">
+                            <a class = "text-decoration-none" th:href = "|@{/notice/list}?${link}|">
+                                <button class = "btn btn-primary" type = "button">목록으로</button>
+                            </a>
+
+                            <a class = "text-decoration-none" th:href = "|@{/notice/modify(noticeNo=${noticeDTO.noticeNo})}|">
+                                <button class = "btn btn-secondary" type = "button">수정</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!--댓글-->
+                    <div class = "row mt-3">
+                        <div class = "col-md-12">
+                            <div class = "my-4 ">
+                                <!--댓글 추가 버튼-->
+                                <button class = "btn btn-info  addReplyBtn">댓글쓰기</button>
+                            </div>
+                            <!--댓글 리스트-->
+                            <ul class = "list-group replyList">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class = "row mt-3">
+                        <div class = "col">
+                            <!--댓글 페이징 처리-->
+                            <ul class = "pagination replyPaging">
+                            </ul>
+                        </div>
+                    </div>
+
+                </div><!--end card body-->
+
+                <!--첨부파일 이미지 출력-->
+                <div class = "col">
+                    <div class = "card" th:if = "${noticeDTO.fileNames != null && noticeDTO.fileNames.size() > 0}">
+                        <img class = "card-img-top"
+                             th:each = "fileName: ${noticeDTO.fileNames}"
+                             th:src = "|/view/${fileName}|">
+                    </div>
+                    <!--첨부파일 이미지 출력 종료-->
+
+                </div><!--end card-->
+            </div><!-- end col-->
+        </div><!-- end row-->
+
+        <!--댓글 등록 모달창-->
+        <div class = "modal registerModal" tabindex = "-1">
+            <div class = "modal-dialog">
+                <div class = "modal-content">
+                    <div class = "modal-header">
+                        <h5 class = "modal-title">Register Reply</h5>
+                        <button aria-label = "Close" class = "btn-close" data-bs-dismiss = "modal" type = "button"></button>
+                    </div>
+                    <!--댓글 추가 시 로그인한 유저가 댓글 작성자-->
+                    <div class = "modal-body">
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">댓글 내용</span>
+                            <input class = "form-control noticeReplyText" type = "text">
+                        </div>
+                        <div class = "input-group mb-3" hidden = "hidden" th:unless = "${#authorization.expression('isAuthenticated()')}">
+                            <span class = "input-group-text">댓글 작성자</span>
+                            <input class = "form-control noticeReplyer" type = "text" value = "손님">
+                        </div>
+                        <div class = "input-group mb-3" hidden = "hidden" th:if = "${#authorization.expression('isAuthenticated()')}">
+                            <span class = "input-group-text">댓글 작성자</span>
+                            <input class = "form-control noticeReplyer" readonly th:value = "${#authentication.principal.username}" type = "text">
+                        </div>
+
+                    </div>
+                    <div class = "modal-footer">
+                        <button class = "btn btn-primary registerBtn" type = "button">Register</button>
+                        <button class = "btn btn-outline-dark closeRegisterBtn" type = "button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end regist modal -->
+
+        <!--댓글 수정 모달창-->
+        <div class = "modal modifyModal" tabindex = "-1">
+            <div class = "modal-dialog">
+                <div class = "modal-content">
+                    <div class = "modal-header">
+                        <h5 class = "modal-title replyHeader"></h5>
+                        <button aria-label = "Close" class = "btn-close" data-bs-dismiss = "modal" type = "button"></button>
+                    </div>
+                    <div class = "modal-body">
+                        <div class = "input-group mb-3">
+                            <span class = "input-group-text">Reply Text</span>
+                            <input class = "form-control modifyText" type = "text">
+                        </div>
+                    </div>
+                    <div class = "modal-footer">
+                        <button class = "btn btn-info modifyBtn" type = "button">Modify</button>
+                        <button class = "btn btn-danger removeBtn" type = "button">Remove</button>
+                        <button class = "btn btn-outline-dark closeModifyBtn" type = "button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!--modifyModal -->
+    </div><!-- layout fragment end -->
+</div>
+<!--댓글 자바스크립트 처리, 비동기처리와 Axios-->
+<!--Axios 라이브러리 추가-->
+<script src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src = "/js/board/reply.js"></script>
+<!--/댓글 자바스크립트 처리, 비동기처리와 Axios 종료-->
+
+<script layout:fragment = "script" th:inline = "javascript">
+    const noticeNo = [[${noticeDTO.noticeNo}]]//서버에서 전달받은 bno를 가져옴
+
+    const replyList = document.querySelector ('.replyList') //댓글 목록 DOM
+    const replyPaging = document.querySelector ('.replyPaging') //페이지 목록 DOM
+
+    function printList (dtoNoticeList) { //댓글 목록 출력
+        let str = '';
+
+        if (dtoNoticeList && dtoList.length > 0) {
+
+            for (const noticeDTO of dtoNoticeList) {
+
+                str += `<li class="list-group-item d-flex replyItem">
+                      <span class="col-2">${noticeDTO.noticeReplyNo}</span>
+                      <span class="col-6" data-noticeReplyNo="${noticeDTO.noticeReplyNo}">${noticeDTO.noticeReplyText}</span>
+                      <span class="col-2">${noticeDTO.noticeReplyer}</span>
+                      <span class="col-2">${noticeDTO.regDate} </span>
+                    </li>`
+            }
+        }
+        replyList.innerHTML = str
+    }
+
+    function printPages (data) { //페이지 목록 출력
+
+        //pagination
+        let pageStr = '';
+
+        if (data.prev) {
+            pageStr += `<li class="page-item"><a class="page-link" data-page="${data.start - 1}">PREV</a></li>`
+        }
+
+        for (let i = data.start; i <= data.end; i++) {
+            pageStr += `<li class="page-item ${i == data.page ? "active" : ""} "><a class="page-link" data-page="${i}">${i}</a></li>`
+        }
+
+        if (data.next) {
+            pageStr += `<li class="page-item"><a class="page-link" data-page="${data.end + 1}">NEXT</a></li>`
+        }
+        replyPaging.innerHTML = pageStr
+    }
+
+
+    function printReplies (page, size, goLast) {
+
+        getList ({noticeNo, page, size, goLast}).then (
+            data => {
+                printList (data.dtoNoticeList) //목록 처리
+                printPages (data) //페이지 처리
+            }
+        ).catch (e => {
+            console.error (e)
+        })
+
+    }
+
+    printReplies (1, 10, true)//마지막 페이지 표시
+
+    //댓글 등록 모달
+    const registerModal = new bootstrap.Modal (document.querySelector (".registerModal"))
+    //registerModel
+    const registerBtn = document.querySelector (".registerBtn")
+    const noticeReplyText = document.querySelector (".noticeReplyText")
+    const noticeReplyer = document.querySelector (".noticeReplyer")
+    const closeRegisterBtn = document.querySelector (".closeRegisterBtn")
+
+    //댓글 추가 버튼 이벤트
+    document.querySelector (".addReplyBtn").addEventListener ("click", function (e) {
+        registerModal.show ()
+    }, false)
+
+    //댓글 추가 버튼 닫기 이벤트
+    closeRegisterBtn.addEventListener ("click", function (e) {
+        registerModal.hide ()
+    }, false)
+
+    //댓글 등록 버튼 이벤트
+    registerBtn.addEventListener ("click", function (e) {
+        const replyObj = {
+            noticeNo      : noticeNo,
+            noticeReplyText: noticeReplyText.value,
+            noticeReplyer  : noticeReplyer.value
+        }
+
+        addReply (replyObj).then (result => {
+            alert (result.noticeReplyNo)
+            registerModal.hide ()
+            noticeReplyText.value = ''
+            noticeReplyer.value = ''
+            printReplies (1, 10, true) //댓글 목록 갱신
+        }).catch (e => {
+            alert ("Exception...")
+        })
+    }, false)
+
+    let page = 1
+    let size = 10
+
+    replyPaging.addEventListener ("click", function (e) {
+
+        e.preventDefault ()
+        e.stopPropagation ()
+
+        const target = e.target
+
+        if (!target || target.tagName != 'A') {
+            return
+        }
+
+        const pageNum = target.getAttribute ("data-page")
+        page = pageNum
+        printReplies (page, size)
+
+    }, false)
+
+    //댓글 수정 모달창
+    const modifyModal = new bootstrap.Modal (document.querySelector (".modifyModal"))
+
+    const replyHeader = document.querySelector (".replyHeader")
+    const modifyText = document.querySelector (".modifyText")
+    const modifyBtn = document.querySelector (".modifyBtn")
+    const removeBtn = document.querySelector (".removeBtn")
+    const closeModifyBtn = document.querySelector (".closeModifyBtn")
+
+    //let hasAuth = false // 댓글의 작성자와 currentUser의 일치 여부
+
+    replyList.addEventListener ("click", function (e) {
+
+        e.preventDefault ()
+        e.stopPropagation ()
+
+        const target = e.target
+
+        if (!target || target.tagName != 'SPAN') {
+            return
+        }
+
+        const noticeReplyNo = target.getAttribute ("data-noticeReplyNo")
+
+        if (!noticeReplyNo) {
+            return
+        }
+
+        getReply (noticeReplyNo).then (noticeReply => { //댓글의 내용을 모달창에 채워서 보여주는
+
+            console.log (noticeReply)
+            replyHeader.innerHTML = noticeReply.noticeReplyNo
+            modifyText.value = noticeReply.noticeReplyText
+            modifyModal.show ()
+
+            //hasAuth = currentUser === reply.replyer //댓글의 작성자와 현재 사용자 일치 여부 확인
+
+        }).catch (e => alert ('error'))
+
+    }, false)
+
+    //댓글 수정과 화면 갱신
+    modifyBtn.addEventListener ("click", function (e) {
+
+        const replyObj = {
+            noticeNo      : noticeNo,
+            noticeReplyNo      : replyHeader.innerHTML,
+            noticeReplyText: modifyText.value
+        }
+
+        modifyReply (replyObj).then (result => {
+            alert (result.noticeReplyNo + ' 댓글이 수정되었습니다.')
+            noticeReplyText.value = ''
+            modifyModal.hide ()
+            printReplies (page, size, true)
+
+        }).catch (e => {
+            console.log (e)
+        })
+    }, false)
+
+    closeModifyBtn.addEventListener ("click", function (e) {
+        modifyModal.hide ()
+    }, false)
+
+    //댓글 삭제와 화면 갱신
+    removeBtn.addEventListener ("click", function (e) {
+        removeReply (replyHeader.innerHTML).then (result => {
+
+            alert (result.noticeReplyNo + ' 댓글이 삭제되었습니다.')
+            noticeReplyText.value = ''
+            modifyModal.hide ()
+
+            page = 1 // 이 부분이 없다면 원래 페이지로
+
+            printReplies (page, size)
+
+        }).catch (e => {
+            console.log (e)
+        })
+    }, false)
+
+</script>
+
+</body>
+</html>

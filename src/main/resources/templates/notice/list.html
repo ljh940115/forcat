@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <title>고양이 커뮤니티 포캣 - 공지사항</title>
+</head>
+<body class="align-middle" layout:fragment="content">
+<form action = "/notice/list" method = "get"></form>
+<section class = "hero-wrap hero-wrap-2" data-stellar-background-ratio = "0.5"
+         style = "background-image: url('../../static/images/bg_2.jpg');">
+    <div class = "overlay"></div>
+    <div class = "container">
+        <div class = "row no-gutters slider-text align-items-end">
+            <div class = "col-md-9 ftco-animate pb-5">
+                <p class = "breadcrumbs mb-2"><span class = "mr-2"><a href = "/index">홈<i
+                        class = "ion-ios-arrow-forward"></i></a></span>
+                <h1 class = "mb-0 bread">공지사항</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--검색창-->
+<div class="row mt-3 search-form-box">
+    <form action="/notice/list" method="get">
+        <div class="col">
+            <input type="hidden" name="size" th:value="${noticePageRequestDTO.noticeSize}">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <select class="form-select" name="type">
+                        <option value="">---</option>
+                        <option value="t" th:selected="${noticePageRequestDTO.type =='t'}">제목</option>
+                        <option value="c" th:selected="${noticePageRequestDTO.type =='c'}">내용</option>
+                        <option value="w" th:selected="${noticePageRequestDTO.type =='w'}">작성자</option>
+                        <option value="tc" th:selected="${noticePageRequestDTO.type =='tc'}">제목 내용</option>
+                        <option value="tcw" th:selected="${noticePageRequestDTO.type =='tcw'}">제목 내용 작성자</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" name="keyword" th:value="${noticePageRequestDTO.keyword}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary searchBtn" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary clearBtn" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--게시글 목록-->
+<div class="row mt-3">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                Notice List
+            </div>
+            <div class="card-body" >
+                <h5 class="card-title">Notice List </h5>
+
+                <table class="table">
+                    <thead class="boardListHead">
+                    <tr>
+                        <th scope="col" style="width:8%">번호</th>
+                        <th scope="col" style="width:10%">썸네일</th>
+                        <th scope="col" style="width:auto">제목</th>
+                        <th scope="col" style="width:20%">작성자</th>
+                        <th scope="col" style="width:10%">등록일</th>
+                    </tr>
+                    </thead>
+
+                    <tbody  class="boardListBody" th:with="link = ${noticePageRequestDTO.getNoticeLink()}">
+                    <tr th:each="noticeDTO:${noticeResponseDTO.dtoNoticeList}">
+                        <td>[[${noticeDTO.noticeNo}]]</td>
+                        <td>
+                            <!-- <div th:if="${dto.boardImages != null && dto.boardImages.size() > 0}">&lt;!&ndash;조건부 표현식 이미지 필드가 0보다 크면 출력&ndash;&gt;
+                                 <img style="width:100px" th:each="boarImage: ${dto.boardImages}" th:src="|/view/s_${boarImage.uuid}_${boarImage.fileName}|">&lt;!&ndash;이미지 컬렉션 반복&ndash;&gt;
+                             </div>-->
+                            <!--<div th:if="${dto.noticeImages != null && noticeDTO.noticeImages.size() > 0}">
+                                <img style="width:100px" th:src="|/view/s_${noticeDTO.noticeImages[0].uuid}_${noticeDTO.noticeImages[0].fileName}|">
+                            </div>-->
+                        </td>
+                        <td>
+                            <a th:href="|@{/notice/read(noticeNo =${noticeDTO.noticeNo})}&${link}|" class="text-decoration-none"> [[${noticeDTO.noticeTitle}]] </a>
+                            <span class="badge progress-bar-success" style="background-color: #FAE100">[[${noticeDTO.noticeReplyCount}]]</span>
+
+                        </td>
+                        <td>[[${noticeDTO.noticeWriter}]]</td>
+                        <td>[[${#temporals.format(noticeDTO.regDate, 'yyyy-MM-dd')}]]</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--페이지 목록-->
+                <div class="float-end">
+                    <ul class="pagination flex-wrap">
+                        <li class="page-item">
+                            <a class="page-link pageMove" th:if="${noticeResponseDTO.noticeStart}" th:data-num="1">First</a>
+                        </li>
+
+                        <li class="page-item" th:if="${noticeResponseDTO.noticePrev}">
+                            <a class="page-link pageMove" th:data-num="${noticeResponseDTO.noticeStart - 1}">Previous</a>
+                        </li>
+                        <th:block th:each="i: ${#numbers.sequence(noticeResponseDTO.noticeStart, noticeResponseDTO.noticeEnd)}">
+                            <li th:class="${noticeResponseDTO.noticePage == i}?'page-item active':'page-item'" >
+                                <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                            </li>
+                        </th:block>
+
+                        <li class="page-item" th:if="${noticeResponseDTO.noticeNext}">
+                            <a class="page-link pageMove"  th:data-num="${noticeResponseDTO.noticeEnd + 1}">Next</a>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link pageMove" th:if="${noticeResponseDTO.noticeEnd}" th:data-num="${noticeResponseDTO.noticeEnd}">Last</a>
+                        </li>
+                        <li>
+                            <a href="/notice/register" class="btn btn-primary" id="boardRegisterButton">글쓰기</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!--end card body-->
+        </div><!--end card-->
+    </div><!-- end col-->
+</div><!-- end row-->
+
+<script layout:fragment="script" th:inline="javascript">
+    console.log("script......")
+    /*이벤트 처리*/
+    // 페이지네이션 관련 이벤트 핸들러
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()// 기본 동작 방지 (a 태그의 클릭 동작을 취소)
+        e.stopPropagation()// 이벤트 전파 중단
+
+        const target = e.target
+
+        if(target.tagName !== 'A') {// 클릭한 요소가 'A' 태그가 아니면 아무 작업도 하지 않습니다.
+            return
+        }
+
+        const num = target.getAttribute("data-num")// 클릭한 페이지 번호를 가져옵니다.
+        const formObj = document.querySelector("form")// 폼 요소를 가져옵니다.
+        // 숨겨진 input 태그를 폼에 추가하여 페이지 번호를 서버로 전송합니다.
+        formObj.innerHTML += `<input type='hidden' name='noticePage' value='${num}'>`
+        formObj.submit();// 폼을 서버로 제출하여 페이지를 변경합니다.
+    },false)
+
+    // 글쓰기 버튼 클릭 이벤트 처리
+    document.getElementById("boardRegisterButton").addEventListener("click", function (e) {
+        e.preventDefault(); // 링크의 기본 동작 방지
+        window.location.href = "/notice/register"; // 원하는 링크로 이동
+        e.stopPropagation()// 이벤트 전파 중단
+    });
+
+    // 검색 조건 초기화 버튼 이벤트 핸들러
+    document.querySelector(".clearBtn").addEventListener("click", function (e){
+        e.preventDefault()// 기본 동작 방지 (a 태그의 클릭 동작을 취소)
+        e.stopPropagation()// 이벤트 전파 중단
+
+        // 현재 페이지를 '/board/list'로 리다이렉트하여 검색 조건을 초기화합니다.
+        self.location ='/notice/list'
+    },false)
+    /*이벤트 처리 종료*/
+
+    /*정상 처리 모달 창*/
+    //shhow modal
+    const result = [[${result}]]
+
+    if(result){
+        alert(result + "처리")
+    }
+    /*정상 처리 모달 창 종료*/
+
+    /*삭제 처리 모달 창*/
+    //shhow modal
+    const removeresult = [[${removeresult}]]
+
+    if(removeresult){
+        alert("게시글이 삭제되었습니다.")
+    }
+    /*정상 처리 모달 창 종료*/
+</script>
+</body>
+</html>
