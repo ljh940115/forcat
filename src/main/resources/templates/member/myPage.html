@@ -7,63 +7,49 @@
 <head>
     <meta content = "" name = "description"/>
     <meta content = "" name = "author"/>
-    <title>Simple Sidebar - Login</title>
+    <title>고양이 커뮤니티 포캣 - 마이페이지</title>
     <!-- Favicon-->
     <link rel = "ic
     <!-- Core theme CSS (includes Bootstrap)-->on" th:href = "@{/assets/favicon.ico}" type = "image/x-icon"/>
     <link rel = "stylesheet" th:href = "@{/css/styles.css}"/>
+    <link rel = "stylesheet" th:href = "@{/css/login.css}"/>
 </head>
 <body class = "align-memberIddle" layout:fragment = "content">
 <div class = "container-fluid d-flex justify-content-center" style = "height: 100vh">
-
-    <div class = "card align-self-center">
-        <div class = "card-header">
-            MyPage
-        </div>
-        <div class = "card-body">
-            <div class = "inner-cont">
-                <div class = "social-login">
-                    <form action = "/member/mypage" id = "updateForm" method = "post">
-                        <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
-                        <div class = "input-group mb-3">
-                            <span class = "input-group-text">아이디</span>
-                            <input class = "form-control" name = "mid" readonly th:value = "${#authentication.principal.username}" type = "text">
-                        </div>
-
-                        <div class = "input-group mb-3">
-                            <span class = "input-group-text">비밀번호</span>
-                            <input class = "form-control" name = "mpw" placeholder = "비밀번호를 입력하세요." th:value = "${#authentication.principal.password}" type = "password">
-                        </div>
-
-                        <div class = "input-group mb-3">
-                            <span class = "input-group-text">EMAIL</span>
-                            <input class = "form-control" name = "email" th:value = "${#authentication.principal.email}" type = "email">
-                        </div>
-
-                        <div class = "input-group mb-3">
-                            <span class = "input-group-text">이름</span>
-                            <input class = "form-control" name = "name" readonly type = "text" th:value = "${#authentication.principal.name}">
-                        </div>
-
-                        <div class = "input-group mb-3">
-                            <span class = "input-group-text">주소</span>
-                            <input class = "form-control" name = "address" type = "text" th:value = "${#authentication.principal.address}">
-                        </div>
-
-                        <div class = "my-4">
-                            <div class = "float-end">
-                                <button class = "btn btn-primary submitBtn" type = "submit">수정</button>
-                                <button class = "btn btn-secondary" id = "memberDelete" type = "button">탈퇴</button>
-                            </div>
-                        </div>
-                    </form>
+    <div class = "cont">
+        <form action = "/member/mypage" id = "updateForm" method = "post">
+            <input th:name = "${_csrf.parameterName}" th:value = "${_csrf.token}" type = "hidden">
+            <div class = "form myPage">
+                <h2>마이 페이지</h2>
+                <label>
+                    <span>아이디</span>
+                <input class = "form-control" name = "mid" readonly th:value = "${#authentication.principal.username}" type = "text">
+                </label>
+                <label>
+                <span>비밀번호</span>
+                <input class = "form-control" name = "mpw" placeholder = "비밀번호를 입력하세요." th:value = "${#authentication.principal.password}" type = "password">
+                </label>
+                <label>
+                <span>EMAIL</span>
+                <input class = "form-control" name = "email" th:value = "${#authentication.principal.email}" type = "email">
+                </label>
+                <label>
+                <span>이름</span>
+                <input class = "form-control" name = "name" readonly type = "text" th:value = "${#authentication.principal.name}">
+                </label>
+                <label>
+                <span>주소</span>
+                <input class = "form-control" name = "address" type = "text" th:value = "${#authentication.principal.address}">
+                </label>
+            <div class = "my-4">
+                <div class = "float-end">
+                    <button class = "submit" type = "submit">수정</button>
+                    <button class = "submit removeMember" id = "memberDelete" type = "button">탈퇴</button>
                 </div>
             </div>
-        </div>
-        <div class = "card-body">
-
-        </div><!--end card body-->
-    </div><!--end card-->
+            </div>
+        </form>
+    </div>
 </div>
 <script>
     $ (document).ready (function () {

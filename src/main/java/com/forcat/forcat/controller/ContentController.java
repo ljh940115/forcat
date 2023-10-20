@@ -4,6 +4,9 @@ import com.forcat.forcat.dto.content.ContentDTO;
 import com.forcat.forcat.dto.content.ContentListAllDTO;
 import com.forcat.forcat.dto.content.ContentPageRequestDTO;
 import com.forcat.forcat.dto.content.ContentPageResponseDTO;
+import com.forcat.forcat.dto.content.recent.ContentRListAllDTO;
+import com.forcat.forcat.dto.content.recent.ContentRPageRequestDTO;
+import com.forcat.forcat.dto.content.recent.ContentRPageResponseDTO;
 import com.forcat.forcat.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -72,7 +75,9 @@ public class ContentController {
 
     /*게시글 조회, 수정*/
     @GetMapping ({"/contentRead", "contentModify"})
-    public void contentRead (Long cno, ContentPageRequestDTO contentPageRequestDTO, Model model) {
+    public void contentRead (Long cno, ContentPageRequestDTO contentPageRequestDTO, ContentRPageRequestDTO contentRPageRequestDTO, Model model) {
+
+        ContentRPageResponseDTO<ContentDTO> contentRResponseDTO = contentService.contentRList (contentRPageRequestDTO);
 
         //게시글 조회하기 위한 서비스 객체 생성
         ContentDTO contentDTO = contentService.ContentReadOne (cno);
@@ -80,6 +85,7 @@ public class ContentController {
         log.info (contentDTO);
         //모델 객체에 dto라는 이름으로 boardDTO를 전달
         model.addAttribute ("contentDto", contentDTO);
+        model.addAttribute ("contentRResponseDTO", contentRResponseDTO);
 
         /*ContentPageResponseDTO<ContentListAllDTO> contentResponseDTO = contentService.contentListWithAll(contentPageRequestDTO);
         log.info(contentResponseDTO);

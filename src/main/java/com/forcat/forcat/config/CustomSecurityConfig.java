@@ -2,20 +2,13 @@ package com.forcat.forcat.config;
 
 import com.forcat.forcat.security.CustomUserDetailsService;
 import com.forcat.forcat.security.handler.CustomSocialLoginSuccessHandler;
-import com.forcat.forcat.service.MemberService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +21,6 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.multipart.support.MultipartFilter;
 
 import javax.sql.DataSource;
 
@@ -73,7 +65,7 @@ public class CustomSecurityConfig {//보안 환경설정 클래스
         // 인증되지 않은 사용자의 접근 시 수행되는 핸들러 -> CustomAuthenticationEntryPoint로 보냄
 
         //커스텀 로그인 페이지
-        http.formLogin ().loginPage ("/member/login").defaultSuccessUrl ("/")//로그인 성공 처리
+        http.formLogin ().loginPage ("/member/login").defaultSuccessUrl ("/", true)//로그인 성공 처리
                 .usernameParameter ("username")//로그인 시 사용할 파라미터 이름
                 .failureUrl ("/member/login/error")
                 .and().logout ().logoutRequestMatcher (new AntPathRequestMatcher ("/member/logout")).logoutSuccessUrl("/");
@@ -92,6 +84,10 @@ public class CustomSecurityConfig {//보안 환경설정 클래스
         return http.build ();
     }
 
+    /*@Bean
+    public DataSource dataSource() {
+        return null;
+    }*/
 
     @Bean//보안 방화벽 설정 : "//"와 같은 형태의 URL도 정상적으로 처리
     public HttpFirewall allowUrlEncodedSlashHttpFirewall () {

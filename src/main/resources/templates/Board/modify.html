@@ -6,7 +6,7 @@
 
 <head>
     <meta charset = "UTF-8">
-    <title>포캣 게시판</title>
+    <title>고양이 커뮤니티 포캣 - 게시판</title>
 </head>
 
 <body class = "align-middle" layout:fragment = "content">
@@ -216,15 +216,16 @@
     }
 
     //업로드 모달
-    const uploadModal = new bootstrap.Modal (document.querySelector (".uploadModal"))
+    const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
 
-    document.querySelector (".uploadFileBtn").addEventListener ("click", function (e) {
+    document.querySelector(".uploadFileBtn").addEventListener("click", function(e){
 
-        e.stopPropagation ()
-        e.preventDefault ()
-        uploadModal.show ()
+        e.stopPropagation()
+        e.preventDefault()
+        uploadModal.show()
 
     }, false)
+
 
     document.querySelector (".uploadBtn").addEventListener ("click", function (e) {
 

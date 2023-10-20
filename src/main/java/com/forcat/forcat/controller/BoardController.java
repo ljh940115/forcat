@@ -66,7 +66,7 @@ public class BoardController {
     }
 
 
-    @GetMapping ({"/read", "modify"})//게시글 조회, 수정
+    @GetMapping ({"/read", "/modify"})//게시글 조회, 수정
     public void read (Long bno, PageRequestDTO pageRequestDTO, Model model) {
         log.info ("==========게시글 조회 / 수정 출력");
         BoardDTO boardDTO = boardService.readOne (bno); //게시글 조회하기 위한 서비스 객체 생성

@@ -4,7 +4,7 @@
       xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-    <title>For Cat</title>
+    <title>고양이 커뮤니티 포캣 - 콘텐츠</title>
 </head>
 
 <body layout:fragment = "content">
@@ -29,7 +29,7 @@
         <div class = "row">
             <div class = "col-lg-8 ftco-animate">
                 <p>
-                    <img alt = "" class = "img-fluid" src = "../static/images/image_1.jpg">
+                    <img alt = "" class = "img-fluid" src = "/images/content/s_2.jpg">
                 </p>
                 <h2 class = "mb-3">
                     [[${contentDto.ctitle}]]
@@ -50,6 +50,8 @@
                         </p>-->
                     </div>
                 </div>
+                <a class = "btn btn-primary" href = "/content/contentList">목록으로</a>
+                <a class = "btn btn-primary" href = "/content/contentModify">수정하기</a>
 
 
                 <!--       <div class="pt-5 mt-5">
@@ -200,50 +202,25 @@
                         <li><a href="#">Pet Spa <span class="fa fa-chevron-right"></span></a></li>
                     </div>
                 </div>-->
-
                 <div class = "sidebar-box ftco-animate">
                     <h3>Recent Content</h3>
-                    <div class = "block-21 mb-4 d-flex">
-                        <a class = "blog-img mr-4" style = "background-image: url(../../static/images/image_1.jpg);"></a>
+                    <div class = "block-21 mb-4 d-flex" th:each = "contentDto:${contentRResponseDTO.dtoCRList}">
+                        <a class = "blog-img mr-4" style = "background-image: url(/images/content/s_2.jpg);"
+                           th:href = "|@{/content/contentRead(cno =${contentDto.cno})}|">
+                        </a>
                         <div class = "text">
-                            <h3 class = "heading"><a href = "#">Even the all-powerful Pointing has no control about the
-                                                                blind texts</a></h3>
+                            <h3 class = "heading"><a href = "#">[[${contentDto.ctitle}]]</a></h3>
                             <div class = "meta">
                                 <div><a href = "#"><span class = "icon-calendar"></span>[[${#temporals.format(contentDto.regDate, 'yyyy-MM-dd')}]]</a></div>
                                 <div><a href = "#"><span class = "icon-person"></span> [[${contentDto.cwriter}]]</a></div>
-                                <div><a href = "#"><span class = "icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "block-21 mb-4 d-flex">
-                        <a class = "blog-img mr-4" style = "background-image: url(../../static/images/image_1.jpg);"></a>
-                        <div class = "text">
-                            <h3 class = "heading"><a href = "#">Even the all-powerful Pointing has no control about the
-                                                                blind texts</a></h3>
-                            <div class = "meta">
-                                <div><a href = "#"><span class = "icon-calendar"></span>[[${#temporals.format(contentDto.regDate, 'yyyy-MM-dd')}]]</a></div>
-                                <div><a href = "#"><span class = "icon-person"></span> [[${contentDto.cwriter}]]</a></div>
-                                <div><a href = "#"><span class = "icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "block-21 mb-4 d-flex">
-                        <a class = "blog-img mr-4" style = "background-image: url(../../static/images/image_1.jpg);"></a>
-                        <div class = "text">
-                            <h3 class = "heading"><a href = "#">Even the all-powerful Pointing has no control about the
-                                                                blind texts</a></h3>
-                            <div class = "meta">
-                                <div><a href = "#"><span class = "icon-calendar"></span>[[${#temporals.format(contentDto.regDate, 'yyyy-MM-dd')}]]</a></div>
-                                <div><a href = "#"><span class = "icon-person"></span> [[${contentDto.cwriter}]]</a></div>
-                                <div><a href = "#"><span class = "icon-chat"></span> 19</a></div>
+                                <div><a href = "#"><span class = "fa fa-comment"></span> [[${contentDto.creplyCount}]]</a></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- <div class="col-md-4 d-flex ftco-animate" th:each="contentDto:${contentResponseDTO.dtoCList}">
-                     </div>>-->
-                    <a class = "btn btn-primary" href = "/content/contentList">목록으로</a>
-                    <a class = "btn btn-primary" href = "/content/contentModify">수정하기</a>
+
+
+
                 </div>
             </div>
         </div>

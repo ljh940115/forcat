@@ -1,6 +1,8 @@
 package com.forcat.forcat.service;
 
 import com.forcat.forcat.dto.content.*;
+import com.forcat.forcat.dto.content.recent.ContentRPageRequestDTO;
+import com.forcat.forcat.dto.content.recent.ContentRPageResponseDTO;
 import com.forcat.forcat.entity.Content;
 import com.forcat.forcat.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -61,19 +63,51 @@ public class ContentServiceImpl implements ContentService {
     public void contentRemove (Long cno) {//삭제할 게시물의 bno를 받음
         contentRepository.deleteById (cno);//해당 게시물 DB 삭제
     }
+
     @Override//게시글 목록/검색 구현
     public ContentPageResponseDTO<ContentDTO> contentList (ContentPageRequestDTO contentPageRequestDTO) {//페이지 네이션과 검색 조건 처리
+
         String[] types = contentPageRequestDTO.getTypes ();//검색 조건 추출
         String keyword = contentPageRequestDTO.getKeyword ();//키워드 추출
         Pageable cPageable = contentPageRequestDTO.getCPageable ("cno");//페이지 네이션 정보 추출
+
         //searchAll() 호출하여 게시글 검색, 검색 조건, 키워드 바탕으로 검색하고 페이지네이션 적용한 결과를 result 반환
         Page<Content> result = contentRepository.searchContentAll (types, keyword, cPageable);
+
         // 검색 결과인 Page<Board>를 BoardDTO로 변환하여 dtoList에 저장합니다.
-        List<ContentDTO> dtoCList = result.getContent ().stream ().map (content -> modelMapper.map (content, ContentDTO.class)).collect (Collectors.toList ());
+        List<ContentDTO> dtoCList = result.getContent ().stream ()
+                .map (content -> modelMapper.map (content, ContentDTO.class)).collect (Collectors.toList ());
         // PageResponseDTO 객체를 생성하고, 페이지 관련 정보와 변환된 게시글 목록, 전체 게시글 수를 설정합니다.
         // 이때, withAll() 메서드를 사용하여 기본 정보를 설정하고,
         // pageRequestDTO, dtoList, total 값을 설정한 뒤 build()로 최종 객체를 생성합니다.
-        return ContentPageResponseDTO.<ContentDTO>withContentAll ().contentpageRequestDTO (contentPageRequestDTO).dtoCList (dtoCList).ctotal ((int) result.getTotalElements ()).build ();
+        return ContentPageResponseDTO.<ContentDTO>withContentAll ()
+                .contentpageRequestDTO (contentPageRequestDTO)
+                .dtoCList (dtoCList)
+                .ctotal ((int) result.getTotalElements ())
+                .build ();
+    }
+
+    @Override//게시글 목록/검색 구현
+    public ContentRPageResponseDTO<ContentDTO> contentRList (ContentRPageRequestDTO contentRPageRequestDTO) {//페이지 네이션과 검색 조건 처리
+
+        String[] types = contentRPageRequestDTO.getTypes ();//검색 조건 추출
+        String keyword = contentRPageRequestDTO.getKeyword ();//키워드 추출
+        Pageable cRPageable = contentRPageRequestDTO.getCRPageable ("cno");//페이지 네이션 정보 추출
+
+        //searchAll() 호출하여 게시글 검색, 검색 조건, 키워드 바탕으로 검색하고 페이지네이션 적용한 결과를 result 반환
+        Page<Content> result = contentRepository.searchContentRAll (types, keyword, cRPageable);
+
+        // 검색 결과인 Page<Board>를 BoardDTO로 변환하여 dtoList에 저장합니다.
+        List<ContentDTO> dtoCRList = result.getContent ().stream ()
+                .map (content -> modelMapper.map (content, ContentDTO.class)).collect (Collectors.toList ());
+        // PageResponseDTO 객체를 생성하고, 페이지 관련 정보와 변환된 게시글 목록, 전체 게시글 수를 설정합니다.
+        // 이때, withAll() 메서드를 사용하여 기본 정보를 설정하고,
+        // pageRequestDTO, dtoList, total 값을 설정한 뒤 build()로 최종 객체를 생성합니다.
+        return ContentRPageResponseDTO.<ContentDTO>withContentRAll ()
+                .contentRPageRequestDTO (contentRPageRequestDTO)
+                .dtoCRList (dtoCRList)
+                .crtotal ((int) result.getTotalElements ())
+                .build ();
     }
 
     @Override//PageRequestDTO를 입력받아 검색 조건, 키워드, 페이지 정보 추출

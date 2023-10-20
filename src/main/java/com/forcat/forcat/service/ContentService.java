@@ -1,6 +1,8 @@
 package com.forcat.forcat.service;
 
 import com.forcat.forcat.dto.content.*;
+import com.forcat.forcat.dto.content.recent.ContentRPageRequestDTO;
+import com.forcat.forcat.dto.content.recent.ContentRPageResponseDTO;
 import com.forcat.forcat.entity.Content;
 
 import java.util.List;
@@ -17,6 +19,8 @@ public interface ContentService {
     void contentRemove (Long cno);//게시글 삭제
 
     ContentPageResponseDTO<ContentDTO> contentList (ContentPageRequestDTO contentPageRequestDTO);//페이지 목록/검색
+
+    ContentRPageResponseDTO<ContentDTO> contentRList (ContentRPageRequestDTO contentRPageRequestDTO);//페이지 목록/검색
 
     ContentPageResponseDTO<ContentListReplyCountDTO> contentListWithReplyCount (ContentPageRequestDTO contentPageRequestDTO);//댓글의 숫자까지 처리
 

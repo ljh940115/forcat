@@ -4,6 +4,7 @@
       xmlns:th = "http://www.thymeleaf.org">
 
 <head>
+    <title>고양이 커뮤니티 포캣 - 쇼핑</title>
     <script>
         //NV메뉴 해당 페이지 표시
         window.addEventListener ('DOMContentLoaded', (event) => {
@@ -66,9 +67,6 @@
             </div>
         </div>
     </div>
-
-    <a href="/admin/item/new">상품 등록</a> / <a href="/admin/items">상품 현황</a> / <a href="/cart">상품 장바구니</a> / <a href="/orders">구매 이력</a>
-
     <input name = "searchQuery" th:value = "${itemSearchDto.searchQuery}" type = "hidden">
     <div class = "center" th:if = "${not #strings.isEmpty(itemSearchDto.searchQuery)}">
         <p class = "h3 font-weight-bold" th:text = "${itemSearchDto.searchQuery} + '검색 결과'"></p>
@@ -83,7 +81,7 @@
                         <div class = "card-body">
                             <h4 class = "card-title">[[${item.itemNm}]]</h4>
                             <p class = "card-text">[[${item.itemDetail}]]</p>
-                            <h3 class = "card-title text-danger">[[${item.price}]]원</h3>
+                            <h3 class = "card-title text-danger"> <span th:utext="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + '원'"></span></h3>
                         </div>
                     </a>
                 </div>

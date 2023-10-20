@@ -42,10 +42,8 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'//페이지 레이아웃  기능 사용
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'//톰캣 9 사용 명시
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    annotationProcessor(
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
     implementation 'org.modelmapper:modelmapper:3.1.0'//DTO - Entity 자동 오브젝트 매핑
     implementation 'org.springframework.boot:spring-boot-starter-security'//스프링 스큐리티 사용 명시
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
@@ -73,14 +71,27 @@ tasks.named('test') { useJUnitPlatform() }
 //쿼리dsl 관련 설정 추가
 def querydslDir = "$buildDir/generated/querydsl"
 
+
 querydsl {
     jpa = true
     querydslSourcesDir = querydslDir
 }
 
-sourceSets { main.java.srcDir querydslDir }
+sourceSets {
+    main.java.srcDir querydslDir
+}
 
-configurations { querydsl.extendsFrom compileClasspath }
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
 
-compileQuerydsl { options.annotationProcessorPath = configurations.querydsl }
-//쿼리dsl 관련 설정 추가 끝
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

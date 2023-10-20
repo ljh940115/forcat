@@ -36,5 +36,43 @@
     <script src = "/js/scrollax.min.js"></script>
     <script src = "/js/google-map.js"></script>
     <script src = "/js/main.js"></script>
+    <script>        document.addEventListener("DOMContentLoaded", function () {
+        var shoppingButton = document.querySelector(".nav-item a[href='/shop/']");
+        var dropdownMenu = document.createElement("div");
+        dropdownMenu.className = "dropdown-menu";
+        dropdownMenu.style.display = "none";
+        dropdownMenu.innerHTML = `
+        <a class="dropdown-item" href="/cart">상품 장바구니</a>
+        <a class="dropdown-item" href="/orders">구매 이력</a>
+        <a class="dropdown-item" href="/admin/item/new">상품 등록(관리자용)</a>
+        <a class="dropdown-item" href="/admin/items">상품 현황(관리자용)</a>
+    `;
+
+        var timeoutId;
+
+        shoppingButton.addEventListener("mouseenter", function () {
+            clearTimeout(timeoutId);
+            dropdownMenu.style.display = "block";
+        });
+
+        dropdownMenu.addEventListener("mouseenter", function () {
+            clearTimeout(timeoutId);
+        });
+
+        shoppingButton.addEventListener("mouseleave", function () {
+            timeoutId = setTimeout(function () {
+                dropdownMenu.style.display = "none";
+            }, 1000); // 1초 후 드롭다운 메뉴 숨김
+        });
+
+        dropdownMenu.addEventListener("mouseleave", function () {
+            timeoutId = setTimeout(function () {
+                dropdownMenu.style.display = "none";
+            }, 1000); // 1초 후 드롭다운 메뉴 숨김
+        });
+
+        shoppingButton.parentNode.appendChild(dropdownMenu);
+    });
+    </script>
 </head>
 </html>

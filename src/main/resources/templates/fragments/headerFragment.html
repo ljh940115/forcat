@@ -1,5 +1,94 @@
 <!DOCTYPE html>
 <html lang = "en" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <script>
+        document.addEventListener ("DOMContentLoaded", function () {//페이지의 DOM 구조가 완전히 로드되면 해당 함수를 실행
+            // 전화번호 복사 버튼 클릭 이벤트 처리
+            document.getElementById ("phoneLink").addEventListener ("click", function (event) {
+                event.preventDefault (); // 링크의 기본 동작 방지
+                copyToClipboard ("031-0000-0000"); // 전화번호 복사
+            });
+
+            // 이메일 주소 복사 버튼 클릭 이벤트 처리
+            document.getElementById ("emailLink").addEventListener ("click", function (event) {
+                event.preventDefault (); // 링크의 기본 동작 방지
+                copyToClipboard ("gg.ww.ljh940115@gmail.com"); // 이메일 주소 복사
+            });
+
+            // 텍스트를 클립보드에 복사하는 함수
+            function copyToClipboard (text) {//텍스트를 클립보드에 복사
+                var dummyTextArea = document.createElement ("textarea");//dummyTextArea라는 새로운 <textarea> 요소를 생성
+                document.body.appendChild (dummyTextArea);//body에 추가
+                dummyTextArea.value = text;//dummyTextArea에 복사하려는 값, 텍스트
+                dummyTextArea.select ();//텍스트를 클립보드에 복사
+                document.execCommand ("copy");
+                document.body.removeChild (dummyTextArea);//dummyTextArea를 페이지에서 제거
+                alert (text + "가 클립보드에 복사되었습니다.");
+            }
+        });
+
+        // 현재 페이지 URL
+        var currentUrl = window.location.pathname;
+
+        // 네비게이션 메뉴 항목의 URL 목록
+        var menuUrls = [
+            "/index",
+            "/content/contentList",
+            "/shop/",
+            "/board/list",
+            "/tools",
+            "/notice/list",
+            "/member/mypage",
+            "/member/login"
+        ];
+
+        // 현재 페이지 URL과 메뉴 항목 URL을 비교하여 active 클래스 추가
+        for (var i = 0; i < menuUrls.length; i++) {
+            if (currentUrl === menuUrls[i]) {
+                document.querySelectorAll(".nav-item")[i].classList.add("active");
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        var shoppingButton = document.querySelector(".nav-item a[href='/shop/']");
+        var dropdownMenu = document.createElement("div");
+        dropdownMenu.className = "dropdown-menu";
+        dropdownMenu.style.display = "none";
+        dropdownMenu.innerHTML = `
+        <a class="dropdown-item" href="/cart">상품 장바구니</a>
+        <a class="dropdown-item" href="/orders">구매 이력</a>
+        <a class="dropdown-item" href="/admin/item/new">상품 등록</a>
+        <a class="dropdown-item" href="/admin/items">상품 현황</a>
+    `;
+
+        var timeoutId;
+
+        shoppingButton.addEventListener("mouseenter", function () {
+            clearTimeout(timeoutId);
+            dropdownMenu.style.display = "block";
+        });
+
+        dropdownMenu.addEventListener("mouseenter", function () {
+            clearTimeout(timeoutId);
+        });
+
+        shoppingButton.addEventListener("mouseleave", function () {
+            timeoutId = setTimeout(function () {
+                dropdownMenu.style.display = "none";
+            }, 1000); // 1초 후 드롭다운 메뉴 숨김
+        });
+
+        dropdownMenu.addEventListener("mouseleave", function () {
+            timeoutId = setTimeout(function () {
+                dropdownMenu.style.display = "none";
+            }, 1000); // 1초 후 드롭다운 메뉴 숨김
+        });
+
+        shoppingButton.parentNode.appendChild(dropdownMenu);
+    });
+    </script>
+</head>
 <!--헤더 파일 명시-->
 <div th:fragment = "headerFragment">
     <body>
@@ -38,9 +127,10 @@
                 <ul class="navbar-nav ml-auto">
                     <li class = "nav-item"><a class = "nav-link" href = "/index">홈</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/content/contentList">콘텐츠</a></li>
-                    <li class = "nav-item"><a class = "nav-link" href = "/shop/">쇼핑</a></li>
+                    <li class = "nav-item dropdown-mom"><a class = "nav-link" href = "/shop/">쇼핑</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/board/list">커뮤니티</a></li>
                     <li class = "nav-item"><a class = "nav-link" href = "/tools">툴즈</a></li>
+                    <li class = "nav-item"><a class = "nav-link" href = "/notice/list">공지사항</a></li>
                     <li class = "nav-item">
                         <a class = "nav-link" href = "/member/mypage" th:if = "${#authorization.expression('isAuthenticated()')}">마이페이지</a><!--인증된 상태라면 로그아웃 링크를 표시한다.-->
                     </li>
@@ -52,32 +142,6 @@
             </div>
         </div>
     </nav>
-
-    <script>
-        document.addEventListener ("DOMContentLoaded", function () {//페이지의 DOM 구조가 완전히 로드되면 해당 함수를 실행
-            // 전화번호 복사 버튼 클릭 이벤트 처리
-            document.getElementById ("phoneLink").addEventListener ("click", function (event) {
-                event.preventDefault (); // 링크의 기본 동작 방지
-                copyToClipboard ("031-0000-0000"); // 전화번호 복사
-            });
-
-            // 이메일 주소 복사 버튼 클릭 이벤트 처리
-            document.getElementById ("emailLink").addEventListener ("click", function (event) {
-                event.preventDefault (); // 링크의 기본 동작 방지
-                copyToClipboard ("gg.ww.ljh940115@gmail.com"); // 이메일 주소 복사
-            });
-
-            // 텍스트를 클립보드에 복사하는 함수
-            function copyToClipboard (text) {//텍스트를 클립보드에 복사
-                var dummyTextArea = document.createElement ("textarea");//dummyTextArea라는 새로운 <textarea> 요소를 생성
-                document.body.appendChild (dummyTextArea);//body에 추가
-                dummyTextArea.value = text;//dummyTextArea에 복사하려는 값, 텍스트
-                dummyTextArea.select ();//텍스트를 클립보드에 복사
-                document.execCommand ("copy");
-                document.body.removeChild (dummyTextArea);//dummyTextArea를 페이지에서 제거
-                alert (text + "가 클립보드에 복사되었습니다.");
-            }
-        });
-    </script>
     </body>
+</div>
 </html>

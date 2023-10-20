@@ -4,7 +4,7 @@
       xmlns:th = "http://www.thymeleaf.org">
 
 <head>
-
+    <title>고양이 커뮤니티 포캣</title>
     <!-- 사용자 스크립트 추가 -->
     <script th:inline = "javascript">
         $ (document).ready (function () {
@@ -66,7 +66,7 @@
                     판매중지
                 </td>
                 <td th:text = "${#authentication.principal.username}"></td>
-                <td th:text = "${item.regDate}"></td>
+                <td th:text="${#temporals.format(item.regDate, 'yyyy-MM-dd HH')}"></td>
             </tr>
             </tbody>
         </table>

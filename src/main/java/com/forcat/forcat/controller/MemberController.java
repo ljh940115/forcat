@@ -29,13 +29,13 @@ public class MemberController {
         if (logout != null) {        //로그아웃 값이 있을 때 유저 로그아웃
             log.info ("==========유저 로그아웃");
         }
-        return "/member/login";
+        return "member/login";
     }
 
     @GetMapping ("/login/error")//로그인 페이지, CustomSecurityConfig로부터 리다이렉트 받음
     public String loginErrorGET (Model model) {
         model.addAttribute ("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
-        return "/member/login";
+        return "member/login";
     }
 
     @GetMapping ("/join")//회원가입 페이지
@@ -59,12 +59,12 @@ public class MemberController {
     }
 
     @GetMapping ("/mypage")//마이페이지
-    public void myPageGET () {
+    public void myPage () {
         log.info ("==========회원수정 페이지");
     }
 
     @PostMapping ("/mypage")
-    public String myPagePOST (MemberUpdateDTO memberUpdateDTO, RedirectAttributes redirectAttributes) {
+    public String myPage (MemberUpdateDTO memberUpdateDTO, RedirectAttributes redirectAttributes) {
         log.info ("==========회원수정 실행");
         log.info ("가입 정보 : " + memberUpdateDTO);
 
@@ -72,10 +72,10 @@ public class MemberController {
             memberService.update (memberUpdateDTO);
         } catch (MemberService.MidExistException e) {
             redirectAttributes.addFlashAttribute ("error", "mid");
-            return "redirect:/member/mypage";
+            return "redirect:mypage";
         }
         redirectAttributes.addFlashAttribute ("result", "success");
-        return "redirect:/member/mypage"; //회원수정 후 페이지
+        return "redirect:mypage"; //회원수정 후 페이지
     }
 
     @PostMapping ("/delete")
@@ -84,7 +84,7 @@ public class MemberController {
         log.info ("탈퇴할 ID : " + mid);
         memberService.delete (mid);
         redirectAttributes.addFlashAttribute ("result", "removed");
-        return "redirect:/index";
+        return "redirect:index";
     }
 }
 

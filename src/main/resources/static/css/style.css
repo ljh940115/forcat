@@ -2931,6 +2931,8 @@ input[type="button"].btn-block {
   margin-left: -1px; }
 
 .input-group-text {
+  width: 100px;
+  justify-content: center;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8162,7 +8164,7 @@ h1, h2, h3, h4, h5,
         border-bottom: 1px solid rgba(0, 0, 0, 0.05); } }
   .ftco-navbar-light .navbar-nav > .nav-item .dropdown-menu {
     border: none;
-    background: #fff;
+    background: #FAE100;
     -webkit-box-shadow: 0px 10px 34px -20px rgba(0, 0, 0, 0.41);
     -moz-box-shadow: 0px 10px 34px -20px rgba(0, 0, 0, 0.41);
     box-shadow: 0px 10px 34px -20px rgba(0, 0, 0, 0.41);
@@ -9873,4 +9875,8 @@ textarea.form-control {
   height: 25px;
   margin-right: 10px;
   margin-bottom: 5px;
+}
+
+.dropdown-mom {
+  position: relative;
 }
